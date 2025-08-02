@@ -1,269 +1,309 @@
-// Optimized Homepage with Smooth Animations
-// Performance-focused implementation using modern animation techniques
+// Ultra-Performance Homepage - Zero Lag Implementation
+// Aggressive optimizations for butter-smooth scrolling
 
 $w.onReady(function () {
-    // Performance optimization: Use requestAnimationFrame for smooth animations
-    let animationFrameId;
-    let isAnimating = false;
+    // Ultra-performance mode detection
+    const isLowEndDevice = () => {
+        const cores = navigator.hardwareConcurrency || 4;
+        const memory = navigator.deviceMemory || 4;
+        const connection = navigator.connection?.effectiveType || '4g';
+        return cores <= 2 || memory <= 2 || connection === 'slow-2g' || connection === '2g';
+    };
     
-    // Cache DOM elements for better performance
+    // Disable animations on low-end devices for maximum performance
+    const PERFORMANCE_MODE = isLowEndDevice() ? 'minimal' : 'ultra';
+    
+    // Global performance state
+    const performanceState = {
+        isScrolling: false,
+        lastScrollTime: 0,
+        scrollVelocity: 0,
+        activeAnimations: 0,
+        maxAnimations: PERFORMANCE_MODE === 'minimal' ? 2 : 4,
+        frameBudget: 16, // 60fps target
+        lastFrameTime: performance.now()
+    };
+    
+    // Ultra-optimized element cache with lazy loading
+    const elementCache = new Map();
+    const getElement = (selector) => {
+        if (!elementCache.has(selector)) {
+            const element = $w(selector);
+            if (element) elementCache.set(selector, element);
+            return element;
+        }
+        return elementCache.get(selector);
+    };
+    
+    // Pre-cache all elements
     const elements = {
-        hero: $w('#heroSection'),
-        nav: $w('#navigation'),
-        content: $w('#mainContent'),
-        buttons: $w('#ctaButtons'),
-        footer: $w('#footerSection')
+        hero: getElement('#heroSection'),
+        nav: getElement('#navigation'),
+        content: getElement('#mainContent'),
+        buttons: getElement('#ctaButtons'),
+        footer: getElement('#footerSection')
     };
     
-    // Performance optimization: Debounce scroll events
-    let scrollTimeout;
-    const scrollHandler = () => {
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
-        }
-        scrollTimeout = setTimeout(() => {
-            handleScrollOptimized();
-        }, 16); // ~60fps
+    // Ultra-optimized scroll handler with velocity-based throttling
+    let scrollRAF = null;
+    let lastScrollY = 0;
+    let scrollTimeout = null;
+    
+    const ultraScrollHandler = () => {
+        if (scrollRAF) return; // Prevent multiple RAF calls
+        
+        scrollRAF = requestAnimationFrame(() => {
+            const currentScrollY = window.scrollY;
+            const currentTime = performance.now();
+            const deltaTime = currentTime - performanceState.lastScrollTime;
+            
+            // Calculate scroll velocity
+            performanceState.scrollVelocity = Math.abs(currentScrollY - lastScrollY) / deltaTime;
+            
+            // Skip processing if scrolling too fast (user is scrolling quickly)
+            if (performanceState.scrollVelocity > 150) {
+                scrollRAF = null;
+                return;
+            }
+            
+            // Ultra-minimal DOM updates
+            if (elements.nav && Math.abs(currentScrollY - lastScrollY) > 1) {
+                const navOpacity = Math.min(currentScrollY / 100, 1);
+                elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.95})`;
+            }
+            
+            // Only update parallax if significant scroll
+            if (elements.hero && Math.abs(currentScrollY - lastScrollY) > 5) {
+                const parallax = currentScrollY * 0.3; // Reduced parallax for performance
+                elements.hero.style.transform = `translate3d(0, ${parallax}px, 0)`;
+            }
+            
+            lastScrollY = currentScrollY;
+            performanceState.lastScrollTime = currentTime;
+            scrollRAF = null;
+        });
     };
     
-    // Optimized scroll handler using requestAnimationFrame
-    const handleScrollOptimized = () => {
-        if (!isAnimating) {
-            isAnimating = true;
-            animationFrameId = requestAnimationFrame(() => {
-                const scrollY = window.scrollY;
-                const windowHeight = window.innerHeight;
-                
-                // Parallax effect with transform3d for hardware acceleration
-                if (elements.hero) {
-                    const heroParallax = scrollY * 0.5;
-                    elements.hero.style.transform = `translate3d(0, ${heroParallax}px, 0)`;
+    // Ultra-optimized intersection observer with minimal processing
+    const createUltraObserver = () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && performanceState.activeAnimations < performanceState.maxAnimations) {
+                    // Minimal animation - just add class
+                    entry.target.classList.add('visible');
+                    performanceState.activeAnimations++;
+                    
+                    // Stop observing after animation
+                    setTimeout(() => {
+                        observer.unobserve(entry.target);
+                        performanceState.activeAnimations--;
+                    }, 100);
                 }
-                
-                // Smooth navigation background transition
-                if (elements.nav) {
-                    const navOpacity = Math.min(scrollY / 100, 1);
-                    elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.95})`;
-                    elements.nav.style.backdropFilter = `blur(${navOpacity * 10}px)`;
-                }
-                
-                // Content fade-in animations with intersection observer
-                animateOnScroll();
-                
-                // Track animation for performance monitoring
-                if (window.performanceMonitor) {
-                    window.performanceMonitor.trackAnimation();
-                }
-                
-                isAnimating = false;
             });
-        }
-    };
-    
-    // Intersection Observer for efficient scroll-triggered animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-                observer.unobserve(entry.target); // Stop observing once animated
-            }
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
         });
-    }, observerOptions);
-    
-    // Initialize intersection observer for elements
-    const initScrollAnimations = () => {
-        const animatedElements = document.querySelectorAll('.scroll-animate');
-        animatedElements.forEach(el => observer.observe(el));
+        
+        return observer;
     };
     
-    // Animate elements on scroll with performance optimization
-    const animateOnScroll = () => {
-        if (window.animationOptimizer && window.animationOptimizer.shouldSkipAnimation()) {
-            return; // Skip animation if too many are running
+    // Ultra-minimal animation function
+    const ultraAnimate = (element, properties, duration = 400) => {
+        if (!element || performanceState.activeAnimations >= performanceState.maxAnimations) {
+            return Promise.resolve();
         }
         
-        const elements = document.querySelectorAll('.scroll-animate:not(.animate-in)');
-        elements.forEach((element, index) => {
-            const rect = element.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            
-            if (rect.top < windowHeight * 0.8) {
-                // Stagger animations for better performance
-                setTimeout(() => {
-                    element.classList.add('animate-in');
-                }, index * 50);
-            }
-        });
-    };
-    
-    // Smooth animation function using CSS transforms
-    const animateElement = (element, properties, duration = 600, easing = 'ease-out') => {
-        if (!element) return;
+        performanceState.activeAnimations++;
         
-        // Use CSS transforms for better performance
-        const startTime = performance.now();
-        const startProps = {};
-        const endProps = {};
-        
-        // Get current computed styles
-        Object.keys(properties).forEach(prop => {
-            startProps[prop] = parseFloat(getComputedStyle(element)[prop]) || 0;
-            endProps[prop] = properties[prop];
-        });
-        
-        const animate = (currentTime) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
+        return new Promise((resolve) => {
+            const startTime = performance.now();
+            const startProps = {};
             
-            // Easing function
-            const easeProgress = easing === 'ease-out' 
-                ? 1 - Math.pow(1 - progress, 3)
-                : progress;
-            
-            // Apply transforms
+            // Get initial values
             Object.keys(properties).forEach(prop => {
-                const value = startProps[prop] + (endProps[prop] - startProps[prop]) * easeProgress;
-                
                 if (prop === 'opacity') {
-                    element.style.opacity = value;
-                } else if (prop === 'scale') {
-                    element.style.transform = `scale(${value})`;
+                    startProps[prop] = parseFloat(element.style.opacity) || 0;
                 } else if (prop === 'translateY') {
-                    element.style.transform = `translate3d(0, ${value}px, 0)`;
-                } else if (prop === 'translateX') {
-                    element.style.transform = `translate3d(${value}px, 0, 0)`;
+                    startProps[prop] = 0;
                 }
             });
             
-            if (progress < 1) {
-                requestAnimationFrame(animate);
-            }
-        };
-        
-        requestAnimationFrame(animate);
+            const animate = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Ultra-simple easing
+                const easeProgress = 1 - Math.pow(1 - progress, 2);
+                
+                Object.keys(properties).forEach(prop => {
+                    const startValue = startProps[prop];
+                    const endValue = properties[prop];
+                    const currentValue = startValue + (endValue - startValue) * easeProgress;
+                    
+                    if (prop === 'opacity') {
+                        element.style.opacity = currentValue;
+                    } else if (prop === 'translateY') {
+                        element.style.transform = `translate3d(0, ${currentValue}px, 0)`;
+                    }
+                });
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    performanceState.activeAnimations--;
+                    resolve();
+                }
+            };
+            
+            requestAnimationFrame(animate);
+        });
     };
     
-    // Optimized button hover effects
-    const initButtonAnimations = () => {
-        if (!elements.buttons) return;
+    // Ultra-optimized button interactions
+    const initUltraButtons = () => {
+        if (!elements.buttons || PERFORMANCE_MODE === 'minimal') return;
         
         const buttons = elements.buttons.children;
         Array.from(buttons).forEach(button => {
-            // Use CSS transitions for hover effects (more performant)
-            button.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            // Use CSS-only hover effects for maximum performance
+            button.style.transition = 'transform 0.2s ease-out';
             
             button.onMouseEnter(() => {
-                button.style.transform = 'translateY(-2px) scale(1.02)';
-                button.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                button.style.transform = 'translateY(-1px) scale(1.01)';
             });
             
             button.onMouseLeave(() => {
                 button.style.transform = 'translateY(0) scale(1)';
-                button.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
             });
         });
     };
     
-    // Performance optimization: Throttle resize events
-    let resizeTimeout;
-    const handleResize = () => {
-        if (resizeTimeout) {
-            clearTimeout(resizeTimeout);
-        }
-        resizeTimeout = setTimeout(() => {
-            // Recalculate layout if needed
-            handleScrollOptimized();
-        }, 100);
-    };
-    
-    // Initialize page animations
-    const initPageAnimations = () => {
-        // Hero section entrance animation
+    // Ultra-minimal page initialization
+    const initUltraPage = () => {
+        // Set initial states
         if (elements.hero) {
             elements.hero.style.opacity = '0';
-            elements.hero.style.transform = 'translate3d(0, 30px, 0)';
-            
-            setTimeout(() => {
-                animateElement(elements.hero, {
-                    opacity: 1,
-                    translateY: 0
-                }, 800, 'ease-out');
-            }, 100);
+            elements.hero.style.transform = 'translate3d(0, 20px, 0)';
         }
         
-        // Content stagger animation
         if (elements.content) {
-            const contentChildren = elements.content.children;
-            Array.from(contentChildren).forEach((child, index) => {
+            const children = elements.content.children;
+            Array.from(children).forEach((child, index) => {
                 child.style.opacity = '0';
-                child.style.transform = 'translate3d(0, 20px, 0)';
-                
+                child.style.transform = 'translate3d(0, 30px, 0)';
+                child.classList.add('scroll-animate');
+            });
+        }
+        
+        // Minimal entrance animation
+        setTimeout(() => {
+            if (elements.hero) {
+                ultraAnimate(elements.hero, { opacity: 1, translateY: 0 }, 300);
+            }
+        }, 50);
+        
+        // Stagger content animations with minimal delay
+        if (elements.content) {
+            const children = elements.content.children;
+            Array.from(children).forEach((child, index) => {
                 setTimeout(() => {
-                    animateElement(child, {
-                        opacity: 1,
-                        translateY: 0
-                    }, 600, 'ease-out');
-                }, 200 + (index * 100));
+                    ultraAnimate(child, { opacity: 1, translateY: 0 }, 250);
+                }, 100 + (index * 30)); // Minimal stagger
             });
         }
     };
     
-    // Cleanup function for performance
+    // Ultra-optimized event listeners
+    const initUltraEvents = () => {
+        // Use passive scroll listener for maximum performance
+        window.addEventListener('scroll', ultraScrollHandler, { passive: true });
+        
+        // Minimal resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            if (resizeTimeout) clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Only recalculate if absolutely necessary
+                if (elements.nav) {
+                    const navOpacity = Math.min(window.scrollY / 100, 1);
+                    elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.95})`;
+                }
+            }, 100);
+        }, { passive: true });
+    };
+    
+    // Initialize intersection observer
+    const initUltraObserver = () => {
+        const observer = createUltraObserver();
+        
+        // Observe scroll-animate elements
+        const animatedElements = document.querySelectorAll('.scroll-animate');
+        animatedElements.forEach(el => observer.observe(el));
+    };
+    
+    // Performance monitoring (development only)
+    const initPerformanceMonitoring = () => {
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            let frameCount = 0;
+            let lastTime = performance.now();
+            
+            const monitorFPS = () => {
+                frameCount++;
+                const currentTime = performance.now();
+                
+                if (currentTime - lastTime >= 1000) {
+                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                    if (fps < 50) {
+                        console.warn(`Low FPS detected: ${fps}. Consider reducing animations.`);
+                    }
+                    frameCount = 0;
+                    lastTime = currentTime;
+                }
+                
+                requestAnimationFrame(monitorFPS);
+            };
+            
+            requestAnimationFrame(monitorFPS);
+        }
+    };
+    
+    // Cleanup function
     const cleanup = () => {
-        if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
+        if (scrollRAF) {
+            cancelAnimationFrame(scrollRAF);
         }
         if (scrollTimeout) {
             clearTimeout(scrollTimeout);
         }
-        if (resizeTimeout) {
-            clearTimeout(resizeTimeout);
-        }
-        observer.disconnect();
+        elementCache.clear();
     };
     
-    // Event listeners with performance optimizations
-    const initEventListeners = () => {
-        // Use optimized handlers if available
-        const optimizedScrollHandler = window.animationOptimizer 
-            ? window.animationOptimizer.optimizeScrollHandler(scrollHandler)
-            : scrollHandler;
-            
-        const optimizedResizeHandler = window.animationOptimizer
-            ? window.animationOptimizer.optimizeResizeHandler(handleResize)
-            : handleResize;
+    // Initialize everything with performance priority
+    const init = () => {
+        // Set performance mode
+        document.body.classList.add(`performance-${PERFORMANCE_MODE}`);
         
-        // Use passive listeners for better scroll performance
-        window.addEventListener('scroll', optimizedScrollHandler, { passive: true });
-        window.addEventListener('resize', optimizedResizeHandler, { passive: true });
+        // Initialize in order of priority
+        initUltraPage();
+        initUltraButtons();
+        initUltraEvents();
+        initUltraObserver();
+        initPerformanceMonitoring();
         
         // Cleanup on page unload
         window.addEventListener('beforeunload', cleanup);
-    };
-    
-    // Initialize everything
-    const init = () => {
-        initPageAnimations();
-        initButtonAnimations();
-        initScrollAnimations();
-        initEventListeners();
         
-        // Add performance monitoring
-        if ('performance' in window) {
-            performance.mark('homepage-init-start');
-            performance.mark('homepage-init-end');
-            performance.measure('homepage-initialization', 'homepage-init-start', 'homepage-init-end');
-        }
+        console.log(`Ultra-performance mode: ${PERFORMANCE_MODE}`);
     };
     
     // Start initialization
     init();
     
-    // Export cleanup for external use
-    window.homepageCleanup = cleanup;
+    // Export for external access
+    window.homepagePerformance = {
+        mode: PERFORMANCE_MODE,
+        state: performanceState,
+        cleanup
+    };
 });

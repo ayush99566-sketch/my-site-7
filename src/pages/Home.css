@@ -1,24 +1,27 @@
-/* Optimized Homepage Styles - Performance Focused */
+/* Ultra-Performance Homepage CSS - Zero Lag */
+/* Aggressive optimizations for butter-smooth scrolling */
 
-/* Hardware acceleration and performance optimizations */
+/* Critical performance optimizations */
 * {
     box-sizing: border-box;
 }
 
-/* Use transform3d for hardware acceleration */
+/* Ultra-hardware acceleration for all animated elements */
 .hero-section,
 .nav-section,
 .content-section,
-.button-container {
+.button-container,
+.scroll-animate {
     will-change: transform, opacity;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
+    contain: layout style paint;
 }
 
-/* Smooth scrolling for the entire page */
+/* Disable smooth scrolling for maximum performance */
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
 }
 
 body {
@@ -27,9 +30,29 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
+    /* Prevent layout shifts */
+    min-height: 100vh;
 }
 
-/* Hero Section - Optimized for performance */
+/* Performance mode classes */
+.performance-minimal * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+}
+
+.performance-ultra .scroll-animate {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.performance-ultra .scroll-animate.visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+/* Hero Section - Ultra-optimized */
 .hero-section {
     position: relative;
     min-height: 100vh;
@@ -40,6 +63,8 @@ body {
     color: white;
     text-align: center;
     overflow: hidden;
+    /* Prevent layout thrashing */
+    contain: layout style paint;
 }
 
 .hero-content {
@@ -53,20 +78,30 @@ body {
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
     margin-bottom: 1rem;
+    /* Minimal animation for performance */
     opacity: 0;
-    transform: translate3d(0, 30px, 0);
-    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    transform: translate3d(0, 20px, 0);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.performance-ultra .hero-title {
+    animation: fadeInUp 0.4s ease-out 0.1s forwards;
 }
 
 .hero-subtitle {
     font-size: clamp(1.1rem, 2.5vw, 1.5rem);
     margin-bottom: 2rem;
+    /* Minimal animation for performance */
     opacity: 0;
-    transform: translate3d(0, 30px, 0);
-    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+    transform: translate3d(0, 20px, 0);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
-/* Navigation - Performance optimized */
+.performance-ultra .hero-subtitle {
+    animation: fadeInUp 0.4s ease-out 0.2s forwards;
+}
+
+/* Navigation - Ultra-optimized */
 .nav-section {
     position: fixed;
     top: 0;
@@ -76,8 +111,10 @@ body {
     padding: 1rem 2rem;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Ultra-fast transition */
+    transition: background-color 0.1s ease-out;
     transform: translate3d(0, 0, 0);
+    contain: layout style paint;
 }
 
 .nav-container {
@@ -107,7 +144,8 @@ body {
     color: #333;
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s ease;
+    /* Minimal transition for performance */
+    transition: color 0.2s ease;
     position: relative;
 }
 
@@ -123,18 +161,19 @@ body {
     width: 0;
     height: 2px;
     background: #667eea;
-    transition: width 0.3s ease;
+    transition: width 0.2s ease;
 }
 
 .nav-link:hover::after {
     width: 100%;
 }
 
-/* Content Sections - Optimized animations */
+/* Content Sections - Ultra-optimized */
 .content-section {
     padding: 4rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    contain: layout style paint;
 }
 
 .content-grid {
@@ -149,21 +188,17 @@ body {
     border-radius: 12px;
     padding: 2rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
-}
-
-.content-card.animate-in {
-    animation: fadeInUp 0.6s ease-out forwards;
+    /* Ultra-fast transition */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    contain: layout style paint;
 }
 
 .content-card:hover {
-    transform: translate3d(0, -5px, 0);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translate3d(0, -2px, 0);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Button Styles - Performance optimized */
+/* Button Styles - Ultra-optimized */
 .button-container {
     display: flex;
     gap: 1rem;
@@ -179,13 +214,15 @@ body {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Ultra-fast transition */
+    transition: transform 0.2s ease-out;
     text-decoration: none;
     display: inline-block;
     text-align: center;
     position: relative;
     overflow: hidden;
     transform: translate3d(0, 0, 0);
+    contain: layout style paint;
 }
 
 .btn-primary {
@@ -201,12 +238,7 @@ body {
 }
 
 .btn:hover {
-    transform: translate3d(0, -2px, 0) scale(1.02);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.btn-primary:hover {
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+    transform: translate3d(0, -1px, 0) scale(1.01);
 }
 
 /* Footer Section */
@@ -215,61 +247,19 @@ body {
     padding: 3rem 2rem;
     text-align: center;
     margin-top: 4rem;
+    contain: layout style paint;
 }
 
-/* Animation Keyframes - Optimized */
+/* Ultra-minimal keyframes */
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translate3d(0, 30px, 0);
+        transform: translate3d(0, 20px, 0);
     }
     to {
         opacity: 1;
         transform: translate3d(0, 0, 0);
     }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translate3d(-30px, 0, 0);
-    }
-    to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
-}
-
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translate3d(30px, 0, 0);
-    }
-    to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
-}
-
-/* Scroll animation classes */
-.scroll-animate {
-    opacity: 0;
-    transform: translate3d(0, 30px, 0);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.scroll-animate.animate-in {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
 }
 
 /* Performance optimizations for different screen sizes */
@@ -295,9 +285,14 @@ body {
         width: 100%;
         max-width: 300px;
     }
+    
+    /* Reduce animations on mobile for better performance */
+    .performance-ultra .scroll-animate {
+        transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    }
 }
 
-/* Reduce motion for users who prefer it */
+/* Ultra-aggressive reduced motion */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -309,8 +304,14 @@ body {
     }
     
     .scroll-animate {
-        opacity: 1;
-        transform: none;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    .hero-title,
+    .hero-subtitle {
+        opacity: 1 !important;
+        transform: none !important;
     }
 }
 
@@ -339,4 +340,35 @@ body {
         min-height: auto;
         page-break-after: always;
     }
+    
+    .scroll-animate {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* Ultra-performance optimizations */
+.performance-minimal .hero-title,
+.performance-minimal .hero-subtitle {
+    opacity: 1;
+    transform: none;
+}
+
+.performance-minimal .scroll-animate {
+    opacity: 1;
+    transform: none;
+}
+
+/* Prevent layout shifts */
+img, video, canvas, audio, iframe, embed, object {
+    display: block;
+    max-width: 100%;
+}
+
+/* Optimize for paint performance */
+.hero-section,
+.nav-section,
+.content-card,
+.btn {
+    isolation: isolate;
 } 
