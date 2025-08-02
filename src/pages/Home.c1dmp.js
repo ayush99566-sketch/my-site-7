@@ -1,5 +1,5 @@
 // Ultra-Aggressive Performance Homepage - Zero Lag Guaranteed
-// Completely disables scroll animations for maximum performance
+// Complete scroll optimization for smooth scrolling throughout entire page
 
 $w.onReady(function () {
     // Force minimal performance mode for all devices
@@ -13,7 +13,9 @@ $w.onReady(function () {
         activeAnimations: 0,
         maxAnimations: 0, // Disable all animations
         frameBudget: 16,
-        lastFrameTime: performance.now()
+        lastFrameTime: performance.now(),
+        scrollThreshold: 10, // Only update every 10px of scroll
+        lastProcessedScrollY: 0
     };
     
     // Ultra-optimized element cache
@@ -36,25 +38,43 @@ $w.onReady(function () {
         footer: getElement('#footerSection')
     };
     
-    // Ultra-minimal scroll handler - NO animations
+    // Ultra-minimal scroll handler - COMPLETE optimization
     let scrollRAF = null;
     let lastScrollY = 0;
+    let scrollTimeout = null;
     
     const ultraMinimalScrollHandler = () => {
-        if (scrollRAF) return;
+        // Cancel any pending scroll processing
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
         
-        scrollRAF = requestAnimationFrame(() => {
-            const currentScrollY = window.scrollY;
+        // Use timeout to throttle scroll processing
+        scrollTimeout = setTimeout(() => {
+            if (scrollRAF) return;
             
-            // Only update navigation background - no animations
-            if (elements.nav && Math.abs(currentScrollY - lastScrollY) > 10) {
-                const navOpacity = Math.min(currentScrollY / 100, 1);
-                elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.95})`;
-            }
-            
-            lastScrollY = currentScrollY;
-            scrollRAF = null;
-        });
+            scrollRAF = requestAnimationFrame(() => {
+                const currentScrollY = window.scrollY;
+                const scrollDelta = Math.abs(currentScrollY - performanceState.lastProcessedScrollY);
+                
+                // Only process if scroll distance is significant
+                if (scrollDelta < performanceState.scrollThreshold) {
+                    scrollRAF = null;
+                    return;
+                }
+                
+                // Ultra-minimal navigation update only
+                if (elements.nav) {
+                    const navOpacity = Math.min(currentScrollY / 100, 1);
+                    elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.95})`;
+                }
+                
+                // Update last processed scroll position
+                performanceState.lastProcessedScrollY = currentScrollY;
+                lastScrollY = currentScrollY;
+                scrollRAF = null;
+            });
+        }, 50); // 50ms throttle for maximum performance
     };
     
     // Ultra-minimal page initialization - NO animations
@@ -72,8 +92,19 @@ $w.onReady(function () {
                 child.style.transform = 'translate3d(0, 0, 0)';
                 // Remove scroll-animate class to disable animations
                 child.classList.remove('scroll-animate');
+                // Force hardware acceleration
+                child.style.willChange = 'auto';
+                child.style.contain = 'layout style paint';
             });
         }
+        
+        // Disable all possible animations on the page
+        const allElements = document.querySelectorAll('*');
+        allElements.forEach(el => {
+            el.style.animationDuration = '0.01ms';
+            el.style.transitionDuration = '0.01ms';
+            el.style.willChange = 'auto';
+        });
     };
     
     // Ultra-minimal button interactions - CSS only
@@ -83,7 +114,7 @@ $w.onReady(function () {
         const buttons = elements.buttons.children;
         Array.from(buttons).forEach(button => {
             // Use only CSS transitions - no JavaScript animations
-            button.style.transition = 'transform 0.1s ease-out';
+            button.style.transition = 'transform 0.01ms ease-out';
             
             button.onMouseEnter(() => {
                 button.style.transform = 'translateY(-1px)';
@@ -95,10 +126,23 @@ $w.onReady(function () {
         });
     };
     
-    // Ultra-minimal event listeners
+    // Ultra-minimal event listeners with aggressive throttling
     const initUltraMinimalEvents = () => {
-        // Use passive scroll listener with minimal processing
-        window.addEventListener('scroll', ultraMinimalScrollHandler, { passive: true });
+        // Use passive scroll listener with ultra-aggressive throttling
+        let isScrolling = false;
+        
+        const throttledScrollHandler = () => {
+            if (!isScrolling) {
+                isScrolling = true;
+                ultraMinimalScrollHandler();
+                
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 100); // 100ms throttle
+            }
+        };
+        
+        window.addEventListener('scroll', throttledScrollHandler, { passive: true });
         
         // Minimal resize handler
         let resizeTimeout;
@@ -110,7 +154,7 @@ $w.onReady(function () {
                     const navOpacity = Math.min(window.scrollY / 100, 1);
                     elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.95})`;
                 }
-            }, 200);
+            }, 300); // Increased delay for better performance
         }, { passive: true });
     };
     
@@ -127,7 +171,7 @@ $w.onReady(function () {
                 if (currentTime - lastTime >= 1000) {
                     const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
                     if (fps < 55) {
-                        console.warn(`Performance warning: ${fps} FPS - Consider further optimizations`);
+                        console.warn(`Performance warning: ${fps} FPS - Scroll lag detected`);
                     }
                     frameCount = 0;
                     lastTime = currentTime;
@@ -144,6 +188,9 @@ $w.onReady(function () {
     const cleanup = () => {
         if (scrollRAF) {
             cancelAnimationFrame(scrollRAF);
+        }
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
         }
         elementCache.clear();
     };
@@ -162,7 +209,7 @@ $w.onReady(function () {
         // Cleanup on page unload
         window.addEventListener('beforeunload', cleanup);
         
-        console.log('Ultra-minimal performance mode: ALL animations disabled for maximum performance');
+        console.log('Ultra-minimal performance mode: ALL animations disabled, aggressive scroll throttling enabled');
     };
     
     // Start initialization

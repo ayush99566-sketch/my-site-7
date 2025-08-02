@@ -23,8 +23,15 @@
 .button-container,
 .scroll-animate,
 .btn,
-.content-card {
-    will-change: auto;
+.content-card,
+section,
+div,
+article,
+aside,
+main,
+header,
+footer {
+    will-change: auto !important;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
@@ -43,6 +50,9 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     min-height: 100vh;
+    /* Force hardware acceleration */
+    transform: translate3d(0, 0, 0);
+    will-change: auto;
 }
 
 /* Force all elements to be visible immediately */
@@ -358,4 +368,33 @@ img, video, canvas, audio, iframe, embed, object {
 .content-card,
 .btn {
     isolation: isolate;
+}
+
+/* Additional optimizations for heavy sections */
+section,
+article,
+aside,
+main {
+    contain: layout style paint;
+    will-change: auto;
+}
+
+/* Force all images to be optimized */
+img {
+    image-rendering: optimizeSpeed;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: pixelated;
+}
+
+/* Disable any remaining animations */
+[class*="animate"],
+[class*="transition"],
+[class*="fade"],
+[class*="slide"] {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
 } 
