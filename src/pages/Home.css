@@ -1,18 +1,30 @@
-/* Ultra-Performance Homepage CSS - Zero Lag */
-/* Aggressive optimizations for butter-smooth scrolling */
+/* Ultra-Minimal Performance CSS - Zero Lag Guaranteed */
+/* All animations disabled for maximum performance */
 
 /* Critical performance optimizations */
 * {
     box-sizing: border-box;
 }
 
-/* Ultra-hardware acceleration for all animated elements */
+/* Disable ALL animations and transitions for maximum performance */
+*,
+*::before,
+*::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+}
+
+/* Ultra-hardware acceleration for all elements */
 .hero-section,
 .nav-section,
 .content-section,
 .button-container,
-.scroll-animate {
-    will-change: transform, opacity;
+.scroll-animate,
+.btn,
+.content-card {
+    will-change: auto;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
@@ -30,29 +42,29 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
-    /* Prevent layout shifts */
     min-height: 100vh;
 }
 
-/* Performance mode classes */
+/* Force all elements to be visible immediately */
 .performance-minimal * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
 }
 
-.performance-ultra .scroll-animate {
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+.performance-minimal .hero-title,
+.performance-minimal .hero-subtitle {
+    opacity: 1 !important;
+    transform: none !important;
 }
 
-.performance-ultra .scroll-animate.visible {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
+.performance-minimal .scroll-animate {
+    opacity: 1 !important;
+    transform: none !important;
 }
 
-/* Hero Section - Ultra-optimized */
+/* Hero Section - No animations */
 .hero-section {
     position: relative;
     min-height: 100vh;
@@ -63,7 +75,6 @@ body {
     color: white;
     text-align: center;
     overflow: hidden;
-    /* Prevent layout thrashing */
     contain: layout style paint;
 }
 
@@ -78,30 +89,20 @@ body {
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
     margin-bottom: 1rem;
-    /* Minimal animation for performance */
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-}
-
-.performance-ultra .hero-title {
-    animation: fadeInUp 0.4s ease-out 0.1s forwards;
+    /* No animations - instant visibility */
+    opacity: 1;
+    transform: none;
 }
 
 .hero-subtitle {
     font-size: clamp(1.1rem, 2.5vw, 1.5rem);
     margin-bottom: 2rem;
-    /* Minimal animation for performance */
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    /* No animations - instant visibility */
+    opacity: 1;
+    transform: none;
 }
 
-.performance-ultra .hero-subtitle {
-    animation: fadeInUp 0.4s ease-out 0.2s forwards;
-}
-
-/* Navigation - Ultra-optimized */
+/* Navigation - Minimal updates only */
 .nav-section {
     position: fixed;
     top: 0;
@@ -111,8 +112,8 @@ body {
     padding: 1rem 2rem;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    /* Ultra-fast transition */
-    transition: background-color 0.1s ease-out;
+    /* Instant transitions only */
+    transition: background-color 0.01ms ease-out;
     transform: translate3d(0, 0, 0);
     contain: layout style paint;
 }
@@ -144,8 +145,8 @@ body {
     color: #333;
     text-decoration: none;
     font-weight: 500;
-    /* Minimal transition for performance */
-    transition: color 0.2s ease;
+    /* Instant transitions only */
+    transition: color 0.01ms ease;
     position: relative;
 }
 
@@ -161,14 +162,14 @@ body {
     width: 0;
     height: 2px;
     background: #667eea;
-    transition: width 0.2s ease;
+    transition: width 0.01ms ease;
 }
 
 .nav-link:hover::after {
     width: 100%;
 }
 
-/* Content Sections - Ultra-optimized */
+/* Content Sections - No animations */
 .content-section {
     padding: 4rem 2rem;
     max-width: 1200px;
@@ -188,17 +189,20 @@ body {
     border-radius: 12px;
     padding: 2rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    /* Ultra-fast transition */
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    /* Instant transitions only */
+    transition: transform 0.01ms ease-out, box-shadow 0.01ms ease-out;
     contain: layout style paint;
+    /* No animations - instant visibility */
+    opacity: 1;
+    transform: none;
 }
 
 .content-card:hover {
-    transform: translate3d(0, -2px, 0);
+    transform: translate3d(0, -1px, 0);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Button Styles - Ultra-optimized */
+/* Button Styles - Minimal interactions */
 .button-container {
     display: flex;
     gap: 1rem;
@@ -214,8 +218,8 @@ body {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    /* Ultra-fast transition */
-    transition: transform 0.2s ease-out;
+    /* Instant transitions only */
+    transition: transform 0.01ms ease-out;
     text-decoration: none;
     display: inline-block;
     text-align: center;
@@ -238,7 +242,7 @@ body {
 }
 
 .btn:hover {
-    transform: translate3d(0, -1px, 0) scale(1.01);
+    transform: translate3d(0, -1px, 0);
 }
 
 /* Footer Section */
@@ -250,15 +254,15 @@ body {
     contain: layout style paint;
 }
 
-/* Ultra-minimal keyframes */
+/* Disable all keyframes */
 @keyframes fadeInUp {
     from {
-        opacity: 0;
-        transform: translate3d(0, 20px, 0);
+        opacity: 1;
+        transform: none;
     }
     to {
         opacity: 1;
-        transform: translate3d(0, 0, 0);
+        transform: none;
     }
 }
 
@@ -285,14 +289,9 @@ body {
         width: 100%;
         max-width: 300px;
     }
-    
-    /* Reduce animations on mobile for better performance */
-    .performance-ultra .scroll-animate {
-        transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-    }
 }
 
-/* Ultra-aggressive reduced motion */
+/* Ultra-aggressive reduced motion - force disable all animations */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -345,18 +344,6 @@ body {
         opacity: 1 !important;
         transform: none !important;
     }
-}
-
-/* Ultra-performance optimizations */
-.performance-minimal .hero-title,
-.performance-minimal .hero-subtitle {
-    opacity: 1;
-    transform: none;
-}
-
-.performance-minimal .scroll-animate {
-    opacity: 1;
-    transform: none;
 }
 
 /* Prevent layout shifts */
