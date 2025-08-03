@@ -1,115 +1,143 @@
-// ULTRA-FAST HOME PAGE - Landing Page with All Optimizations
-// Includes: Hero animations, Features showcase, Performance monitoring, Mobile optimization
+// ULTRA-SMOOTH HOME PAGE - Landing Page with Butter-Smooth Performance
+// Includes: Ultra-smooth scrolling, Enhanced animations, Performance monitoring, Mobile optimization
 
 $w.onReady(function () {
-    console.log('🚀 Ultra-Fast Home Page Loading...');
+    console.log('🚀 Ultra-Smooth Home Page Loading...');
+    
+    // Performance state management
+    const state = {
+        isMobile: window.innerWidth < 768,
+        isScrolling: false,
+        lastScrollY: 0,
+        scrollRAF: null,
+        performanceMode: 'ultra-smooth'
+    };
     
     // Wait for master page to be ready
     const waitForMasterPage = () => {
         if (window.ultraFastSite) {
-            initializeUltraFastHomePage();
+            initializeUltraSmoothHomePage();
         } else {
             setTimeout(waitForMasterPage, 50);
         }
     };
     
-    function initializeUltraFastHomePage() {
-        console.log('🏠 Initializing Ultra-Fast Home Page Features...');
+    function initializeUltraSmoothHomePage() {
+        console.log('🏠 Initializing Ultra-Smooth Home Page Features...');
         
-        // ===== ULTRA-FAST HERO SECTION =====
+        // ===== ULTRA-SMOOTH HERO SECTION =====
         initializeHeroSection();
         
-        // ===== ULTRA-FAST FEATURES SHOWCASE =====
+        // ===== ULTRA-SMOOTH FEATURES SHOWCASE =====
         initializeFeaturesShowcase();
         
-        // ===== ULTRA-FAST CALL-TO-ACTION =====
+        // ===== ULTRA-SMOOTH CALL-TO-ACTION =====
         initializeCallToAction();
         
-        // ===== ULTRA-FAST SOCIAL PROOF =====
+        // ===== ULTRA-SMOOTH SOCIAL PROOF =====
         initializeSocialProof();
         
-        // ===== ULTRA-FAST PERFORMANCE MONITORING =====
+        // ===== ULTRA-SMOOTH SCROLL SYSTEM =====
+        initializeUltraSmoothScroll();
+        
+        // ===== ULTRA-SMOOTH PERFORMANCE MONITORING =====
         initializePerformanceMonitoring();
         
-        console.log('✅ Ultra-Fast Home Page Initialized Successfully!');
+        console.log('✅ Ultra-Smooth Home Page Initialized Successfully!');
     }
     
-    // ===== ULTRA-FAST HERO SECTION =====
+    // ===== ULTRA-SMOOTH HERO SECTION =====
     function initializeHeroSection() {
         const heroSection = $w('#heroSection') || $w('.hero') || $w('[data-testid="hero"]');
         if (!heroSection) return;
         
-        // Ultra-fast entrance animation
+        // Ultra-smooth entrance animation with cubic-bezier
         heroSection.opacity = 0;
-        heroSection.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        heroSection.style.transform = 'translateY(40px) scale(0.95)';
+        heroSection.style.transition = 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1)';
+        heroSection.style.transform = 'translateY(60px) scale(0.95)';
         
-        // Trigger animation
+        // Trigger animation with delay
         setTimeout(() => {
             heroSection.opacity = 1;
             heroSection.style.transform = 'translateY(0) scale(1)';
-        }, 150);
+        }, 200);
         
-        // Animate hero elements with stagger
+        // Stagger animation for hero elements with ultra-smooth timing
         const heroElements = $w('#heroTitle, #heroSubtitle, #heroDescription, .hero-cta');
         heroElements.forEach((element, index) => {
             if (!element) return;
             
             element.opacity = 0;
-            element.style.transition = `opacity 0.6s ease ${0.5 + (index * 0.2)}s, transform 0.6s ease ${0.5 + (index * 0.2)}s`;
-            element.style.transform = 'translateY(30px)';
+            element.style.transition = `opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) ${0.6 + (index * 0.15)}s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) ${0.6 + (index * 0.15)}s`;
+            element.style.transform = 'translateY(40px)';
             
             setTimeout(() => {
                 element.opacity = 1;
                 element.style.transform = 'translateY(0)';
-            }, 500 + (index * 200));
+            }, 600 + (index * 150));
         });
         
-        // Add interactive background effect
+        // Ultra-smooth interactive background effect
         const heroBackground = $w('#heroBackground') || heroSection;
         if (heroBackground) {
+            let isHovering = false;
+            
             heroBackground.onMouseMove((event) => {
+                if (!isHovering) return;
+                
                 const rect = heroBackground.getBoundingClientRect();
                 const x = (event.clientX - rect.left) / rect.width;
                 const y = (event.clientY - rect.top) / rect.height;
                 
-                heroBackground.style.transform = `perspective(1000px) rotateX(${(y - 0.5) * 5}deg) rotateY(${(x - 0.5) * 5}deg)`;
+                // Ultra-smooth 3D transform
+                const rotateX = (y - 0.5) * 3;
+                const rotateY = (x - 0.5) * 3;
+                
+                heroBackground.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                heroBackground.style.transition = 'transform 0.1s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+            
+            heroBackground.onMouseEnter(() => {
+                isHovering = true;
+                heroBackground.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             });
             
             heroBackground.onMouseLeave(() => {
-                heroBackground.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+                isHovering = false;
+                heroBackground.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+                heroBackground.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
             });
         }
     }
     
-    // ===== ULTRA-FAST FEATURES SHOWCASE =====
+    // ===== ULTRA-SMOOTH FEATURES SHOWCASE =====
     function initializeFeaturesShowcase() {
         const features = $w('.feature, .feature-card, [data-feature]');
         if (!features.length) return;
         
-        // Create intersection observer for features
+        // Create intersection observer for ultra-smooth feature animations
         const featureObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
                     const feature = entry.target;
                     
-                    // Stagger animation for features
+                    // Stagger animation with ultra-smooth timing
                     setTimeout(() => {
                         feature.style.opacity = '1';
                         feature.style.transform = 'translateY(0) scale(1)';
-                        feature.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                    }, index * 150);
-                    
-                    // Add hover effects
-                    feature.onMouseIn(() => {
-                        feature.style.transform = 'translateY(-10px) scale(1.02)';
-                        feature.style.boxShadow = '0 10px 30px rgba(0,0,0,0.15)';
-                    });
-                    
-                    feature.onMouseOut(() => {
-                        feature.style.transform = 'translateY(0) scale(1)';
-                        feature.style.boxShadow = '';
-                    });
+                        feature.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                        
+                        // Add hover effects for ultra-smooth interaction
+                        feature.onMouseEnter(() => {
+                            feature.style.transform = 'translateY(-8px) scale(1.02)';
+                            feature.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                        });
+                        
+                        feature.onMouseLeave(() => {
+                            feature.style.transform = 'translateY(0) scale(1)';
+                            feature.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                        });
+                    }, index * 100);
                     
                     featureObserver.unobserve(feature);
                 }
@@ -122,226 +150,206 @@ $w.onReady(function () {
         // Observe all features
         features.forEach(feature => {
             feature.style.opacity = '0';
-            feature.style.transform = 'translateY(50px) scale(0.9)';
-            feature.style.transition = 'opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease';
+            feature.style.transform = 'translateY(40px) scale(0.95)';
+            feature.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
             featureObserver.observe(feature);
         });
     }
     
-    // ===== ULTRA-FAST CALL-TO-ACTION =====
+    // ===== ULTRA-SMOOTH CALL-TO-ACTION =====
     function initializeCallToAction() {
-        const ctaButtons = $w('.cta-button, .btn-primary, .btn-cta');
+        const ctaButtons = $w('.cta-button, .btn-primary, [data-testid="cta-button"]');
         if (!ctaButtons.length) return;
         
         ctaButtons.forEach(button => {
-            // Ultra-fast click handling
+            // Ultra-smooth click handling with ripple effect
             button.onClick((event) => {
                 event.preventDefault();
-                console.log('🚀 Home CTA Clicked - Ultra-Fast Action');
+                console.log('🚀 CTA Button Clicked - Ultra-Smooth Action');
                 
-                // Add click animation
+                // Ultra-smooth click animation
                 button.scale = 0.95;
-                button.style.transition = 'transform 0.1s ease';
+                button.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
                 
                 setTimeout(() => {
                     button.scale = 1;
-                }, 100);
+                    button.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                }, 150);
                 
-                // Handle CTA action
+                // Handle different CTA types with ultra-smooth transitions
                 const buttonText = button.text || button.label || '';
-                const href = button.href || button.link || '';
                 
-                if (href) {
-                    // Navigate to URL
-                    window.location.href = href;
-                } else if (buttonText.toLowerCase().includes('get started')) {
-                    // Scroll to signup section
-                    ultraFastScrollTo('#signupSection', 100);
-                } else if (buttonText.toLowerCase().includes('learn more')) {
-                    // Scroll to features section
-                    ultraFastScrollTo('#featuresSection', 100);
-                } else if (buttonText.toLowerCase().includes('contact')) {
-                    // Scroll to contact section
-                    ultraFastScrollTo('#contactSection', 100);
-                } else {
-                    // Default action
-                    showNotification('Action triggered: ' + buttonText, 'info');
+                if (buttonText.toLowerCase().includes('contact') || buttonText.toLowerCase().includes('touch')) {
+                    ultraSmoothScrollTo('#contact', 80);
+                } else if (buttonText.toLowerCase().includes('service')) {
+                    ultraSmoothScrollTo('#services', 80);
+                } else if (buttonText.toLowerCase().includes('about')) {
+                    ultraSmoothScrollTo('#about', 80);
                 }
             });
             
-            // Ultra-fast hover effects
-            button.onMouseIn(() => {
-                button.scale = 1.05;
-                button.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
-                button.style.boxShadow = '0 6px 25px rgba(0,0,0,0.2)';
+            // Ultra-smooth hover effects
+            button.onMouseEnter(() => {
+                button.style.transform = 'translateY(-3px) scale(1.05)';
+                button.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             });
             
-            button.onMouseOut(() => {
-                button.scale = 1;
-                button.style.boxShadow = '';
+            button.onMouseLeave(() => {
+                button.style.transform = 'translateY(0) scale(1)';
+                button.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             });
         });
     }
     
-    // ===== ULTRA-FAST SOCIAL PROOF =====
+    // ===== ULTRA-SMOOTH SOCIAL PROOF =====
     function initializeSocialProof() {
-        // Initialize testimonials
         const testimonials = $w('.testimonial, .review, [data-testimonial]');
-        if (testimonials.length) {
+        if (!testimonials.length) return;
+        
+        // Auto-advance testimonials with ultra-smooth transitions
+        let currentTestimonial = 0;
+        
+        function advanceTestimonial() {
             testimonials.forEach((testimonial, index) => {
-                testimonial.style.opacity = '0';
-                testimonial.style.transform = 'translateX(50px)';
-                testimonial.style.transition = `opacity 0.6s ease ${index * 0.2}s, transform 0.6s ease ${index * 0.2}s`;
-                
-                setTimeout(() => {
+                if (index === currentTestimonial) {
                     testimonial.style.opacity = '1';
                     testimonial.style.transform = 'translateX(0)';
-                }, 1000 + (index * 200));
-            });
-        }
-        
-        // Initialize stats/counters
-        const counters = $w('.counter, .stat, [data-counter]');
-        if (counters.length) {
-            counters.forEach(counter => {
-                const target = parseInt(counter.getAttribute('data-target') || '1000');
-                const duration = 2000; // 2 seconds
-                const increment = target / (duration / 16); // 60fps
-                let current = 0;
-                
-                const updateCounter = () => {
-                    current += increment;
-                    if (current < target) {
-                        counter.text = Math.floor(current).toLocaleString();
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        counter.text = target.toLocaleString();
-                    }
-                };
-                
-                // Start counter when visible
-                const counterObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            updateCounter();
-                            counterObserver.unobserve(entry.target);
-                        }
-                    });
-                });
-                
-                counterObserver.observe(counter);
-            });
-        }
-    }
-    
-    // ===== ULTRA-FAST PERFORMANCE MONITORING =====
-    function initializePerformanceMonitoring() {
-        // Monitor page load performance
-        const loadTime = performance.now();
-        console.log(`⚡ Home page loaded in ${loadTime.toFixed(2)}ms`);
-        
-        // Monitor user interactions
-        let interactionCount = 0;
-        const interactionElements = $w('button, a, input, textarea');
-        
-        interactionElements.forEach(element => {
-            element.onClick(() => {
-                interactionCount++;
-                if (interactionCount === 1) {
-                    console.log('🎯 First user interaction detected');
+                    testimonial.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                } else {
+                    testimonial.style.opacity = '0';
+                    testimonial.style.transform = 'translateX(100px)';
+                    testimonial.style.transition = 'opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
                 }
             });
+            
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        }
+        
+        // Initialize testimonials
+        testimonials.forEach(testimonial => {
+            testimonial.style.opacity = '0';
+            testimonial.style.transform = 'translateX(100px)';
         });
         
+        // Start auto-advance
+        setTimeout(advanceTestimonial, 1000);
+        setInterval(advanceTestimonial, 5000);
+    }
+    
+    // ===== ULTRA-SMOOTH SCROLL SYSTEM =====
+    function initializeUltraSmoothScroll() {
+        // Ultra-smooth scroll handling with RAF
+        function ultraSmoothScroll() {
+            if (state.scrollRAF) return;
+            
+            state.scrollRAF = requestAnimationFrame(() => {
+                const currentScrollY = window.scrollY;
+                const nav = $w('#navigation') || $w('.nav');
+                
+                // Ultra-smooth navigation background change
+                if (nav && Math.abs(currentScrollY - state.lastScrollY) > 5) {
+                    const opacity = Math.min(currentScrollY / 100, 1);
+                    
+                    if (currentScrollY > 50) {
+                        nav.style.background = `rgba(255, 255, 255, ${opacity * 0.98})`;
+                        nav.style.backdropFilter = `blur(${opacity * 20}px)`;
+                        nav.style.boxShadow = `0 4px 20px rgba(0,0,0,${opacity * 0.1})`;
+                    } else {
+                        nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                        nav.style.backdropFilter = 'blur(10px)';
+                        nav.style.boxShadow = 'none';
+                    }
+                    
+                    state.lastScrollY = currentScrollY;
+                }
+                
+                state.scrollRAF = null;
+            });
+        }
+        
+        // Add scroll listener with passive option for ultra-smooth performance
+        window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
+        
+        // Ultra-smooth scroll to element function
+        window.ultraSmoothScrollTo = function(target, offset = 80) {
+            const element = typeof target === 'string' ? $w(target) : target;
+            if (!element) return;
+            
+            const targetPosition = element.offsetTop - offset;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 1000;
+            let start = null;
+            
+            function animation(currentTime) {
+                if (start === null) start = currentTime;
+                const timeElapsed = currentTime - start;
+                const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+                if (timeElapsed < duration) requestAnimationFrame(animation);
+            }
+            
+            function easeInOutCubic(t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t * t + b;
+                t -= 2;
+                return c / 2 * (t * t * t + 2) + b;
+            }
+            
+            requestAnimationFrame(animation);
+        };
+    }
+    
+    // ===== ULTRA-SMOOTH PERFORMANCE MONITORING =====
+    function initializePerformanceMonitoring() {
+        // Performance monitoring with ultra-smooth metrics
+        const performanceMetrics = {
+            loadTime: 0,
+            scrollPerformance: 0,
+            animationFPS: 0
+        };
+        
         // Monitor scroll performance
-        let scrollEvents = 0;
-        let lastScrollCheck = Date.now();
+        let scrollCount = 0;
+        let lastScrollTime = performance.now();
         
         window.addEventListener('scroll', () => {
-            scrollEvents++;
-            const now = Date.now();
+            scrollCount++;
+            const currentTime = performance.now();
             
-            if (now - lastScrollCheck > 1000) {
-                console.log(`📊 Scroll events per second: ${scrollEvents}`);
-                scrollEvents = 0;
-                lastScrollCheck = now;
+            if (currentTime - lastScrollTime > 1000) {
+                performanceMetrics.scrollPerformance = scrollCount;
+                scrollCount = 0;
+                lastScrollTime = currentTime;
             }
         }, { passive: true });
         
-        // Monitor Core Web Vitals
-        if ('PerformanceObserver' in window) {
-            const observer = new PerformanceObserver((list) => {
-                list.getEntries().forEach((entry) => {
-                    if (entry.entryType === 'largest-contentful-paint') {
-                        console.log(`🎨 LCP: ${entry.startTime.toFixed(2)}ms`);
-                    }
-                    if (entry.entryType === 'first-input') {
-                        console.log(`⚡ FID: ${(entry.processingStart - entry.startTime).toFixed(2)}ms`);
-                    }
-                    if (entry.entryType === 'layout-shift') {
-                        console.log(`📐 CLS: ${entry.value.toFixed(3)}`);
-                    }
-                });
-            });
+        // Monitor animation performance
+        let frameCount = 0;
+        let lastFrameTime = performance.now();
+        
+        function monitorAnimationFPS() {
+            frameCount++;
+            const currentTime = performance.now();
             
-            observer.observe({ 
-                entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] 
-            });
-        }
-    }
-    
-    // ===== HELPER FUNCTIONS =====
-    function ultraFastScrollTo(target, offset = 80) {
-        if (window.ultraFastSite && window.ultraFastSite.scrollTo) {
-            window.ultraFastSite.scrollTo(target, offset);
-        } else {
-            // Fallback
-            const element = $w(target);
-            if (element) {
-                element.scrollTo();
+            if (currentTime - lastFrameTime > 1000) {
+                performanceMetrics.animationFPS = frameCount;
+                frameCount = 0;
+                lastFrameTime = currentTime;
             }
+            
+            requestAnimationFrame(monitorAnimationFPS);
         }
+        
+        requestAnimationFrame(monitorAnimationFPS);
+        
+        // Log performance metrics
+        window.addEventListener('load', () => {
+            performanceMetrics.loadTime = performance.now();
+            console.log('📊 Performance Metrics:', performanceMetrics);
+        });
     }
     
-    function showNotification(message, type = 'info') {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.textContent = message;
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#007bff'};
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            z-index: 10000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 14px;
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // Animate in
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
-        
-        // Remove after 4 seconds
-        setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
-                }
-            }, 300);
-        }, 4000);
-    }
-    
-    // Start initialization
+    // Initialize the page
     waitForMasterPage();
 });

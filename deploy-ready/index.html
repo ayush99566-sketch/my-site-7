@@ -15,6 +15,7 @@
         
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 80px;
         }
         
         body {
@@ -23,9 +24,30 @@
             color: #333;
             background: #ffffff;
             overflow-x: hidden;
+            /* Ultra-smooth scrolling */
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
         
-        /* Fixed navigation - minimal styling */
+        /* Ultra-smooth scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+        
+        /* Fixed navigation - enhanced styling */
         .nav {
             position: fixed;
             top: 0;
@@ -33,9 +55,18 @@
             right: 0;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #e0e0e0;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(224, 224, 224, 0.3);
             padding: 1rem 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateZ(0);
+        }
+        
+        .nav.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 2rem;
         }
         
         .nav-container {
@@ -51,6 +82,11 @@
             font-weight: 700;
             color: #333;
             text-decoration: none;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-logo:hover {
+            transform: scale(1.05);
         }
         
         .nav-menu {
@@ -64,15 +100,34 @@
             text-decoration: none;
             font-weight: 500;
             padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background-color 0.2s ease;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+        
+        .nav-link:hover::before {
+            left: 0;
         }
         
         .nav-link:hover {
-            background: #f0f0f0;
+            color: white;
+            transform: translateY(-2px);
         }
         
-        /* Hero section - simple and clean */
+        /* Hero section - enhanced animations */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -83,10 +138,41 @@
             text-align: center;
             padding: 2rem;
             padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
         
         .hero-content {
             max-width: 800px;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: heroFadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+        }
+        
+        @keyframes heroFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .hero-title {
@@ -94,33 +180,85 @@
             font-weight: 700;
             margin-bottom: 1rem;
             line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: titleSlideIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+        }
+        
+        @keyframes titleSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .hero-subtitle {
             font-size: 1.25rem;
             margin-bottom: 2rem;
-            opacity: 0.9;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: subtitleSlideIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.9s forwards;
         }
         
-        /* Buttons - simple styling */
+        @keyframes subtitleSlideIn {
+            to {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Enhanced buttons */
         .btn-container {
             display: flex;
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: buttonsSlideIn 1s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
+        }
+        
+        @keyframes buttonsSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .btn {
             display: inline-block;
             padding: 0.75rem 1.5rem;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 8px;
             font-weight: 500;
-            transition: transform 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .btn:hover::before {
+            left: 0;
         }
         
         .btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px) scale(1.02);
         }
         
         .btn-primary {
@@ -134,11 +272,19 @@
             border: 2px solid #ffffff;
         }
         
-        /* Content sections */
+        /* Content sections with enhanced animations */
         .content {
             padding: 4rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .content.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .content h2 {
@@ -146,35 +292,74 @@
             font-size: 2.5rem;
             margin-bottom: 3rem;
             color: #333;
+            position: relative;
+        }
+        
+        .content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
         }
         
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
         
         .card {
             background: #ffffff;
             padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             text-align: center;
-            transition: transform 0.2s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
         }
         
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
         
         .card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: #333;
+            transition: color 0.3s ease;
+        }
+        
+        .card:hover h3 {
+            color: #667eea;
         }
         
         .card p {
             color: #666;
+            line-height: 1.6;
         }
         
         /* Footer */
@@ -183,6 +368,17 @@
             padding: 2rem;
             text-align: center;
             border-top: 1px solid #e0e0e0;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
         }
         
         .footer p {
@@ -208,6 +404,10 @@
             .grid {
                 grid-template-columns: 1fr;
             }
+            
+            .content {
+                padding: 2rem 1rem;
+            }
         }
         
         /* Dark mode support */
@@ -220,6 +420,10 @@
             .nav {
                 background: rgba(26, 26, 26, 0.95);
                 border-bottom-color: #333;
+            }
+            
+            .nav.scrolled {
+                background: rgba(26, 26, 26, 0.98);
             }
             
             .nav-logo, .nav-link {
@@ -253,11 +457,50 @@
                 border-top-color: #333;
             }
         }
+        
+        /* Loading animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
+    <!-- Loading screen -->
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
     <!-- Navigation -->
-    <nav class="nav">
+    <nav class="nav" id="nav">
         <div class="nav-container">
             <a href="#" class="nav-logo">TRYB Studios</a>
             <ul class="nav-menu">
@@ -338,38 +581,156 @@
         <p>GO AHEAD - YOUR MOVE</p>
     </footer>
 
-    <!-- Minimal JavaScript - only essential functionality -->
+    <!-- Enhanced JavaScript for ultra-smooth performance -->
     <script>
-        // Simple smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+        // Performance optimization variables
+        let scrollRAF = null;
+        let lastScrollY = 0;
+        let isScrolling = false;
         
-        // Simple navigation background change on scroll
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('.nav');
-            if (window.scrollY > 50) {
-                nav.style.background = 'rgba(255, 255, 255, 0.98)';
-                nav.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-            } else {
-                nav.style.background = 'rgba(255, 255, 255, 0.95)';
-                nav.style.boxShadow = 'none';
+        // Ultra-smooth scroll handling
+        function ultraSmoothScroll() {
+            if (scrollRAF) return;
+            
+            scrollRAF = requestAnimationFrame(() => {
+                const currentScrollY = window.scrollY;
+                const nav = document.getElementById('nav');
+                
+                // Smooth navigation background change
+                if (nav && Math.abs(currentScrollY - lastScrollY) > 5) {
+                    const opacity = Math.min(currentScrollY / 100, 1);
+                    
+                    if (currentScrollY > 50) {
+                        nav.classList.add('scrolled');
+                    } else {
+                        nav.classList.remove('scrolled');
+                    }
+                    
+                    lastScrollY = currentScrollY;
+                }
+                
+                // Intersection Observer for content animations
+                const contentSections = document.querySelectorAll('.content');
+                contentSections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+                    
+                    if (isVisible && !section.classList.contains('visible')) {
+                        section.classList.add('visible');
+                    }
+                });
+                
+                scrollRAF = null;
+            });
+        }
+        
+        // Enhanced smooth scroll for anchor links
+        function smoothScrollTo(target, offset = 80) {
+            const element = document.querySelector(target);
+            if (!element) return;
+            
+            const targetPosition = element.offsetTop - offset;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 800;
+            let start = null;
+            
+            function animation(currentTime) {
+                if (start === null) start = currentTime;
+                const timeElapsed = currentTime - start;
+                const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+                if (timeElapsed < duration) requestAnimationFrame(animation);
             }
-        }, { passive: true });
+            
+            function easeInOutCubic(t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t * t + b;
+                t -= 2;
+                return c / 2 * (t * t * t + 2) + b;
+            }
+            
+            requestAnimationFrame(animation);
+        }
+        
+        // Initialize all functionality
+        function initializeUltraFastSite() {
+            console.log('🚀 Ultra-Fast TRYB Studios Website Initializing...');
+            
+            // Hide loading screen
+            setTimeout(() => {
+                const loading = document.getElementById('loading');
+                if (loading) {
+                    loading.classList.add('hidden');
+                    setTimeout(() => loading.style.display = 'none', 500);
+                }
+            }, 1000);
+            
+            // Enhanced smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('href');
+                    smoothScrollTo(target, 80);
+                });
+            });
+            
+            // Ultra-smooth scroll listener
+            window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
+            
+            // Enhanced button interactions
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+            
+            // Performance monitoring
+            window.addEventListener('load', () => {
+                const loadTime = performance.now();
+                console.log(`✅ TRYB Studios website loaded in ${loadTime.toFixed(2)}ms`);
+                console.log('🎯 Ultra-smooth scrolling and animations active');
+            });
+            
+            // Preload critical resources
+            const criticalImages = [
+                // Add any critical images here
+            ];
+            
+            criticalImages.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        }
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeUltraFastSite);
+        } else {
+            initializeUltraFastSite();
+        }
+        
+        // Error handling
+        window.addEventListener('error', (e) => {
+            console.error('Website error:', e.error);
+        });
         
         // Performance logging
-        window.addEventListener('load', () => {
-            console.log('TRYB Studios website loaded successfully!');
-        });
+        console.log('🚀 TRYB Studios - Ultra-Fast Website Engine Loaded');
     </script>
 </body>
 </html> 
