@@ -134,9 +134,9 @@ $w.onReady(function () {
                         });
                         
                         feature.onMouseLeave(() => {
-                            feature.style.transform = 'translateY(0) scale(1)';
+                        feature.style.transform = 'translateY(0) scale(1)';
                             feature.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                        });
+                    });
                     }, index * 100);
                     
                     featureObserver.unobserve(feature);
