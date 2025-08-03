@@ -26,6 +26,7 @@
 </html>
 ```
 
+### 2. **JavaScript Syntax Errors**
 
 **Error**: `Unexpected token` or `SyntaxError`
 **Solution**:
