@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>TRYB Studios - Home</title>
     
     <!-- Ultra-smooth CSS for Home Page -->
@@ -25,6 +25,7 @@
             background: #ffffff;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
+            touch-action: manipulation;
         }
         
         /* Ultra-smooth scrollbar */
@@ -118,6 +119,87 @@
             transform: translateY(-2px);
         }
         
+        /* Mobile Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2px;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .mobile-menu ul {
+            list-style: none;
+            text-align: center;
+        }
+        
+        .mobile-menu li {
+            margin: 2rem 0;
+        }
+        
+        .mobile-menu a {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            display: block;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu a:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -167,7 +249,7 @@
         }
         
         .hero-title {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 700;
             margin-bottom: 1rem;
             line-height: 1.2;
@@ -184,7 +266,7 @@
         }
         
         .hero-subtitle {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 3vw, 1.25rem);
             margin-bottom: 2rem;
             opacity: 0;
             transform: translateY(40px);
@@ -218,7 +300,7 @@
         
         .btn {
             display: inline-block;
-            padding: 0.75rem 1.5rem;
+            padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
             text-decoration: none;
             border-radius: 8px;
             font-weight: 500;
@@ -226,6 +308,9 @@
             position: relative;
             overflow: hidden;
             transform: translateZ(0);
+            min-height: 48px;
+            min-width: 120px;
+            touch-action: manipulation;
         }
         
         .btn::before {
@@ -253,98 +338,62 @@
         }
         
         .btn-primary {
-            background: #ffffff;
-            color: #667eea;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
         
         .btn-secondary {
             background: transparent;
-            color: #ffffff;
-            border: 2px solid #ffffff;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
         }
         
         /* Features Section */
         .features {
             padding: 4rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            background: #f8f9fa;
         }
         
         .features h2 {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 4vw, 2.5rem);
             margin-bottom: 3rem;
             color: #333;
-            position: relative;
-        }
-        
-        .features h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 2px;
         }
         
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
         .feature-card {
-            background: #ffffff;
+            background: white;
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            transform: translateZ(0);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
-            transform: translateY(40px) scale(0.95);
+            transform: translateY(30px);
         }
         
         .feature-card.visible {
             opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transform: scaleX(0);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .feature-card:hover::before {
-            transform: scaleX(1);
+            transform: translateY(0);
         }
         
         .feature-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
         
         .feature-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             margin-bottom: 1rem;
             color: #333;
-            transition: color 0.3s ease;
-        }
-        
-        .feature-card:hover h3 {
-            color: #667eea;
         }
         
         .feature-card p {
@@ -358,21 +407,70 @@
                 display: none;
             }
             
-            .hero-title {
-                font-size: 2.5rem;
+            .hamburger {
+                display: flex;
+            }
+            
+            .hero {
+                padding: 1rem;
+                padding-top: 80px;
             }
             
             .btn-container {
                 flex-direction: column;
                 align-items: center;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
             }
             
             .features-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
             
             .features {
                 padding: 2rem 1rem;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .nav-link:hover {
+                transform: none;
+            }
+            
+            .feature-card:hover {
+                transform: none;
+            }
+        }
+        
+        /* Landscape mobile optimization */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero {
+                min-height: 80vh;
+                padding-top: 60px;
+            }
+            
+            .hero-title {
+                font-size: clamp(1.5rem, 4vw, 2.5rem);
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(0.875rem, 2.5vw, 1rem);
             }
         }
     </style>
@@ -388,8 +486,23 @@
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
+            <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="#home" class="mobile-nav-link">Home</a></li>
+            <li><a href="#features" class="mobile-nav-link">Features</a></li>
+            <li><a href="#about" class="mobile-nav-link">About</a></li>
+            <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+        </ul>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -428,21 +541,130 @@
 
     <!-- Ultra-smooth JavaScript -->
     <script>
+
+// 🛡️ Window Safety Utility (Injected for Wix SSR Compatibility)
+const safeWindow = {
+    exists: () => typeof window !== 'undefined',
+    get: (property, fallback = null) => {
+        return typeof window !== 'undefined' ? window[property] : fallback;
+    },
+    call: (method, ...args) => {
+        if (typeof window !== 'undefined' && typeof window[method] === 'function') {
+            return window[method](...args);
+        }
+        return null;
+    },
+    addEventListener: (event, handler, options) => {
+        if (typeof window !== 'undefined') {
+            safeWindow.addEventListener(event, handler, options);
+        }
+    },
+    removeEventListener: (event, handler, options) => {
+        if (typeof window !== 'undefined') {
+            safeWindow.removeEventListener(event, handler, options);
+        }
+    },
+    innerWidth: () => safeWindow.get('innerWidth', 1024),
+    innerHeight: () => safeWindow.get('innerHeight', 768),
+    scrollY: () => safeWindow.get('scrollY', 0),
+    pageYOffset: () => safeWindow.get('pageYOffset', 0),
+    scrollTo: (x, y) => {
+        if (typeof window !== 'undefined') {
+            safeWindow.scrollTo(x, y);
+        }
+    },
+    isMobile: () => {
+        const width = safeWindow.innerWidth();
+        return width < 768;
+    }
+};
+
+
         // Performance state management
         const state = {
-            isMobile: window.innerWidth < 768,
+            isMobile: safeWindow.innerWidth() < 768,
             isScrolling: false,
             lastScrollY: 0,
             scrollRAF: null,
-            performanceMode: 'ultra-smooth'
+            performanceMode: 'ultra-smooth',
+            isMenuOpen: false
         };
+        
+        // Mobile menu functionality
+        function initMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            
+            if (!hamburger || !mobileMenu) return;
+            
+            // Toggle menu
+            hamburger.addEventListener('click', () => {
+                state.isMenuOpen = !state.isMenuOpen;
+                hamburger.classList.toggle('active', state.isMenuOpen);
+                mobileMenu.classList.toggle('active', state.isMenuOpen);
+                document.body.style.overflow = state.isMenuOpen ? 'hidden' : '';
+            });
+            
+            // Close menu on link click
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    state.isMenuOpen = false;
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Close menu on outside click
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    state.isMenuOpen = false;
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Close menu on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && state.isMenuOpen) {
+                    state.isMenuOpen = false;
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Handle swipe gestures for mobile menu
+            let startY = 0;
+            let currentY = 0;
+            
+            mobileMenu.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            mobileMenu.addEventListener('touchmove', (e) => {
+                currentY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            mobileMenu.addEventListener('touchend', () => {
+                const swipeDistance = startY - currentY;
+                if (swipeDistance > 50 && state.isMenuOpen) {
+                    state.isMenuOpen = false;
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }, { passive: true });
+        }
         
         // Ultra-smooth scroll handling
         function ultraSmoothScroll() {
             if (state.scrollRAF) return;
             
             state.scrollRAF = requestAnimationFrame(() => {
-                const currentScrollY = window.scrollY;
+                const currentScrollY = safeWindow.scrollY();
                 const nav = document.getElementById('nav');
                 
                 // Ultra-smooth navigation background change
@@ -460,7 +682,7 @@
                 const featureCards = document.querySelectorAll('.feature-card');
                 featureCards.forEach((card, index) => {
                     const rect = card.getBoundingClientRect();
-                    const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+                    const isVisible = rect.top < safeWindow.innerHeight() * 0.8 && rect.bottom > 0;
                     
                     if (isVisible && !card.classList.contains('visible')) {
                         setTimeout(() => {
@@ -479,7 +701,7 @@
             if (!element) return;
             
             const targetPosition = element.offsetTop - offset;
-            const startPosition = window.pageYOffset;
+            const startPosition = safeWindow.pageYOffset();
             const distance = targetPosition - startPosition;
             const duration = 1000;
             let start = null;
@@ -488,7 +710,7 @@
                 if (start === null) start = currentTime;
                 const timeElapsed = currentTime - start;
                 const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
-                window.scrollTo(0, run);
+                safeWindow.scrollTo(0, run);
                 if (timeElapsed < duration) requestAnimationFrame(animation);
             }
             
@@ -502,12 +724,37 @@
             requestAnimationFrame(animation);
         }
         
+        // Enhanced touch feedback for buttons
+        function initTouchFeedback() {
+            const buttons = document.querySelectorAll('.btn');
+            
+            buttons.forEach(btn => {
+                btn.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.95)';
+                    this.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+                }, { passive: true });
+                
+                btn.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.transform = '';
+                        this.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    }, 150);
+                }, { passive: true });
+            });
+        }
+        
         // Initialize ultra-smooth features
         function initializeUltraSmoothHomePage() {
             console.log('🚀 Ultra-Smooth Home Page Initializing...');
             
+            // Initialize mobile menu
+            initMobileMenu();
+            
+            // Initialize touch feedback
+            initTouchFeedback();
+            
             // Ultra-smooth scroll listener
-            window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
+            safeWindow.addEventListener('scroll', ultraSmoothScroll, { passive: true });
             
             // Ultra-smooth anchor link handling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -532,10 +779,16 @@
                 });
             });
             
+            // Handle resize events for mobile detection
+            safeWindow.addEventListener('resize', () => {
+                state.isMobile = safeWindow.innerWidth() < 768;
+            }, { passive: true });
+            
             // Performance monitoring
-            window.addEventListener('load', () => {
+            safeWindow.addEventListener('load', () => {
                 const loadTime = performance.now();
                 console.log(`✅ Ultra-Smooth Home Page loaded in ${loadTime.toFixed(2)}ms`);
+                console.log(`📱 Mobile optimized: ${state.isMobile ? 'Yes' : 'No'}`);
             });
         }
         

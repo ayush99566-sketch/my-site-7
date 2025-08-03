@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Mobile Optimization Test - TRYB Studios</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            touch-action: manipulation;
+        }
+        
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(224, 224, 224, 0.3);
+            padding: 1rem 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        /* Mobile Menu Styles */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2px;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .mobile-menu ul {
+            list-style: none;
+            text-align: center;
+        }
+        
+        .mobile-menu li {
+            margin: 2rem 0;
+        }
+        
+        .mobile-menu a {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            display: block;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu a:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 48px;
+            min-width: 120px;
+            touch-action: manipulation;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Test Section */
+        .test-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+        
+        .test-section h2 {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .test-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .test-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 48px;
+            min-width: 120px;
+            touch-action: manipulation;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .hero {
+                padding: 1rem;
+                padding-top: 80px;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+            
+            .test-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .test-section {
+                padding: 2rem 1rem;
+            }
+            
+            .test-card {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .nav-link:hover {
+                transform: none;
+            }
+            
+            .test-card:hover {
+                transform: none;
+            }
+            
+            .test-btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+        
+        /* Landscape mobile optimization */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero {
+                min-height: 80vh;
+                padding-top: 60px;
+            }
+            
+            .hero-title {
+                font-size: clamp(1.5rem, 4vw, 2.5rem);
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(0.875rem, 2.5vw, 1rem);
+            }
+        }
+        
+        /* Status indicator */
+        .status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">TRYB Studios</a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#test" class="nav-link">Test</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="#home" class="mobile-nav-link">Home</a></li>
+            <li><a href="#test" class="mobile-nav-link">Test</a></li>
+            <li><a href="#features" class="mobile-nav-link">Features</a></li>
+            <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">Mobile Optimization Test</h1>
+            <p class="hero-subtitle">Testing all mobile features and interactions</p>
+            <div class="btn-container">
+                <a href="#test" class="btn btn-primary">Test Features</a>
+                <a href="#features" class="btn btn-secondary">View Features</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Section -->
+    <section class="test-section" id="test">
+        <h2>Mobile Feature Tests</h2>
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>Touch Feedback</h3>
+                <p>Test the enhanced touch feedback on buttons and cards. Tap to see the scale animation.</p>
+                <button class="test-btn" onclick="testTouchFeedback()">Test Touch</button>
+            </div>
+            <div class="test-card">
+                <h3>Hamburger Menu</h3>
+                <p>Test the mobile hamburger menu. Tap the hamburger icon in the top right corner.</p>
+                <button class="test-btn" onclick="testHamburgerMenu()">Test Menu</button>
+            </div>
+            <div class="test-card">
+                <h3>Responsive Design</h3>
+                <p>Test responsive design by resizing your browser window or rotating your device.</p>
+                <button class="test-btn" onclick="testResponsive()">Test Responsive</button>
+            </div>
+            <div class="test-card">
+                <h3>Smooth Scrolling</h3>
+                <p>Test the ultra-smooth scrolling performance on mobile devices.</p>
+                <button class="test-btn" onclick="testSmoothScroll()">Test Scroll</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Indicator -->
+    <div class="status" id="status">
+        Mobile: <span id="mobileStatus">Detecting...</span>
+    </div>
+
+    <!-- Mobile Enhancement Script -->
+    <script src="mobile-enhancement.js"></script>
+    
+    <script>
+        // Test functions
+        function testTouchFeedback() {
+            const btn = event.target;
+            btn.style.transform = 'scale(0.95)';
+            btn.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+            
+            setTimeout(() => {
+                btn.style.transform = '';
+                btn.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            }, 150);
+            
+            showMessage('Touch feedback test completed! ✅');
+        }
+        
+        function testHamburgerMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (hamburger && mobileMenu) {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+                
+                showMessage('Hamburger menu test completed! ✅');
+            } else {
+                showMessage('Hamburger menu not found! ❌');
+            }
+        }
+        
+        function testResponsive() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const orientation = width > height ? 'Landscape' : 'Portrait';
+            
+            showMessage(`Screen: ${width}x${height} (${orientation}) 📱`);
+        }
+        
+        function testSmoothScroll() {
+            const testSection = document.getElementById('test');
+            if (testSection) {
+                testSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                showMessage('Smooth scroll test completed! ✅');
+            }
+        }
+        
+        function showMessage(message) {
+            const status = document.getElementById('status');
+            const mobileStatus = document.getElementById('mobileStatus');
+            mobileStatus.textContent = message;
+            
+            setTimeout(() => {
+                mobileStatus.textContent = window.innerWidth < 768 ? 'Mobile' : 'Desktop';
+            }, 3000);
+        }
+        
+        // Initialize status
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileStatus = document.getElementById('mobileStatus');
+            mobileStatus.textContent = window.innerWidth < 768 ? 'Mobile' : 'Desktop';
+            
+            // Add touch feedback to test cards
+            const testCards = document.querySelectorAll('.test-card');
+            testCards.forEach(card => {
+                card.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                    this.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+                }, { passive: true });
+                
+                card.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.transform = '';
+                        this.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    }, 150);
+                }, { passive: true });
+            });
+            
+            console.log('📱 Mobile Test Page Loaded Successfully!');
+            console.log('Test the following features:');
+            console.log('1. Hamburger menu (tap hamburger icon)');
+            console.log('2. Touch feedback (tap buttons and cards)');
+            console.log('3. Responsive design (resize window)');
+            console.log('4. Smooth scrolling (tap test buttons)');
+        });
+    </script>
+</body>
+</html> 
