@@ -602,6 +602,30 @@ img, video, canvas, audio, iframe, embed, object {
     height: auto;
 }
 
+/* Prevent media autoplay issues */
+video, audio {
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Handle media loading states */
+video:not([src]), audio:not([src]) {
+    display: none;
+}
+
+/* Prevent media from causing layout shifts */
+video, audio {
+    contain: layout style paint;
+}
+
+/* Ensure media elements don't interfere with touch events */
+video, audio {
+    touch-action: manipulation;
+}
+
 /* Button optimizations */
 button, 
 input[type="button"],

@@ -7,8 +7,69 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="format-detection" content="telephone=no">
+    
+    <!-- Fix for AbortError: The play() request was interrupted by a call to pause() -->
+    <script>
+        // Prevent AbortError from media play() interruptions
+        (function() {
+            // Override HTMLMediaElement play() method to handle AbortError
+            if (typeof HTMLMediaElement !== 'undefined') {
+                const originalPlay = HTMLMediaElement.prototype.play;
+                HTMLMediaElement.prototype.play = function() {
+                    return originalPlay.call(this).catch(error => {
+                        // Ignore AbortError as it's expected when play() is interrupted by pause()
+                        if (error.name === 'AbortError') {
+                            console.log('Media play() interrupted by pause() - this is normal behavior');
+                            return Promise.resolve();
+                        }
+                        // Re-throw other errors
+                        throw error;
+                    });
+                };
+            }
+
+            // Global error handler for unhandled promise rejections
+            window.addEventListener('unhandledrejection', function(event) {
+                if (event.reason && event.reason.name === 'AbortError' && 
+                    event.reason.message && event.reason.message.includes('play()')) {
+                    event.preventDefault();
+                    console.log('Prevented AbortError from play() interruption');
+                }
+            });
+        })();
+    </script>
+    
+    <!-- Resource hints and preloads to fix Wix Thunderbolt warnings -->
+    <link rel="dns-prefetch" href="//siteassets.parastorage.com">
+    <link rel="dns-prefetch" href="//static.parastorage.com">
+    <link rel="dns-prefetch" href="//www-trybstudios-com.filesusr.com">
+    
+    <!-- Preload critical resources with proper 'as' attributes -->
+    <link rel="preload" href="Home-optimized.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="Home-optimized.js" as="script" onload="this.onload=null;this.rel='script'">
+    
+    <!-- Fallback for browsers that don't support preload -->
+    <noscript>
+        <link rel="stylesheet" href="Home-optimized.css">
+    </noscript>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://siteassets.parastorage.com" crossorigin>
+    <link rel="preconnect" href="https://static.parastorage.com" crossorigin>
+    <link rel="preconnect" href="https://www-trybstudios-com.filesusr.com" crossorigin>
+    
+    <!-- Resource hints for Wix Thunderbolt -->
+    <link rel="modulepreload" href="Home-optimized.js" type="application/javascript">
+    
     <title>Optimized Responsive Website</title>
-    <link rel="stylesheet" href="Home-optimized.css">
+    
+    <!-- Critical CSS inline to prevent FOUC -->
+    <style>
+        /* Critical CSS for above-the-fold content */
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .nav-section { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255, 255, 255, 0.98); }
+        .hero-section { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+    </style>
 </head>
 <body>
     <!-- Navigation Section -->
@@ -74,6 +135,48 @@
         <p>Optimized for all devices</p>
     </footer>
 
-    <script src="Home-optimized.js"></script>
+    <!-- Load JavaScript with proper timing -->
+    <script>
+        // Resource loading optimization
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+        
+        // Load CSS with fallback
+        function loadCSS(href) {
+            return new Promise((resolve, reject) => {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = href;
+                link.onload = resolve;
+                link.onerror = reject;
+                document.head.appendChild(link);
+            });
+        }
+        
+        // Initialize resources
+        window.addEventListener('load', async () => {
+            try {
+                // Load non-critical resources after page load
+                await Promise.all([
+                    loadCSS('Home-optimized.css'),
+                    loadScript('Home-optimized.js')
+                ]);
+                
+                console.log('All resources loaded successfully');
+            } catch (error) {
+                console.warn('Resource loading failed:', error);
+            }
+        });
+    </script>
+    
+    <!-- Fallback script loading -->
+    <script src="Home-optimized.js" defer></script>
 </body>
 </html> 

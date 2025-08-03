@@ -1,6 +1,46 @@
 // Mobile-First Responsive Homepage - Optimized for Mobile Devices
 // Complete mobile optimization with touch-friendly interactions
 
+// Fix for AbortError: The play() request was interrupted by a call to pause()
+// This error commonly occurs with HTML5 media elements in Wix sites
+(function() {
+    // Override HTMLMediaElement play() method to handle AbortError
+    const originalPlay = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function() {
+        return originalPlay.call(this).catch(error => {
+            // Ignore AbortError as it's expected when play() is interrupted by pause()
+            if (error.name === 'AbortError') {
+                console.log('Media play() interrupted by pause() - this is normal behavior');
+                return Promise.resolve();
+            }
+            // Re-throw other errors
+            throw error;
+        });
+    };
+
+    // Handle any existing media elements
+    document.addEventListener('DOMContentLoaded', function() {
+        const mediaElements = document.querySelectorAll('video, audio');
+        mediaElements.forEach(media => {
+            media.addEventListener('error', function(e) {
+                if (e.target.error && e.target.error.code === 4) {
+                    // MEDIA_ELEMENT_ERROR_ABORTED
+                    console.log('Media element aborted - this is normal');
+                }
+            });
+        });
+    });
+
+    // Global error handler for unhandled promise rejections
+    window.addEventListener('unhandledrejection', function(event) {
+        if (event.reason && event.reason.name === 'AbortError' && 
+            event.reason.message && event.reason.message.includes('play()')) {
+            event.preventDefault();
+            console.log('Prevented AbortError from play() interruption');
+        }
+    });
+})();
+
 $w.onReady(function () {
     // Mobile-first performance state
     const mobileState = {
