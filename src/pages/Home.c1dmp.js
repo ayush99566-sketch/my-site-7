@@ -1,17 +1,18 @@
-// Ultra-Fast Loading JavaScript - Minimal and Optimized
+// Smooth Performance JavaScript - Optimized for Zero Lag After Loading
 
-// Simple initialization without heavy operations
+// Initialize when DOM is ready
 (function() {
-    // Minimal state management
+    // Simple state management
     const state = {
         isMobile: window.innerWidth < 768,
-        isMenuOpen: false
+        isMenuOpen: false,
+        isLoaded: false
     };
     
-    // Simple element cache
+    // Element cache for performance
     const elements = {};
     
-    // Get element function
+    // Get element function with caching
     function getElement(selector) {
         if (!elements[selector]) {
             elements[selector] = document.querySelector(selector);
@@ -19,7 +20,7 @@
         return elements[selector];
     }
     
-    // Simple mobile menu toggle
+    // Smooth mobile menu toggle
     function toggleMenu() {
         const menu = getElement('#navMenu');
         const toggle = getElement('#navMenuToggle');
@@ -39,7 +40,7 @@
         }
     }
     
-    // Simple scroll handler - minimal processing
+    // Smooth scroll handler with throttling
     let scrollTimeout;
     function handleScroll() {
         if (scrollTimeout) return;
@@ -50,20 +51,31 @@
                 const scrollY = window.scrollY;
                 const opacity = Math.min(scrollY / 100, 1);
                 nav.style.backgroundColor = `rgba(255, 255, 255, ${opacity * 0.95})`;
+                
+                // Add shadow when scrolled
+                if (scrollY > 10) {
+                    nav.style.boxShadow = `0 4px 20px rgba(0, 0, 0, ${Math.min(scrollY / 200, 0.15)})`;
+                } else {
+                    nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                }
             }
             scrollTimeout = null;
         }, 16); // 60fps
     }
     
-    // Simple smooth scroll
+    // Smooth scroll to element
     function smoothScroll(target) {
         const element = document.querySelector(target);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            const offsetTop = element.offsetTop - 80; // Account for fixed nav
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
         }
     }
     
-    // Initialize when DOM is ready
+    // Initialize all functionality
     function init() {
         // Initialize mobile menu
         const menuToggle = getElement('#navMenuToggle');
@@ -123,6 +135,7 @@
         // Initialize button interactions
         const buttons = document.querySelectorAll('.btn');
         buttons.forEach(button => {
+            // Desktop hover effects
             button.addEventListener('mouseenter', () => {
                 if (!state.isMobile) {
                     button.style.transform = 'translateY(-2px)';
@@ -135,6 +148,7 @@
                 }
             });
             
+            // Mobile touch feedback
             if (state.isMobile) {
                 button.addEventListener('touchstart', () => {
                     button.style.transform = 'translateY(1px)';
@@ -148,35 +162,61 @@
             }
         });
         
-        // Hide loading indicator
-        const loadingIndicator = getElement('#loadingIndicator');
-        if (loadingIndicator) {
-            loadingIndicator.classList.add('hidden');
-            setTimeout(() => {
-                loadingIndicator.style.display = 'none';
-            }, 200);
-        }
+        // Initialize content card animations
+        const cards = document.querySelectorAll('.content-card');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            cardObserver.observe(card);
+        });
         
         // Mark as loaded
+        state.isLoaded = true;
         document.body.classList.add('loaded');
         
-        console.log('Ultra-fast initialization complete');
+        console.log('Smooth performance initialization complete');
     }
     
-    // Initialize when ready
+    // Wait for loading screen to complete
+    function waitForLoadingComplete() {
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent && mainContent.classList.contains('loaded')) {
+            init();
+        } else {
+            setTimeout(waitForLoadingComplete, 100);
+        }
+    }
+    
+    // Start initialization when DOM is ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', waitForLoadingComplete);
     } else {
-        init();
+        waitForLoadingComplete();
     }
     
     // Fallback initialization
-    setTimeout(init, 1000);
+    setTimeout(waitForLoadingComplete, 3000);
     
-    // Export minimal API
+    // Export API
     window.siteApp = {
         toggleMenu,
         smoothScroll,
-        state
+        state,
+        elements
     };
 })();

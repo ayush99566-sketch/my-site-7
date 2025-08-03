@@ -9,43 +9,83 @@
     <meta name="format-detection" content="telephone=no">
     <title>Mobile-Optimized Website</title>
     
-    <!-- Critical CSS Inline for Ultra-Fast Loading -->
+    <!-- Loading Screen Styles -->
     <style>
-        /* Critical above-the-fold styles - inline for instant rendering */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #fff;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        /* Ultra-fast loading indicator */
-        .loading-indicator {
+        /* Loading screen - covers entire viewport */
+        .loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #fff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.2s ease-out;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .loading-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
         }
         
         .loading-spinner {
-            width: 30px;
-            height: 30px;
-            border: 2px solid #f0f0f0;
-            border-top: 2px solid #667eea;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1.5rem;
+        }
+        
+        .loading-text {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+        }
+        
+        .loading-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .loading-progress-bar {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .loading-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.9s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         @keyframes spin {
@@ -53,195 +93,191 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Critical navigation styles */
-        .nav-section {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: background-color 0.3s ease;
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
-            text-decoration: none;
-        }
-        
-        /* Critical hero styles */
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .hero-content {
-            max-width: 800px;
-        }
-        
-        .hero-title {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-        
-        /* Hide loading indicator when ready */
-        .loading-indicator.hidden {
+        /* Hide main content during loading */
+        .main-content {
             opacity: 0;
-            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
         
-        /* Ultra-fast responsive design */
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2rem; }
-            .hero-subtitle { font-size: 1rem; }
-            .nav-container { padding: 0 1rem; }
+        .main-content.loaded {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Hide loading screen */
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
     </style>
     
-    <!-- Preload critical resources -->
-    <link rel="preload" href="Home.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Home.css"></noscript>
+    <!-- Preload all critical resources -->
+    <link rel="preload" href="Home.css" as="style">
+    <link rel="preload" href="Home.c1dmp.js" as="script">
     
-    <!-- Ultra-fast initialization -->
-    <script>
-        // Immediate loading state management
-        (function() {
-            // Set loading state immediately
-            document.documentElement.classList.add('loading');
-            
-            // Hide loading indicator as soon as possible
-            function hideLoading() {
-                const loadingIndicator = document.getElementById('loadingIndicator');
-                if (loadingIndicator) {
-                    loadingIndicator.classList.add('hidden');
-                    setTimeout(() => {
-                        loadingIndicator.style.display = 'none';
-                    }, 200);
-                }
-                document.documentElement.classList.remove('loading');
-            }
-            
-            // Hide loading on DOM ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', hideLoading);
-            } else {
-                hideLoading();
-            }
-            
-            // Fallback - hide loading after 1 second max
-            setTimeout(hideLoading, 1000);
-            
-            // Prevent any blocking operations
-            window.addEventListener('load', function() {
-                document.body.classList.add('loaded');
-            });
-        })();
-    </script>
+    <!-- Load CSS immediately -->
+    <link rel="stylesheet" href="Home.css">
 </head>
 <body>
-    <!-- Ultra-fast loading indicator -->
-    <div id="loadingIndicator" class="loading-indicator">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">Your Brand</div>
         <div class="loading-spinner"></div>
+        <div class="loading-text">Loading your experience...</div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar" id="progressBar"></div>
+        </div>
+        <div class="loading-subtitle">Preparing everything for you</div>
     </div>
     
-    <!-- Navigation Section -->
-    <nav class="nav-section" id="navigation">
-        <div class="nav-container">
-            <a href="#" class="nav-logo">Your Brand</a>
-            
-            <!-- Mobile hamburger menu button -->
-            <button class="nav-menu-toggle" id="navMenuToggle" aria-label="Toggle navigation menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-            
-            <!-- Navigation menu -->
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#services" class="nav-link">Services</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Main Content (hidden during loading) -->
+    <div class="main-content" id="mainContent">
+        <!-- Navigation Section -->
+        <nav class="nav-section" id="navigation">
+            <div class="nav-container">
+                <a href="#" class="nav-logo">Your Brand</a>
+                
+                <!-- Mobile hamburger menu button -->
+                <button class="nav-menu-toggle" id="navMenuToggle" aria-label="Toggle navigation menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                
+                <!-- Navigation menu -->
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section" id="heroSection">
-        <div class="hero-content">
-            <h1 class="hero-title">Welcome to Our Mobile-Optimized Site</h1>
-            <p class="hero-subtitle">Experience seamless browsing on any device with our responsive design</p>
-            <div class="button-container" id="ctaButtons">
-                <a href="#learn-more" class="btn btn-primary">Learn More</a>
-                <a href="#get-started" class="btn btn-secondary">Get Started</a>
+        <!-- Hero Section -->
+        <section class="hero-section" id="heroSection">
+            <div class="hero-content">
+                <h1 class="hero-title">Welcome to Our Mobile-Optimized Site</h1>
+                <p class="hero-subtitle">Experience seamless browsing on any device with our responsive design</p>
+                <div class="button-container" id="ctaButtons">
+                    <a href="#learn-more" class="btn btn-primary">Learn More</a>
+                    <a href="#get-started" class="btn btn-secondary">Get Started</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Content Section -->
-    <section class="content-section" id="mainContent">
-        <h2>Our Services</h2>
-        <div class="content-grid">
-            <div class="content-card">
-                <h3>Mobile-First Design</h3>
-                <p>Built with mobile devices in mind, ensuring optimal experience across all screen sizes.</p>
+        <!-- Content Section -->
+        <section class="content-section" id="mainContent">
+            <h2>Our Services</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Mobile-First Design</h3>
+                    <p>Built with mobile devices in mind, ensuring optimal experience across all screen sizes.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Touch-Friendly Interface</h3>
+                    <p>Optimized touch targets and gestures for intuitive mobile navigation.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Fast Performance</h3>
+                    <p>Lightning-fast loading times and smooth interactions on mobile devices.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Responsive Layout</h3>
+                    <p>Adaptive design that looks great on phones, tablets, and desktops.</p>
+                </div>
             </div>
-            <div class="content-card">
-                <h3>Touch-Friendly Interface</h3>
-                <p>Optimized touch targets and gestures for intuitive mobile navigation.</p>
-            </div>
-            <div class="content-card">
-                <h3>Fast Performance</h3>
-                <p>Lightning-fast loading times and smooth interactions on mobile devices.</p>
-            </div>
-            <div class="content-card">
-                <h3>Responsive Layout</h3>
-                <p>Adaptive design that looks great on phones, tablets, and desktops.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer Section -->
-    <footer class="footer-section" id="footerSection">
-        <p>&copy; 2024 Your Brand. All rights reserved.</p>
-        <p>Optimized for mobile devices</p>
-    </footer>
+        <!-- Footer Section -->
+        <footer class="footer-section" id="footerSection">
+            <p>&copy; 2024 Your Brand. All rights reserved.</p>
+            <p>Optimized for mobile devices</p>
+        </footer>
+    </div>
 
-    <!-- Ultra-fast script loading -->
+    <!-- Loading and Initialization Script -->
     <script>
-        // Load main script with minimal delay
-        function loadScript(src) {
+        // Loading management
+        const loadingScreen = document.getElementById('loadingScreen');
+        const mainContent = document.getElementById('mainContent');
+        const progressBar = document.getElementById('progressBar');
+        
+        let loadingProgress = 0;
+        let loadingComplete = false;
+        
+        // Simulate loading progress (1-2 seconds total)
+        function updateLoadingProgress(progress) {
+            loadingProgress = progress;
+            progressBar.style.width = progress + '%';
+            
+            // Update loading text based on progress
+            const loadingText = document.querySelector('.loading-text');
+            if (progress < 30) {
+                loadingText.textContent = 'Loading your experience...';
+            } else if (progress < 60) {
+                loadingText.textContent = 'Preparing content...';
+            } else if (progress < 90) {
+                loadingText.textContent = 'Almost ready...';
+            } else {
+                loadingText.textContent = 'Welcome!';
+            }
+        }
+        
+        // Complete loading and show website
+        function completeLoading() {
+            if (loadingComplete) return;
+            loadingComplete = true;
+            
+            // Show main content
+            mainContent.classList.add('loaded');
+            
+            // Hide loading screen after a short delay
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                
+                // Remove loading screen from DOM after animation
+                setTimeout(() => {
+                    loadingScreen.remove();
+                }, 500);
+            }, 300);
+            
+            console.log('Website fully loaded and ready!');
+        }
+        
+        // Loading sequence
+        function startLoading() {
+            const startTime = Date.now();
+            const totalLoadTime = 1500; // 1.5 seconds total loading time
+            
+            const loadingInterval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min((elapsed / totalLoadTime) * 100, 100);
+                
+                updateLoadingProgress(progress);
+                
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    completeLoading();
+                }
+            }, 50); // Update every 50ms for smooth progress
+        }
+        
+        // Start loading when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startLoading);
+        } else {
+            startLoading();
+        }
+        
+        // Load main script after loading is complete
+        function loadMainScript() {
             return new Promise((resolve, reject) => {
                 const script = document.createElement('script');
-                script.src = src;
+                script.src = 'Home.c1dmp.js';
                 script.async = true;
-                script.defer = true;
                 
                 script.onload = resolve;
                 script.onerror = reject;
@@ -250,14 +286,14 @@
             });
         }
         
-        // Load script immediately when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(() => loadScript('Home.c1dmp.js'), 50);
+        // Load script when loading is complete
+        setTimeout(() => {
+            loadMainScript().then(() => {
+                console.log('Main script loaded successfully');
+            }).catch(() => {
+                console.log('Main script loaded with fallback');
             });
-        } else {
-            setTimeout(() => loadScript('Home.c1dmp.js'), 50);
-        }
+        }, 1000); // Load script after 1 second
     </script>
 </body>
 </html> 
