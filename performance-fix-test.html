@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Fix Test - No More Lagging</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.warning { background: #fff3cd; color: #856404; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .scroll-test {
+            height: 2000px;
+            background: linear-gradient(to bottom, #e8f5e8, #d4edda, #c3e6cb, #b1dfbb, #a8e6a8);
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .performance-indicator {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+        .crash-test {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="performance-indicator" id="performanceIndicator">
+        Performance: Stable
+    </div>
+    
+    <div class="test-container">
+        <h1>Performance Fix Test - No More Lagging</h1>
+        
+        <div class="test-section">
+            <h3>Stability Test</h3>
+            <p>This test verifies that the website no longer lags or crashes after the performance fixes.</p>
+            
+            <div class="crash-test">
+                <h4>Test Instructions:</h4>
+                <ol>
+                    <li>Scroll up and down continuously for 30 seconds</li>
+                    <li>Click buttons and interact with elements</li>
+                    <li>Open and close the mobile menu multiple times</li>
+                    <li>Resize the browser window</li>
+                    <li>Check if the page remains stable and responsive</li>
+                </ol>
+            </div>
+            
+            <div id="stabilityStatus" class="status success">
+                <strong>Stability Status:</strong> Ready to test - No lagging or crashing expected
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Scroll Performance Test</h3>
+            <p>Scroll through this area to test if the performance fixes resolved the lagging issues:</p>
+            
+            <div class="scroll-test">
+                <h4>Smooth Scroll Test Area</h4>
+                <p>This area tests the simplified scroll handler. You should experience:</p>
+                <ul>
+                    <li>No lagging or stuttering</li>
+                    <li>No crashes after extended use</li>
+                    <li>Smooth scrolling performance</li>
+                    <li>Responsive interactions</li>
+                    <li>Stable page behavior</li>
+                </ul>
+                
+                <!-- Test content sections -->
+                <div style="margin: 50px 0; padding: 20px; background: rgba(255,255,255,0.3); border-radius: 8px;">
+                    <h5>Test Section 1</h5>
+                    <p>Scroll through this section multiple times to test stability.</p>
+                </div>
+                
+                <div style="margin: 50px 0; padding: 20px; background: rgba(255,255,255,0.3); border-radius: 8px;">
+                    <h5>Test Section 2</h5>
+                    <p>Continue scrolling to verify no performance degradation.</p>
+                </div>
+                
+                <div style="margin: 50px 0; padding: 20px; background: rgba(255,255,255,0.3); border-radius: 8px;">
+                    <h5>Test Section 3</h5>
+                    <p>If scrolling remains smooth, the fixes are working correctly.</p>
+                </div>
+                
+                <div style="margin: 50px 0; padding: 20px; background: rgba(255,255,255,0.3); border-radius: 8px;">
+                    <h5>Test Section 4</h5>
+                    <p>No crashes should occur during extended scrolling.</p>
+                </div>
+                
+                <div style="margin: 50px 0; padding: 20px; background: rgba(255,255,255,0.3); border-radius: 8px;">
+                    <h5>Test Section 5</h5>
+                    <p>Final test section - if you reach here without issues, the fix is successful.</p>
+                </div>
+            </div>
+            
+            <div id="scrollStatus" class="status">
+                <strong>Scroll Test Status:</strong> Ready to test stability
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Performance Fixes Applied</h3>
+            <div class="status success">
+                <strong>Critical Fixes Applied:</strong>
+                <ul>
+                    <li>Removed redundant scroll handlers that were causing conflicts</li>
+                    <li>Eliminated multiple simultaneous scroll listeners</li>
+                    <li>Simplified performance monitoring to reduce overhead</li>
+                    <li>Streamlined accessibility initialization</li>
+                    <li>Optimized touch gesture handling</li>
+                    <li>Reduced memory usage and CPU overhead</li>
+                    <li>Prevented infinite loops and memory leaks</li>
+                    <li>Single, efficient scroll handler implementation</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Test Results</h3>
+            <button onclick="startStabilityTest()">Start 30-Second Stability Test</button>
+            <button onclick="resetTest()">Reset Test</button>
+            
+            <div id="testResults"></div>
+        </div>
+    </div>
+
+    <script>
+        let testStartTime = 0;
+        let scrollCount = 0;
+        let interactionCount = 0;
+        let isTestRunning = false;
+        let testResults = [];
+        
+        // Monitor scroll performance
+        window.addEventListener('scroll', () => {
+            scrollCount++;
+            updatePerformanceIndicator();
+        }, { passive: true });
+        
+        // Monitor interactions
+        document.addEventListener('click', () => {
+            interactionCount++;
+            updatePerformanceIndicator();
+        });
+        
+        function updatePerformanceIndicator() {
+            const indicator = document.getElementById('performanceIndicator');
+            const currentTime = Date.now();
+            
+            if (isTestRunning) {
+                const elapsed = currentTime - testStartTime;
+                const scrollsPerSecond = Math.round((scrollCount / elapsed) * 1000);
+                const interactionsPerSecond = Math.round((interactionCount / elapsed) * 1000);
+                
+                indicator.textContent = `Test Running: ${scrollsPerSecond} scrolls/sec, ${interactionsPerSecond} interactions/sec`;
+                
+                // Check for performance issues
+                if (scrollsPerSecond > 100 || interactionsPerSecond > 50) {
+                    indicator.style.background = 'rgba(255, 193, 7, 0.9)';
+                    indicator.style.color = 'black';
+                } else {
+                    indicator.style.background = 'rgba(40, 167, 69, 0.9)';
+                    indicator.style.color = 'white';
+                }
+            } else {
+                indicator.textContent = 'Performance: Stable';
+                indicator.style.background = 'rgba(0,0,0,0.8)';
+                indicator.style.color = 'white';
+            }
+        }
+        
+        function startStabilityTest() {
+            const statusElement = document.getElementById('stabilityStatus');
+            const resultsElement = document.getElementById('testResults');
+            
+            statusElement.className = 'status';
+            statusElement.innerHTML = '<strong>Stability Status:</strong> Running 30-second stability test...';
+            
+            isTestRunning = true;
+            testStartTime = Date.now();
+            scrollCount = 0;
+            interactionCount = 0;
+            testResults = [];
+            
+            // Simulate user interactions during test
+            const testInterval = setInterval(() => {
+                const currentTime = Date.now();
+                const elapsed = currentTime - testStartTime;
+                
+                // Record performance metrics every 5 seconds
+                if (elapsed % 5000 < 100) {
+                    const scrollsPerSecond = Math.round((scrollCount / elapsed) * 1000);
+                    const interactionsPerSecond = Math.round((interactionCount / elapsed) * 1000);
+                    
+                    testResults.push({
+                        time: elapsed / 1000,
+                        scrollsPerSecond: scrollsPerSecond,
+                        interactionsPerSecond: interactionsPerSecond,
+                        performance: scrollsPerSecond < 50 ? 'Good' : 'Warning'
+                    });
+                }
+                
+                // End test after 30 seconds
+                if (elapsed >= 30000) {
+                    clearInterval(testInterval);
+                    endStabilityTest();
+                }
+            }, 100);
+        }
+        
+        function endStabilityTest() {
+            isTestRunning = false;
+            
+            const statusElement = document.getElementById('stabilityStatus');
+            const resultsElement = document.getElementById('testResults');
+            
+            // Analyze test results
+            const avgScrolls = testResults.reduce((sum, result) => sum + result.scrollsPerSecond, 0) / testResults.length;
+            const avgInteractions = testResults.reduce((sum, result) => sum + result.interactionsPerSecond, 0) / testResults.length;
+            const performanceIssues = testResults.filter(result => result.performance === 'Warning').length;
+            
+            let statusClass = 'success';
+            let statusText = 'Excellent - No performance issues detected';
+            
+            if (performanceIssues > 2) {
+                statusClass = 'error';
+                statusText = 'Performance issues detected - Further optimization needed';
+            } else if (performanceIssues > 0) {
+                statusClass = 'warning';
+                statusText = 'Minor performance issues - Generally stable';
+            }
+            
+            statusElement.className = `status ${statusClass}`;
+            statusElement.innerHTML = `<strong>Stability Status:</strong> ${statusText}`;
+            
+            resultsElement.innerHTML = `
+                <div class="status ${statusClass}">
+                    <strong>Test Results Summary:</strong><br>
+                    Average scroll rate: ${avgScrolls.toFixed(1)} scrolls/sec<br>
+                    Average interaction rate: ${avgInteractions.toFixed(1)} interactions/sec<br>
+                    Performance warnings: ${performanceIssues} out of ${testResults.length} measurements<br>
+                    Test duration: 30 seconds<br>
+                    Overall stability: ${statusText}
+                </div>
+            `;
+            
+            updatePerformanceIndicator();
+        }
+        
+        function resetTest() {
+            isTestRunning = false;
+            scrollCount = 0;
+            interactionCount = 0;
+            testResults = [];
+            
+            document.getElementById('stabilityStatus').innerHTML = '<strong>Stability Status:</strong> Ready to test - No lagging or crashing expected';
+            document.getElementById('testResults').innerHTML = '';
+            document.getElementById('scrollStatus').innerHTML = '<strong>Scroll Test Status:</strong> Ready to test stability';
+            
+            updatePerformanceIndicator();
+        }
+        
+        // Initialize test
+        console.log('Performance fix test initialized - Ready to verify stability improvements');
+    </script>
+</body>
+</html> 

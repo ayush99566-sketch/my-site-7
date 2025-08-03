@@ -201,7 +201,7 @@ $w.onReady(function () {
         navLinks: getElement('#navLinks')
     };
     
-    // Premium smooth scroll handler with momentum
+    // Single premium scroll handler - REMOVED REDUNDANT HANDLERS
     let scrollRAF = null;
     let scrollTimeout = null;
     
@@ -310,22 +310,20 @@ $w.onReady(function () {
             if (premiumState.isMenuOpen) {
                 elements.navMenu.classList.add('active');
                 elements.navMenuToggle.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent background scroll
+                document.body.style.overflow = 'hidden';
             } else {
                 elements.navMenu.classList.remove('active');
                 elements.navMenuToggle.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scroll
+                document.body.style.overflow = '';
             }
         };
         
-        // Add click event
-        elements.navMenuToggle.onClick(() => {
-            toggleMenu();
-        });
+        // Add click event to toggle menu
+        elements.navMenuToggle.onClick(toggleMenu);
         
-        // Close menu when clicking on nav links
-        if (elements.navLinks) {
-            const links = elements.navLinks.children;
+        // Close menu when clicking on links
+        if (elements.navMenu) {
+            const links = elements.navMenu.children;
             Array.from(links).forEach(link => {
                 link.onClick(() => {
                     if (premiumState.isMenuOpen) {
@@ -352,49 +350,7 @@ $w.onReady(function () {
         });
     };
     
-    // Mobile-optimized scroll handler
-    let lastScrollY = 0;
-    
-    const mobileScrollHandler = () => {
-        // Cancel any pending scroll processing
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
-        }
-        
-        // Use timeout to throttle scroll processing
-        scrollTimeout = setTimeout(() => {
-            if (scrollRAF) return;
-            
-            scrollRAF = requestAnimationFrame(() => {
-                const currentScrollY = window.scrollY;
-                const scrollDelta = Math.abs(currentScrollY - premiumState.lastProcessedScrollY);
-                
-                // Only process if scroll distance is significant
-                if (scrollDelta < premiumState.scrollThreshold) {
-                    scrollRAF = null;
-                    return;
-                }
-                
-                // Mobile-optimized navigation update - only update if significant change
-                if (elements.nav && Math.abs(currentScrollY - premiumState.lastProcessedScrollY) > 20) {
-                    const navOpacity = Math.min(currentScrollY / 100, 1);
-                    elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.98})`;
-                    
-                    // Add shadow on scroll for better visual separation
-                    if (currentScrollY > 10) {
-                        elements.nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-                    } else {
-                        elements.nav.style.boxShadow = 'none';
-                    }
-                }
-                
-                // Update last processed scroll position
-                premiumState.lastProcessedScrollY = currentScrollY;
-                lastScrollY = currentScrollY;
-                scrollRAF = null;
-            });
-        }, premiumState.isMobile ? 150 : 100); // Increased throttle for better performance
-    };
+    // REMOVED REDUNDANT MOBILE SCROLL HANDLER - This was causing conflicts
     
     // Mobile-optimized page initialization
     const initMobilePage = () => {
@@ -459,49 +415,44 @@ $w.onReady(function () {
         });
     };
     
-    // Mobile touch gesture handling
+    // Mobile touch gesture handling - SIMPLIFIED
     const initTouchGestures = () => {
         if (!premiumState.isMobile) return;
         
-        // Swipe to close menu
-        let touchStartY = 0;
-        let touchStartX = 0;
-        
+        // Simple swipe to close menu
         document.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-            touchStartX = e.touches[0].clientX;
-        }, { passive: true });
+            premiumState.touchStartY = e.touches[0].clientY;
+            premiumState.touchStartX = e.touches[0].clientX;
+        });
         
         document.addEventListener('touchend', (e) => {
             if (!premiumState.isMenuOpen) return;
             
             const touchEndY = e.changedTouches[0].clientY;
             const touchEndX = e.changedTouches[0].clientX;
-            const deltaY = touchStartY - touchEndY;
-            const deltaX = touchStartX - touchEndX;
+            const deltaY = touchEndY - premiumState.touchStartY;
+            const deltaX = touchEndX - premiumState.touchStartX;
             
             // Swipe down to close menu
-            if (deltaY < -50 && Math.abs(deltaX) < 100) {
-                if (elements.navMenu) {
-                    elements.navMenu.classList.remove('active');
-                    elements.navMenuToggle.classList.remove('active');
-                    premiumState.isMenuOpen = false;
-                    document.body.style.overflow = '';
-                }
+            if (deltaY > 50 && Math.abs(deltaX) < 50) {
+                elements.navMenu.classList.remove('active');
+                elements.navMenuToggle.classList.remove('active');
+                premiumState.isMenuOpen = false;
+                document.body.style.overflow = '';
             }
-        }, { passive: true });
+        });
     };
     
     // Mobile-optimized event listeners
     const initMobileEvents = () => {
-        // Premium scroll listener with ultra-smooth performance
+        // SINGLE premium scroll listener - no more conflicts
         let isScrolling = false;
         let scrollThrottleTime = premiumState.isMobile ? 16 : 8; // Ultra-smooth 60fps scrolling
         
         const throttledScrollHandler = () => {
             if (!isScrolling) {
                 isScrolling = true;
-                premiumScrollHandler(); // Use premium scroll handler
+                premiumScrollHandler(); // Use single premium scroll handler
                 
                 setTimeout(() => {
                     isScrolling = false;
@@ -578,56 +529,27 @@ $w.onReady(function () {
         });
     };
     
-    // Mobile performance monitoring
+    // Mobile performance monitoring - SIMPLIFIED to prevent overhead
     const initMobilePerformanceMonitoring = () => {
-        // Only run performance monitoring in development and limit its impact
+        // Only run basic monitoring in development
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            let frameCount = 0;
-            let lastTime = performance.now();
-            let monitoringActive = false;
-            
-            const monitorFPS = () => {
-                if (!monitoringActive) return;
-                
-                frameCount++;
+            // Simple performance check without continuous monitoring
+            setTimeout(() => {
                 const currentTime = performance.now();
+                const loadTime = currentTime - premiumState.lastFrameTime;
                 
-                if (currentTime - lastTime >= 1000) {
-                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
-                    if (fps < 30) {
-                        console.warn(`Performance warning: ${fps} FPS - Consider optimizing`);
-                    }
-                    frameCount = 0;
-                    lastTime = currentTime;
-                }
-                
-                // Only continue monitoring for a limited time to prevent infinite loops
-                if (currentTime - lastTime < 5000) { // Stop after 5 seconds
-                    requestAnimationFrame(monitorFPS);
+                if (loadTime > 100) {
+                    console.warn(`Performance warning: Page load took ${loadTime.toFixed(1)}ms`);
                 } else {
-                    monitoringActive = false;
+                    console.log(`Premium performance: Page loaded in ${loadTime.toFixed(1)}ms`);
                 }
-            };
-            
-            // Start monitoring only when needed
-            const startMonitoring = () => {
-                if (!monitoringActive) {
-                    monitoringActive = true;
-                    frameCount = 0;
-                    lastTime = performance.now();
-                    requestAnimationFrame(monitorFPS);
-                }
-            };
-            
-            // Start monitoring on user interaction to avoid blocking initial load
-            document.addEventListener('click', startMonitoring, { once: true });
-            document.addEventListener('scroll', startMonitoring, { once: true });
+            }, 1000);
         }
     };
     
-    // Mobile accessibility enhancements
+    // Mobile accessibility enhancements - SIMPLIFIED
     const initMobileAccessibility = () => {
-        // Add ARIA labels for mobile menu
+        // Add basic ARIA labels for mobile menu
         if (elements.navMenuToggle) {
             elements.navMenuToggle.setAttribute('aria-label', 'Toggle navigation menu');
             elements.navMenuToggle.setAttribute('aria-expanded', 'false');
@@ -637,7 +559,7 @@ $w.onReady(function () {
             elements.navMenu.setAttribute('aria-hidden', 'true');
         }
         
-        // Update ARIA states when menu toggles
+        // Simple ARIA update function
         const updateMenuAria = (isOpen) => {
             if (elements.navMenuToggle) {
                 elements.navMenuToggle.setAttribute('aria-expanded', isOpen.toString());
@@ -647,7 +569,7 @@ $w.onReady(function () {
             }
         };
         
-        // Override the toggle function to include ARIA updates
+        // Update ARIA when menu toggles
         if (elements.navMenuToggle) {
             const originalClick = elements.navMenuToggle.onClick;
             elements.navMenuToggle.onClick(() => {
