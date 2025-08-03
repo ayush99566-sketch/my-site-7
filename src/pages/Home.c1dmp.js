@@ -149,8 +149,8 @@
 })();
 
 $w.onReady(function () {
-    // Mobile-first performance state
-    const mobileState = {
+    // Premium scroll performance state
+    const premiumState = {
         isScrolling: false,
         lastScrollTime: 0,
         scrollVelocity: 0,
@@ -158,26 +158,38 @@ $w.onReady(function () {
         maxAnimations: 0,
         frameBudget: 16,
         lastFrameTime: performance.now(),
-        scrollThreshold: 10,
+        scrollThreshold: 5, // Reduced for smoother detection
         lastProcessedScrollY: 0,
         isMobile: window.innerWidth < 768,
         isMenuOpen: false,
         touchStartY: 0,
-        touchStartX: 0
+        touchStartX: 0,
+        scrollMomentum: 0,
+        lastScrollDirection: 0,
+        smoothScrollTarget: 0,
+        isSmoothScrolling: false
     };
     
-    // Mobile-optimized element cache
+    // Premium element cache with hardware acceleration
     const elementCache = new Map();
     const getElement = (selector) => {
         if (!elementCache.has(selector)) {
             const element = $w(selector);
-            if (element) elementCache.set(selector, element);
+            if (element) {
+                elementCache.set(selector, element);
+                // Enable hardware acceleration for all elements
+                if (element.style) {
+                    element.style.transform = 'translate3d(0, 0, 0)';
+                    element.style.willChange = 'transform';
+                    element.style.backfaceVisibility = 'hidden';
+                }
+            }
             return element;
         }
         return elementCache.get(selector);
     };
     
-    // Pre-cache all elements
+    // Pre-cache all elements with hardware acceleration
     const elements = {
         hero: getElement('#heroSection'),
         nav: getElement('#navigation'),
@@ -187,6 +199,95 @@ $w.onReady(function () {
         navMenu: getElement('#navMenu'),
         navMenuToggle: getElement('#navMenuToggle'),
         navLinks: getElement('#navLinks')
+    };
+    
+    // Premium smooth scroll handler with momentum
+    let scrollRAF = null;
+    let scrollTimeout = null;
+    
+    const premiumScrollHandler = () => {
+        // Cancel any pending scroll processing
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        
+        // Use requestAnimationFrame for buttery smooth scrolling
+        if (scrollRAF) {
+            cancelAnimationFrame(scrollRAF);
+        }
+        
+        scrollRAF = requestAnimationFrame(() => {
+            const currentScrollY = window.scrollY;
+            const scrollDelta = currentScrollY - premiumState.lastProcessedScrollY;
+            const scrollDirection = Math.sign(scrollDelta);
+            
+            // Calculate scroll momentum for premium feel
+            premiumState.scrollMomentum = scrollDelta * 0.8 + premiumState.scrollMomentum * 0.2;
+            premiumState.lastScrollDirection = scrollDirection;
+            
+            // Only process if scroll distance is significant
+            if (Math.abs(scrollDelta) < premiumState.scrollThreshold) {
+                scrollRAF = null;
+                return;
+            }
+            
+            // Premium navigation update with smooth transitions
+            if (elements.nav) {
+                const navOpacity = Math.min(currentScrollY / 100, 1);
+                const smoothOpacity = navOpacity * 0.98;
+                
+                // Use transform3d for hardware acceleration
+                elements.nav.style.transform = `translate3d(0, 0, 0)`;
+                elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${smoothOpacity})`;
+                
+                // Add premium shadow effect
+                if (currentScrollY > 10) {
+                    elements.nav.style.boxShadow = `0 4px 20px rgba(0, 0, 0, ${Math.min(currentScrollY / 200, 0.15)})`;
+                } else {
+                    elements.nav.style.boxShadow = 'none';
+                }
+            }
+            
+            // Premium content parallax effect
+            if (elements.hero && currentScrollY < window.innerHeight) {
+                const parallaxOffset = currentScrollY * 0.5;
+                elements.hero.style.transform = `translate3d(0, ${parallaxOffset}px, 0)`;
+            }
+            
+            // Update last processed scroll position
+            premiumState.lastProcessedScrollY = currentScrollY;
+            scrollRAF = null;
+        });
+    };
+    
+    // Premium smooth scroll with easing
+    const smoothScrollTo = (targetY, duration = 800) => {
+        if (premiumState.isSmoothScrolling) return;
+        
+        premiumState.isSmoothScrolling = true;
+        const startY = window.scrollY;
+        const distance = targetY - startY;
+        const startTime = performance.now();
+        
+        const easeInOutCubic = (t) => {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        };
+        
+        const animateScroll = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeInOutCubic(progress);
+            
+            window.scrollTo(0, startY + distance * easedProgress);
+            
+            if (progress < 1) {
+                requestAnimationFrame(animateScroll);
+            } else {
+                premiumState.isSmoothScrolling = false;
+            }
+        };
+        
+        requestAnimationFrame(animateScroll);
     };
     
     // Mobile hamburger menu functionality
@@ -204,9 +305,9 @@ $w.onReady(function () {
         
         // Toggle menu function
         const toggleMenu = () => {
-            mobileState.isMenuOpen = !mobileState.isMenuOpen;
+            premiumState.isMenuOpen = !premiumState.isMenuOpen;
             
-            if (mobileState.isMenuOpen) {
+            if (premiumState.isMenuOpen) {
                 elements.navMenu.classList.add('active');
                 elements.navMenuToggle.classList.add('active');
                 document.body.style.overflow = 'hidden'; // Prevent background scroll
@@ -227,7 +328,7 @@ $w.onReady(function () {
             const links = elements.navLinks.children;
             Array.from(links).forEach(link => {
                 link.onClick(() => {
-                    if (mobileState.isMenuOpen) {
+                    if (premiumState.isMenuOpen) {
                         toggleMenu();
                     }
                 });
@@ -236,7 +337,7 @@ $w.onReady(function () {
         
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (mobileState.isMenuOpen && 
+            if (premiumState.isMenuOpen && 
                 !elements.navMenu.contains(e.target) && 
                 !elements.navMenuToggle.contains(e.target)) {
                 toggleMenu();
@@ -245,16 +346,14 @@ $w.onReady(function () {
         
         // Close menu on escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && mobileState.isMenuOpen) {
+            if (e.key === 'Escape' && premiumState.isMenuOpen) {
                 toggleMenu();
             }
         });
     };
     
     // Mobile-optimized scroll handler
-    let scrollRAF = null;
     let lastScrollY = 0;
-    let scrollTimeout = null;
     
     const mobileScrollHandler = () => {
         // Cancel any pending scroll processing
@@ -268,16 +367,16 @@ $w.onReady(function () {
             
             scrollRAF = requestAnimationFrame(() => {
                 const currentScrollY = window.scrollY;
-                const scrollDelta = Math.abs(currentScrollY - mobileState.lastProcessedScrollY);
+                const scrollDelta = Math.abs(currentScrollY - premiumState.lastProcessedScrollY);
                 
                 // Only process if scroll distance is significant
-                if (scrollDelta < mobileState.scrollThreshold) {
+                if (scrollDelta < premiumState.scrollThreshold) {
                     scrollRAF = null;
                     return;
                 }
                 
                 // Mobile-optimized navigation update - only update if significant change
-                if (elements.nav && Math.abs(currentScrollY - mobileState.lastProcessedScrollY) > 20) {
+                if (elements.nav && Math.abs(currentScrollY - premiumState.lastProcessedScrollY) > 20) {
                     const navOpacity = Math.min(currentScrollY / 100, 1);
                     elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.98})`;
                     
@@ -290,11 +389,11 @@ $w.onReady(function () {
                 }
                 
                 // Update last processed scroll position
-                mobileState.lastProcessedScrollY = currentScrollY;
+                premiumState.lastProcessedScrollY = currentScrollY;
                 lastScrollY = currentScrollY;
                 scrollRAF = null;
             });
-        }, mobileState.isMobile ? 150 : 100); // Increased throttle for better performance
+        }, premiumState.isMobile ? 150 : 100); // Increased throttle for better performance
     };
     
     // Mobile-optimized page initialization
@@ -317,7 +416,7 @@ $w.onReady(function () {
         }
         
         // Add mobile-specific classes
-        if (mobileState.isMobile) {
+        if (premiumState.isMobile) {
             document.body.classList.add('mobile-device');
         }
         
@@ -336,19 +435,19 @@ $w.onReady(function () {
             
             // Touch-friendly interactions
             button.onMouseEnter(() => {
-                if (!mobileState.isMobile) {
+                if (!premiumState.isMobile) {
                     button.style.transform = 'translateY(-2px)';
                 }
             });
             
             button.onMouseLeave(() => {
-                if (!mobileState.isMobile) {
+                if (!premiumState.isMobile) {
                     button.style.transform = 'translateY(0)';
                 }
             });
             
             // Mobile touch feedback
-            if (mobileState.isMobile) {
+            if (premiumState.isMobile) {
                 button.onClick(() => {
                     // Add touch feedback
                     button.style.transform = 'translateY(1px)';
@@ -362,7 +461,7 @@ $w.onReady(function () {
     
     // Mobile touch gesture handling
     const initTouchGestures = () => {
-        if (!mobileState.isMobile) return;
+        if (!premiumState.isMobile) return;
         
         // Swipe to close menu
         let touchStartY = 0;
@@ -374,7 +473,7 @@ $w.onReady(function () {
         }, { passive: true });
         
         document.addEventListener('touchend', (e) => {
-            if (!mobileState.isMenuOpen) return;
+            if (!premiumState.isMenuOpen) return;
             
             const touchEndY = e.changedTouches[0].clientY;
             const touchEndX = e.changedTouches[0].clientX;
@@ -386,7 +485,7 @@ $w.onReady(function () {
                 if (elements.navMenu) {
                     elements.navMenu.classList.remove('active');
                     elements.navMenuToggle.classList.remove('active');
-                    mobileState.isMenuOpen = false;
+                    premiumState.isMenuOpen = false;
                     document.body.style.overflow = '';
                 }
             }
@@ -395,14 +494,14 @@ $w.onReady(function () {
     
     // Mobile-optimized event listeners
     const initMobileEvents = () => {
-        // Optimized scroll listener for mobile
+        // Premium scroll listener with ultra-smooth performance
         let isScrolling = false;
-        let scrollThrottleTime = mobileState.isMobile ? 200 : 150; // Increased throttle for desktop
+        let scrollThrottleTime = premiumState.isMobile ? 16 : 8; // Ultra-smooth 60fps scrolling
         
         const throttledScrollHandler = () => {
             if (!isScrolling) {
                 isScrolling = true;
-                mobileScrollHandler();
+                premiumScrollHandler(); // Use premium scroll handler
                 
                 setTimeout(() => {
                     isScrolling = false;
@@ -410,50 +509,72 @@ $w.onReady(function () {
             }
         };
         
-        // Use passive scroll listener for better performance
+        // Use passive scroll listener for buttery smooth performance
         window.addEventListener('scroll', throttledScrollHandler, { passive: true });
         
-        // Mobile-optimized resize handler
+        // Premium smooth scroll for navigation links
+        if (elements.navLinks) {
+            const links = elements.navLinks.children;
+            Array.from(links).forEach(link => {
+                link.onClick((e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        const targetY = targetElement.offsetTop - 80; // Account for fixed nav
+                        smoothScrollTo(targetY, 1000); // Premium smooth scroll
+                    }
+                    
+                    if (premiumState.isMenuOpen) {
+                        toggleMenu();
+                    }
+                });
+            });
+        }
+        
+        // Premium resize handler
         let resizeTimeout;
         window.addEventListener('resize', () => {
             if (resizeTimeout) clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
-                // Update mobile state
-                mobileState.isMobile = window.innerWidth < 768;
-                scrollThrottleTime = mobileState.isMobile ? 200 : 150; // Update throttle time
+                // Update premium state
+                premiumState.isMobile = window.innerWidth < 768;
+                scrollThrottleTime = premiumState.isMobile ? 16 : 8; // Maintain 60fps
                 
-                // Update navigation
+                // Update navigation with hardware acceleration
                 if (elements.nav) {
                     const navOpacity = Math.min(window.scrollY / 100, 1);
+                    elements.nav.style.transform = `translate3d(0, 0, 0)`;
                     elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.98})`;
                 }
                 
                 // Close mobile menu if switching to desktop
-                if (!mobileState.isMobile && mobileState.isMenuOpen) {
+                if (!premiumState.isMobile && premiumState.isMenuOpen) {
                     if (elements.navMenu) {
                         elements.navMenu.classList.remove('active');
                         elements.navMenuToggle.classList.remove('active');
-                        mobileState.isMenuOpen = false;
+                        premiumState.isMenuOpen = false;
                         document.body.style.overflow = '';
                     }
                 }
-            }, 300);
+            }, 100); // Faster resize handling
         }, { passive: true });
         
-        // Handle orientation change
+        // Handle orientation change with premium performance
         window.addEventListener('orientationchange', () => {
             setTimeout(() => {
-                // Recalculate mobile state
-                mobileState.isMobile = window.innerWidth < 768;
-                scrollThrottleTime = mobileState.isMobile ? 200 : 150; // Update throttle time
+                // Recalculate premium state
+                premiumState.isMobile = window.innerWidth < 768;
+                scrollThrottleTime = premiumState.isMobile ? 16 : 8;
                 
                 // Update viewport if needed
-                if (mobileState.isMobile) {
+                if (premiumState.isMobile) {
                     document.body.classList.add('mobile-device');
                 } else {
                     document.body.classList.remove('mobile-device');
                 }
-            }, 500);
+            }, 300); // Faster orientation handling
         });
     };
     
@@ -530,10 +651,10 @@ $w.onReady(function () {
         if (elements.navMenuToggle) {
             const originalClick = elements.navMenuToggle.onClick;
             elements.navMenuToggle.onClick(() => {
-                mobileState.isMenuOpen = !mobileState.isMenuOpen;
-                updateMenuAria(mobileState.isMenuOpen);
+                premiumState.isMenuOpen = !premiumState.isMenuOpen;
+                updateMenuAria(premiumState.isMenuOpen);
                 
-                if (mobileState.isMenuOpen) {
+                if (premiumState.isMenuOpen) {
                     elements.navMenu.classList.add('active');
                     elements.navMenuToggle.classList.add('active');
                     document.body.style.overflow = 'hidden';
@@ -567,9 +688,9 @@ $w.onReady(function () {
         document.body.classList.remove('mobile-device');
         
         // Reset mobile state
-        mobileState.isScrolling = false;
-        mobileState.isMenuOpen = false;
-        mobileState.activeAnimations = 0;
+        premiumState.isScrolling = false;
+        premiumState.isMenuOpen = false;
+        premiumState.activeAnimations = 0;
         
         // Cleanup any WebGL contexts to prevent INVALID_OPERATION errors
         const canvases = document.querySelectorAll('canvas');
@@ -595,7 +716,7 @@ $w.onReady(function () {
     // Initialize everything with mobile-first approach
     const init = () => {
         // Add mobile-specific classes
-        if (mobileState.isMobile) {
+        if (premiumState.isMobile) {
             document.body.classList.add('mobile-device');
         }
         
@@ -622,7 +743,7 @@ $w.onReady(function () {
         // Cleanup on page unload
         window.addEventListener('beforeunload', cleanup);
         
-        console.log(`Mobile-first mode initialized: ${mobileState.isMobile ? 'Mobile' : 'Desktop'} device detected`);
+        console.log(`Mobile-first mode initialized: ${premiumState.isMobile ? 'Mobile' : 'Desktop'} device detected`);
     };
     
     // Start initialization
@@ -630,7 +751,7 @@ $w.onReady(function () {
     
     // Export for external access
     window.mobileHomepage = {
-        state: mobileState,
+        state: premiumState,
         elements: elements,
         cleanup,
         toggleMenu: () => {

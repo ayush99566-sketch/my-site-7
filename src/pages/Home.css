@@ -783,3 +783,251 @@ img {
         padding-bottom: max(2rem, env(safe-area-inset-bottom) + 1rem);
     }
 } 
+
+/* Premium Scroll Optimizations for Buttery Smooth Experience */
+
+/* Enable smooth scrolling for the entire page */
+html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+body {
+    /* Premium scroll optimizations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1;
+    font-kerning: normal;
+    
+    /* Hardware acceleration for smooth scrolling */
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    
+    /* Prevent scroll chaining on mobile */
+    overscroll-behavior: contain;
+    
+    /* Smooth transitions */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Premium navigation with hardware acceleration */
+.nav-section {
+    /* Hardware acceleration for smooth nav updates */
+    transform: translate3d(0, 0, 0);
+    will-change: transform, background-color, box-shadow;
+    backface-visibility: hidden;
+    
+    /* Premium shadow transition */
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
+    contain: layout style paint;
+}
+
+/* Premium hero section with parallax */
+.hero-section {
+    /* Hardware acceleration for parallax */
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    backface-visibility: hidden;
+    
+    /* Smooth parallax transition */
+    transition: transform 0.1s linear;
+    
+    /* Prevent layout shifts */
+    contain: layout style paint;
+}
+
+/* Premium content cards with smooth animations */
+.content-card {
+    /* Hardware acceleration for smooth hover effects */
+    transform: translate3d(0, 0, 0);
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+    
+    /* Premium hover transition */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
+    contain: layout style paint;
+}
+
+.content-card:hover {
+    /* Premium hover effect with smooth transform */
+    transform: translate3d(0, -8px, 0);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Premium buttons with smooth interactions */
+.btn {
+    /* Hardware acceleration for button animations */
+    transform: translate3d(0, 0, 0);
+    will-change: transform, background-color, box-shadow;
+    backface-visibility: hidden;
+    
+    /* Premium button transitions */
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
+    contain: layout style paint;
+}
+
+.btn:hover {
+    /* Premium hover effect */
+    transform: translate3d(0, -2px, 0);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    /* Premium active state */
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Premium mobile menu with smooth animations */
+.nav-menu {
+    /* Hardware acceleration for menu animations */
+    transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    
+    /* Premium menu transition */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
+    contain: layout style paint;
+}
+
+.nav-menu.active {
+    /* Premium active menu state */
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+}
+
+/* Premium hamburger menu with smooth animations */
+.nav-menu-toggle {
+    /* Hardware acceleration for hamburger animation */
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    backface-visibility: hidden;
+    
+    /* Premium hamburger transition */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
+    contain: layout style paint;
+}
+
+.hamburger-line {
+    /* Hardware acceleration for line animations */
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    backface-visibility: hidden;
+    
+    /* Premium line transition */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
+    contain: layout style paint;
+}
+
+/* Premium scroll performance optimizations */
+* {
+    /* Optimize for smooth scrolling */
+    box-sizing: border-box;
+    
+    /* Prevent layout shifts during scroll */
+    contain: layout style paint;
+}
+
+/* Premium image optimizations */
+img {
+    /* Hardware acceleration for images */
+    transform: translate3d(0, 0, 0);
+    will-change: auto;
+    backface-visibility: hidden;
+    
+    /* Prevent layout shifts */
+    contain: layout style paint;
+    
+    /* Optimize image rendering */
+    image-rendering: optimizeSpeed;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: pixelated;
+}
+
+/* Premium mobile optimizations */
+@media (max-width: 768px) {
+    /* Enhanced mobile scroll performance */
+    body {
+        /* Optimize mobile scrolling */
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        
+        /* Prevent zoom on input focus */
+        touch-action: manipulation;
+    }
+    
+    /* Premium mobile button interactions */
+    .btn:active {
+        /* Enhanced mobile touch feedback */
+        transform: translate3d(0, 1px, 0);
+        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Premium mobile card interactions */
+    .content-card:active {
+        /* Enhanced mobile touch feedback */
+        transform: translate3d(0, -4px, 0);
+        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+/* Premium scroll momentum for iOS */
+@supports (-webkit-overflow-scrolling: touch) {
+    body {
+        /* Enable momentum scrolling on iOS */
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Premium scroll performance for high-refresh displays */
+@media (min-resolution: 2dppx) {
+    /* Optimize for high-DPI displays */
+    .nav-section,
+    .hero-section,
+    .content-card,
+    .btn {
+        /* Enhanced performance for high-refresh displays */
+        will-change: transform, background-color, box-shadow;
+    }
+}
+
+/* Premium scroll performance for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    /* Respect user's motion preferences */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    /* Disable parallax for users who prefer reduced motion */
+    .hero-section {
+        transform: none !important;
+        transition: none !important;
+    }
+} 
