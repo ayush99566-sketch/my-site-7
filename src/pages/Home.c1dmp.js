@@ -149,8 +149,8 @@
 })();
 
 $w.onReady(function () {
-    // Ultra-optimized scroll performance state
-    const ultraState = {
+    // Premium scroll performance state
+    const premiumState = {
         isScrolling: false,
         lastScrollTime: 0,
         scrollVelocity: 0,
@@ -158,7 +158,7 @@ $w.onReady(function () {
         maxAnimations: 0,
         frameBudget: 16,
         lastFrameTime: performance.now(),
-        scrollThreshold: 2, // Ultra-sensitive for maximum smoothness
+        scrollThreshold: 5, // Reduced for smoother detection
         lastProcessedScrollY: 0,
         isMobile: window.innerWidth < 768,
         isMenuOpen: false,
@@ -167,39 +167,29 @@ $w.onReady(function () {
         scrollMomentum: 0,
         lastScrollDirection: 0,
         smoothScrollTarget: 0,
-        isSmoothScrolling: false,
-        // Ultra-optimization properties
-        rafId: null,
-        scrollCache: new Map(),
-        elementCache: new Map(),
-        lastScrollY: 0,
-        scrollDelta: 0,
-        isThrottled: false,
-        throttleTime: 8, // Ultra-fast 120fps equivalent
-        batchUpdates: [],
-        updateQueue: []
+        isSmoothScrolling: false
     };
     
-    // Ultra-optimized element cache with minimal DOM queries
+    // Premium element cache with hardware acceleration
+    const elementCache = new Map();
     const getElement = (selector) => {
-        if (!ultraState.elementCache.has(selector)) {
+        if (!elementCache.has(selector)) {
             const element = $w(selector);
             if (element) {
-                ultraState.elementCache.set(selector, element);
-                // Pre-apply hardware acceleration
+                elementCache.set(selector, element);
+                // Enable hardware acceleration for all elements
                 if (element.style) {
                     element.style.transform = 'translate3d(0, 0, 0)';
                     element.style.willChange = 'transform';
                     element.style.backfaceVisibility = 'hidden';
-                    element.style.contain = 'layout style paint';
                 }
             }
             return element;
         }
-        return ultraState.elementCache.get(selector);
+        return elementCache.get(selector);
     };
     
-    // Pre-cache all elements with ultra-optimization
+    // Pre-cache all elements with hardware acceleration
     const elements = {
         hero: getElement('#heroSection'),
         nav: getElement('#navigation'),
@@ -211,96 +201,89 @@ $w.onReady(function () {
         navLinks: getElement('#navLinks')
     };
     
-    // Ultra-optimized scroll handler with minimal processing
-    const ultraScrollHandler = () => {
-        if (ultraState.isThrottled) return;
-        
-        ultraState.isThrottled = true;
-        
-        // Use ultra-fast requestAnimationFrame
-        if (ultraState.rafId) {
-            cancelAnimationFrame(ultraState.rafId);
+    // Premium smooth scroll handler with momentum
+    let scrollRAF = null;
+    let scrollTimeout = null;
+    
+    const premiumScrollHandler = () => {
+        // Cancel any pending scroll processing
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
         }
         
-        ultraState.rafId = requestAnimationFrame(() => {
+        // Use requestAnimationFrame for buttery smooth scrolling
+        if (scrollRAF) {
+            cancelAnimationFrame(scrollRAF);
+        }
+        
+        scrollRAF = requestAnimationFrame(() => {
             const currentScrollY = window.scrollY;
-            ultraState.scrollDelta = currentScrollY - ultraState.lastProcessedScrollY;
+            const scrollDelta = currentScrollY - premiumState.lastProcessedScrollY;
+            const scrollDirection = Math.sign(scrollDelta);
+            
+            // Calculate scroll momentum for premium feel
+            premiumState.scrollMomentum = scrollDelta * 0.8 + premiumState.scrollMomentum * 0.2;
+            premiumState.lastScrollDirection = scrollDirection;
             
             // Only process if scroll distance is significant
-            if (Math.abs(ultraState.scrollDelta) < ultraState.scrollThreshold) {
-                ultraState.rafId = null;
-                ultraState.isThrottled = false;
+            if (Math.abs(scrollDelta) < premiumState.scrollThreshold) {
+                scrollRAF = null;
                 return;
             }
             
-            // Batch DOM updates for maximum performance
-            ultraState.batchUpdates = [];
-            
-            // Ultra-optimized navigation update
-            if (elements.nav && Math.abs(ultraState.scrollDelta) > 5) {
+            // Premium navigation update with smooth transitions
+            if (elements.nav) {
                 const navOpacity = Math.min(currentScrollY / 100, 1);
                 const smoothOpacity = navOpacity * 0.98;
                 
-                ultraState.batchUpdates.push(() => {
-                    elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${smoothOpacity})`;
-                    
-                    if (currentScrollY > 10) {
-                        elements.nav.style.boxShadow = `0 4px 20px rgba(0, 0, 0, ${Math.min(currentScrollY / 200, 0.15)})`;
-                    } else {
-                        elements.nav.style.boxShadow = 'none';
-                    }
-                });
+                // Use transform3d for hardware acceleration
+                elements.nav.style.transform = `translate3d(0, 0, 0)`;
+                elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${smoothOpacity})`;
+                
+                // Add premium shadow effect
+                if (currentScrollY > 10) {
+                    elements.nav.style.boxShadow = `0 4px 20px rgba(0, 0, 0, ${Math.min(currentScrollY / 200, 0.15)})`;
+                } else {
+                    elements.nav.style.boxShadow = 'none';
+                }
             }
             
-            // Ultra-optimized parallax with minimal calculations
+            // Premium content parallax effect
             if (elements.hero && currentScrollY < window.innerHeight) {
-                const parallaxOffset = currentScrollY * 0.3; // Reduced for better performance
-                ultraState.batchUpdates.push(() => {
-                    elements.hero.style.transform = `translate3d(0, ${parallaxOffset}px, 0)`;
-                });
+                const parallaxOffset = currentScrollY * 0.5;
+                elements.hero.style.transform = `translate3d(0, ${parallaxOffset}px, 0)`;
             }
             
-            // Execute all updates in a single batch
-            if (ultraState.batchUpdates.length > 0) {
-                ultraState.batchUpdates.forEach(update => update());
-                ultraState.batchUpdates = [];
-            }
-            
-            // Update state
-            ultraState.lastProcessedScrollY = currentScrollY;
-            ultraState.lastScrollY = currentScrollY;
-            ultraState.rafId = null;
-            
-            // Reset throttle after minimal delay
-            setTimeout(() => {
-                ultraState.isThrottled = false;
-            }, ultraState.throttleTime);
+            // Update last processed scroll position
+            premiumState.lastProcessedScrollY = currentScrollY;
+            scrollRAF = null;
         });
     };
     
-    // Ultra-optimized smooth scroll with minimal processing
-    const ultraSmoothScrollTo = (targetY, duration = 600) => {
-        if (ultraState.isSmoothScrolling) return;
+    // Premium smooth scroll with easing
+    const smoothScrollTo = (targetY, duration = 800) => {
+        if (premiumState.isSmoothScrolling) return;
         
-        ultraState.isSmoothScrolling = true;
+        premiumState.isSmoothScrolling = true;
         const startY = window.scrollY;
         const distance = targetY - startY;
         const startTime = performance.now();
         
-        // Ultra-optimized easing function
-        const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
+        const easeInOutCubic = (t) => {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        };
         
         const animateScroll = (currentTime) => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            const easedProgress = easeOutQuart(progress);
+            const easedProgress = easeInOutCubic(progress);
             
             window.scrollTo(0, startY + distance * easedProgress);
             
             if (progress < 1) {
                 requestAnimationFrame(animateScroll);
             } else {
-                ultraState.isSmoothScrolling = false;
+                premiumState.isSmoothScrolling = false;
             }
         };
         
@@ -322,9 +305,9 @@ $w.onReady(function () {
         
         // Toggle menu function
         const toggleMenu = () => {
-            ultraState.isMenuOpen = !ultraState.isMenuOpen;
+            premiumState.isMenuOpen = !premiumState.isMenuOpen;
             
-            if (ultraState.isMenuOpen) {
+            if (premiumState.isMenuOpen) {
                 elements.navMenu.classList.add('active');
                 elements.navMenuToggle.classList.add('active');
                 document.body.style.overflow = 'hidden'; // Prevent background scroll
@@ -345,7 +328,7 @@ $w.onReady(function () {
             const links = elements.navLinks.children;
             Array.from(links).forEach(link => {
                 link.onClick(() => {
-                    if (ultraState.isMenuOpen) {
+                    if (premiumState.isMenuOpen) {
                         toggleMenu();
                     }
                 });
@@ -354,7 +337,7 @@ $w.onReady(function () {
         
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (ultraState.isMenuOpen && 
+            if (premiumState.isMenuOpen && 
                 !elements.navMenu.contains(e.target) && 
                 !elements.navMenuToggle.contains(e.target)) {
                 toggleMenu();
@@ -363,7 +346,7 @@ $w.onReady(function () {
         
         // Close menu on escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && ultraState.isMenuOpen) {
+            if (e.key === 'Escape' && premiumState.isMenuOpen) {
                 toggleMenu();
             }
         });
@@ -384,16 +367,16 @@ $w.onReady(function () {
             
             scrollRAF = requestAnimationFrame(() => {
                 const currentScrollY = window.scrollY;
-                const scrollDelta = Math.abs(currentScrollY - ultraState.lastProcessedScrollY);
+                const scrollDelta = Math.abs(currentScrollY - premiumState.lastProcessedScrollY);
                 
                 // Only process if scroll distance is significant
-                if (scrollDelta < ultraState.scrollThreshold) {
+                if (scrollDelta < premiumState.scrollThreshold) {
                     scrollRAF = null;
                     return;
                 }
                 
                 // Mobile-optimized navigation update - only update if significant change
-                if (elements.nav && Math.abs(currentScrollY - ultraState.lastProcessedScrollY) > 20) {
+                if (elements.nav && Math.abs(currentScrollY - premiumState.lastProcessedScrollY) > 20) {
                     const navOpacity = Math.min(currentScrollY / 100, 1);
                     elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.98})`;
                     
@@ -406,11 +389,11 @@ $w.onReady(function () {
                 }
                 
                 // Update last processed scroll position
-                ultraState.lastProcessedScrollY = currentScrollY;
+                premiumState.lastProcessedScrollY = currentScrollY;
                 lastScrollY = currentScrollY;
                 scrollRAF = null;
             });
-        }, ultraState.isMobile ? 150 : 100); // Increased throttle for better performance
+        }, premiumState.isMobile ? 150 : 100); // Increased throttle for better performance
     };
     
     // Mobile-optimized page initialization
@@ -433,7 +416,7 @@ $w.onReady(function () {
         }
         
         // Add mobile-specific classes
-        if (ultraState.isMobile) {
+        if (premiumState.isMobile) {
             document.body.classList.add('mobile-device');
         }
         
@@ -452,19 +435,19 @@ $w.onReady(function () {
             
             // Touch-friendly interactions
             button.onMouseEnter(() => {
-                if (!ultraState.isMobile) {
+                if (!premiumState.isMobile) {
                     button.style.transform = 'translateY(-2px)';
                 }
             });
             
             button.onMouseLeave(() => {
-                if (!ultraState.isMobile) {
+                if (!premiumState.isMobile) {
                     button.style.transform = 'translateY(0)';
                 }
             });
             
             // Mobile touch feedback
-            if (ultraState.isMobile) {
+            if (premiumState.isMobile) {
                 button.onClick(() => {
                     // Add touch feedback
                     button.style.transform = 'translateY(1px)';
@@ -478,7 +461,7 @@ $w.onReady(function () {
     
     // Mobile touch gesture handling
     const initTouchGestures = () => {
-        if (!ultraState.isMobile) return;
+        if (!premiumState.isMobile) return;
         
         // Swipe to close menu
         let touchStartY = 0;
@@ -490,7 +473,7 @@ $w.onReady(function () {
         }, { passive: true });
         
         document.addEventListener('touchend', (e) => {
-            if (!ultraState.isMenuOpen) return;
+            if (!premiumState.isMenuOpen) return;
             
             const touchEndY = e.changedTouches[0].clientY;
             const touchEndX = e.changedTouches[0].clientX;
@@ -502,7 +485,7 @@ $w.onReady(function () {
                 if (elements.navMenu) {
                     elements.navMenu.classList.remove('active');
                     elements.navMenuToggle.classList.remove('active');
-                    ultraState.isMenuOpen = false;
+                    premiumState.isMenuOpen = false;
                     document.body.style.overflow = '';
                 }
             }
@@ -513,12 +496,12 @@ $w.onReady(function () {
     const initMobileEvents = () => {
         // Premium scroll listener with ultra-smooth performance
         let isScrolling = false;
-        let scrollThrottleTime = ultraState.isMobile ? 16 : 8; // Ultra-smooth 60fps scrolling
+        let scrollThrottleTime = premiumState.isMobile ? 16 : 8; // Ultra-smooth 60fps scrolling
         
         const throttledScrollHandler = () => {
             if (!isScrolling) {
                 isScrolling = true;
-                ultraScrollHandler(); // Use premium scroll handler
+                premiumScrollHandler(); // Use premium scroll handler
                 
                 setTimeout(() => {
                     isScrolling = false;
@@ -540,10 +523,10 @@ $w.onReady(function () {
                     
                     if (targetElement) {
                         const targetY = targetElement.offsetTop - 80; // Account for fixed nav
-                        ultraSmoothScrollTo(targetY, 1000); // Premium smooth scroll
+                        smoothScrollTo(targetY, 1000); // Premium smooth scroll
                     }
                     
-                    if (ultraState.isMenuOpen) {
+                    if (premiumState.isMenuOpen) {
                         toggleMenu();
                     }
                 });
@@ -556,8 +539,8 @@ $w.onReady(function () {
             if (resizeTimeout) clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 // Update premium state
-                ultraState.isMobile = window.innerWidth < 768;
-                scrollThrottleTime = ultraState.isMobile ? 16 : 8; // Maintain 60fps
+                premiumState.isMobile = window.innerWidth < 768;
+                scrollThrottleTime = premiumState.isMobile ? 16 : 8; // Maintain 60fps
                 
                 // Update navigation with hardware acceleration
                 if (elements.nav) {
@@ -567,11 +550,11 @@ $w.onReady(function () {
                 }
                 
                 // Close mobile menu if switching to desktop
-                if (!ultraState.isMobile && ultraState.isMenuOpen) {
+                if (!premiumState.isMobile && premiumState.isMenuOpen) {
                     if (elements.navMenu) {
                         elements.navMenu.classList.remove('active');
                         elements.navMenuToggle.classList.remove('active');
-                        ultraState.isMenuOpen = false;
+                        premiumState.isMenuOpen = false;
                         document.body.style.overflow = '';
                     }
                 }
@@ -582,11 +565,11 @@ $w.onReady(function () {
         window.addEventListener('orientationchange', () => {
             setTimeout(() => {
                 // Recalculate premium state
-                ultraState.isMobile = window.innerWidth < 768;
-                scrollThrottleTime = ultraState.isMobile ? 16 : 8;
+                premiumState.isMobile = window.innerWidth < 768;
+                scrollThrottleTime = premiumState.isMobile ? 16 : 8;
                 
                 // Update viewport if needed
-                if (ultraState.isMobile) {
+                if (premiumState.isMobile) {
                     document.body.classList.add('mobile-device');
                 } else {
                     document.body.classList.remove('mobile-device');
@@ -668,10 +651,10 @@ $w.onReady(function () {
         if (elements.navMenuToggle) {
             const originalClick = elements.navMenuToggle.onClick;
             elements.navMenuToggle.onClick(() => {
-                ultraState.isMenuOpen = !ultraState.isMenuOpen;
-                updateMenuAria(ultraState.isMenuOpen);
+                premiumState.isMenuOpen = !premiumState.isMenuOpen;
+                updateMenuAria(premiumState.isMenuOpen);
                 
-                if (ultraState.isMenuOpen) {
+                if (premiumState.isMenuOpen) {
                     elements.navMenu.classList.add('active');
                     elements.navMenuToggle.classList.add('active');
                     document.body.style.overflow = 'hidden';
@@ -705,9 +688,9 @@ $w.onReady(function () {
         document.body.classList.remove('mobile-device');
         
         // Reset mobile state
-        ultraState.isScrolling = false;
-        ultraState.isMenuOpen = false;
-        ultraState.activeAnimations = 0;
+        premiumState.isScrolling = false;
+        premiumState.isMenuOpen = false;
+        premiumState.activeAnimations = 0;
         
         // Cleanup any WebGL contexts to prevent INVALID_OPERATION errors
         const canvases = document.querySelectorAll('canvas');
@@ -733,7 +716,7 @@ $w.onReady(function () {
     // Initialize everything with mobile-first approach
     const init = () => {
         // Add mobile-specific classes
-        if (ultraState.isMobile) {
+        if (premiumState.isMobile) {
             document.body.classList.add('mobile-device');
         }
         
@@ -760,7 +743,7 @@ $w.onReady(function () {
         // Cleanup on page unload
         window.addEventListener('beforeunload', cleanup);
         
-        console.log(`Mobile-first mode initialized: ${ultraState.isMobile ? 'Mobile' : 'Desktop'} device detected`);
+        console.log(`Mobile-first mode initialized: ${premiumState.isMobile ? 'Mobile' : 'Desktop'} device detected`);
     };
     
     // Start initialization
@@ -768,7 +751,7 @@ $w.onReady(function () {
     
     // Export for external access
     window.mobileHomepage = {
-        state: ultraState,
+        state: premiumState,
         elements: elements,
         cleanup,
         toggleMenu: () => {

@@ -784,347 +784,250 @@ img {
     }
 } 
 
-/* Ultra-Optimized Scroll Performance for Top-Tier Buttery Smooth Experience */
+/* Premium Scroll Optimizations for Buttery Smooth Experience */
 
-/* Ultra-optimized smooth scrolling */
+/* Enable smooth scrolling for the entire page */
 html {
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    overflow-x: hidden;
-    /* Ultra-performance optimizations */
-    text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    -moz-text-size-adjust: 100%;
+    -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 body {
-    /* Ultra-optimized scroll performance */
+    /* Premium scroll optimizations */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeSpeed;
+    text-rendering: optimizeLegibility;
     font-feature-settings: "kern" 1;
     font-kerning: normal;
     
-    /* Ultra hardware acceleration */
+    /* Hardware acceleration for smooth scrolling */
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
-    transform-style: preserve-3d;
     
-    /* Ultra scroll optimizations */
+    /* Prevent scroll chaining on mobile */
     overscroll-behavior: contain;
-    scroll-behavior: smooth;
     
-    /* Ultra performance */
-    will-change: scroll-position;
-    contain: layout style paint;
-    
-    /* Ultra smooth transitions */
-    transition: none; /* Disable global transitions for better performance */
+    /* Smooth transitions */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Ultra-optimized navigation with minimal processing */
+/* Premium navigation with hardware acceleration */
 .nav-section {
-    /* Ultra hardware acceleration */
+    /* Hardware acceleration for smooth nav updates */
     transform: translate3d(0, 0, 0);
     will-change: transform, background-color, box-shadow;
     backface-visibility: hidden;
+    
+    /* Premium shadow transition */
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
     contain: layout style paint;
-    
-    /* Ultra-optimized transitions */
-    transition: background-color 0.1s linear, box-shadow 0.1s linear;
-    
-    /* Ultra performance */
-    isolation: isolate;
-    z-index: 1000;
 }
 
-/* Ultra-optimized hero section */
+/* Premium hero section with parallax */
 .hero-section {
-    /* Ultra hardware acceleration */
+    /* Hardware acceleration for parallax */
     transform: translate3d(0, 0, 0);
     will-change: transform;
     backface-visibility: hidden;
+    
+    /* Smooth parallax transition */
+    transition: transform 0.1s linear;
+    
+    /* Prevent layout shifts */
     contain: layout style paint;
-    
-    /* Ultra-optimized parallax */
-    transition: transform 0.05s linear;
-    
-    /* Ultra performance */
-    isolation: isolate;
 }
 
-/* Ultra-optimized content cards */
+/* Premium content cards with smooth animations */
 .content-card {
-    /* Ultra hardware acceleration */
+    /* Hardware acceleration for smooth hover effects */
     transform: translate3d(0, 0, 0);
     will-change: transform, box-shadow;
     backface-visibility: hidden;
+    
+    /* Premium hover transition */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
     contain: layout style paint;
-    
-    /* Ultra-optimized hover */
-    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                box-shadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    /* Ultra performance */
-    isolation: isolate;
 }
 
 .content-card:hover {
-    /* Ultra smooth hover effect */
-    transform: translate3d(0, -6px, 0);
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+    /* Premium hover effect with smooth transform */
+    transform: translate3d(0, -8px, 0);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* Ultra-optimized buttons */
+/* Premium buttons with smooth interactions */
 .btn {
-    /* Ultra hardware acceleration */
+    /* Hardware acceleration for button animations */
     transform: translate3d(0, 0, 0);
     will-change: transform, background-color, box-shadow;
     backface-visibility: hidden;
+    
+    /* Premium button transitions */
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
     contain: layout style paint;
-    
-    /* Ultra-optimized transitions */
-    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                background-color 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                box-shadow 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    /* Ultra performance */
-    isolation: isolate;
-    touch-action: manipulation;
 }
 
 .btn:hover {
-    /* Ultra smooth hover */
-    transform: translate3d(0, -1px, 0);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+    /* Premium hover effect */
+    transform: translate3d(0, -2px, 0);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .btn:active {
-    /* Ultra responsive active state */
+    /* Premium active state */
     transform: translate3d(0, 0, 0);
-    transition: transform 0.05s linear;
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Ultra-optimized mobile menu */
+/* Premium mobile menu with smooth animations */
 .nav-menu {
-    /* Ultra hardware acceleration */
+    /* Hardware acceleration for menu animations */
     transform: translate3d(0, 0, 0);
     will-change: transform, opacity;
     backface-visibility: hidden;
+    
+    /* Premium menu transition */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
     contain: layout style paint;
-    
-    /* Ultra-optimized transitions */
-    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    /* Ultra performance */
-    isolation: isolate;
 }
 
 .nav-menu.active {
-    /* Ultra smooth active state */
+    /* Premium active menu state */
     transform: translate3d(0, 0, 0);
     opacity: 1;
 }
 
-/* Ultra-optimized hamburger menu */
+/* Premium hamburger menu with smooth animations */
 .nav-menu-toggle {
-    /* Ultra hardware acceleration */
+    /* Hardware acceleration for hamburger animation */
     transform: translate3d(0, 0, 0);
     will-change: transform;
     backface-visibility: hidden;
+    
+    /* Premium hamburger transition */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
     contain: layout style paint;
-    
-    /* Ultra-optimized transitions */
-    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    /* Ultra performance */
-    isolation: isolate;
-    touch-action: manipulation;
 }
 
 .hamburger-line {
-    /* Ultra hardware acceleration */
+    /* Hardware acceleration for line animations */
     transform: translate3d(0, 0, 0);
     will-change: transform;
     backface-visibility: hidden;
+    
+    /* Premium line transition */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Prevent layout shifts */
     contain: layout style paint;
-    
-    /* Ultra-optimized transitions */
-    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    /* Ultra performance */
-    isolation: isolate;
 }
 
-/* Ultra scroll performance optimizations */
+/* Premium scroll performance optimizations */
 * {
-    /* Ultra box model */
+    /* Optimize for smooth scrolling */
     box-sizing: border-box;
     
-    /* Ultra layout containment */
+    /* Prevent layout shifts during scroll */
     contain: layout style paint;
-    
-    /* Ultra performance */
-    -webkit-tap-highlight-color: transparent;
 }
 
-/* Ultra-optimized images */
+/* Premium image optimizations */
 img {
-    /* Ultra hardware acceleration */
+    /* Hardware acceleration for images */
     transform: translate3d(0, 0, 0);
     will-change: auto;
     backface-visibility: hidden;
+    
+    /* Prevent layout shifts */
     contain: layout style paint;
     
-    /* Ultra image rendering */
+    /* Optimize image rendering */
     image-rendering: optimizeSpeed;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: -moz-crisp-edges;
     image-rendering: -o-crisp-edges;
     image-rendering: pixelated;
-    
-    /* Ultra performance */
-    max-width: 100%;
-    height: auto;
 }
 
-/* Ultra mobile optimizations */
+/* Premium mobile optimizations */
 @media (max-width: 768px) {
-    /* Ultra mobile scroll performance */
+    /* Enhanced mobile scroll performance */
     body {
+        /* Optimize mobile scrolling */
         -webkit-overflow-scrolling: touch;
         overscroll-behavior: contain;
+        
+        /* Prevent zoom on input focus */
         touch-action: manipulation;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
     }
     
-    /* Ultra mobile button interactions */
+    /* Premium mobile button interactions */
     .btn:active {
+        /* Enhanced mobile touch feedback */
         transform: translate3d(0, 1px, 0);
-        transition: transform 0.05s linear;
+        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    /* Ultra mobile card interactions */
+    /* Premium mobile card interactions */
     .content-card:active {
-        transform: translate3d(0, -3px, 0);
-        transition: transform 0.05s linear;
-    }
-    
-    /* Ultra mobile menu optimizations */
-    .nav-menu {
-        /* Ultra mobile menu performance */
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
+        /* Enhanced mobile touch feedback */
+        transform: translate3d(0, -4px, 0);
+        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
     }
 }
 
-/* Ultra scroll momentum for iOS */
+/* Premium scroll momentum for iOS */
 @supports (-webkit-overflow-scrolling: touch) {
     body {
+        /* Enable momentum scrolling on iOS */
         -webkit-overflow-scrolling: touch;
-    }
-    
-    /* Ultra iOS optimizations */
-    .nav-section,
-    .hero-section,
-    .content-card,
-    .btn {
-        -webkit-transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
-        -webkit-perspective: 1000px;
     }
 }
 
-/* Ultra performance for high-refresh displays */
+/* Premium scroll performance for high-refresh displays */
 @media (min-resolution: 2dppx) {
-    /* Ultra high-DPI optimizations */
+    /* Optimize for high-DPI displays */
     .nav-section,
     .hero-section,
     .content-card,
     .btn {
+        /* Enhanced performance for high-refresh displays */
         will-change: transform, background-color, box-shadow;
     }
 }
 
-/* Ultra performance for reduced motion */
+/* Premium scroll performance for reduced motion */
 @media (prefers-reduced-motion: reduce) {
-    /* Ultra reduced motion optimizations */
+    /* Respect user's motion preferences */
     *,
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
     }
     
-    /* Ultra disable parallax for reduced motion */
+    /* Disable parallax for users who prefer reduced motion */
     .hero-section {
         transform: none !important;
         transition: none !important;
-    }
-}
-
-/* Ultra performance for low-end devices */
-@media (max-width: 480px) {
-    /* Ultra low-end device optimizations */
-    .content-card:hover {
-        transform: none;
-        box-shadow: none;
-    }
-    
-    .btn:hover {
-        transform: none;
-        box-shadow: none;
-    }
-    
-    /* Ultra disable complex animations on low-end devices */
-    .hero-section {
-        transition: none;
-    }
-}
-
-/* Ultra performance for battery saving */
-@media (prefers-reduced-data: reduce) {
-    /* Ultra data saving optimizations */
-    .hero-section {
-        transition: none;
-    }
-    
-    .content-card,
-    .btn {
-        transition: none;
-    }
-}
-
-/* Ultra scroll performance for gaming mice */
-@media (pointer: fine) {
-    /* Ultra precision pointer optimizations */
-    .btn:hover {
-        transform: translate3d(0, -2px, 0);
-    }
-    
-    .content-card:hover {
-        transform: translate3d(0, -8px, 0);
-    }
-}
-
-/* Ultra performance for touch devices */
-@media (pointer: coarse) {
-    /* Ultra touch device optimizations */
-    .btn:active {
-        transform: translate3d(0, 1px, 0);
-    }
-    
-    .content-card:active {
-        transform: translate3d(0, -4px, 0);
     }
 } 
