@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>TRYB Studios - Home</title>
     
     <!-- Ultra-smooth CSS for Home Page -->
@@ -26,6 +26,10 @@
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
             touch-action: manipulation;
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
         }
         
         /* Ultra-smooth scrollbar */
@@ -473,7 +477,278 @@
                 font-size: clamp(0.875rem, 2.5vw, 1rem);
             }
         }
-    </style>
+    
+        /* Enhanced Mobile Responsiveness for Better Fit */
+        @media (max-width: 768px) {
+            /* Navigation adjustments */
+            .nav {
+                padding: 0.75rem 1rem;
+            }
+            
+            .nav-container {
+                padding: 0 0.5rem;
+            }
+            
+            .nav-logo {
+                font-size: 1.25rem;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            /* Hero section mobile fit */
+            .hero {
+                min-height: 100vh;
+                padding: 1rem;
+                padding-top: 70px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .hero-content {
+                width: 100%;
+                max-width: 100%;
+                padding: 0 1rem;
+            }
+            
+            .hero-title {
+                font-size: clamp(1.75rem, 6vw, 2.5rem);
+                line-height: 1.2;
+                margin-bottom: 0.75rem;
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(0.875rem, 4vw, 1.125rem);
+                margin-bottom: 1.5rem;
+            }
+            
+            /* Button container mobile fit */
+            .btn-container {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                gap: 0.75rem;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                min-height: 48px;
+                padding: 0.875rem 1.5rem;
+                font-size: 1rem;
+                text-align: center;
+                touch-action: manipulation;
+            }
+            
+            /* Features section mobile fit */
+            .features {
+                padding: 2rem 1rem;
+            }
+            
+            .features h2 {
+                font-size: clamp(1.5rem, 5vw, 2rem);
+                margin-bottom: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+                padding: 0 0.5rem;
+            }
+            
+            .feature-card {
+                padding: 1.25rem;
+                margin: 0;
+            }
+            
+            .feature-card h3 {
+                font-size: 1.125rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .feature-card p {
+                font-size: 0.875rem;
+                line-height: 1.5;
+            }
+        }
+        
+        /* Small mobile devices (iPhone SE, etc.) */
+        @media (max-width: 375px) {
+            .hero {
+                padding: 0.75rem;
+                padding-top: 60px;
+            }
+            
+            .hero-title {
+                font-size: clamp(1.5rem, 7vw, 2rem);
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(0.75rem, 4.5vw, 1rem);
+            }
+            
+            .btn {
+                max-width: 260px;
+                padding: 0.75rem 1.25rem;
+                font-size: 0.875rem;
+            }
+            
+            .features {
+                padding: 1.5rem 0.75rem;
+            }
+            
+            .features-grid {
+                gap: 1rem;
+                padding: 0 0.25rem;
+            }
+            
+            .feature-card {
+                padding: 1rem;
+            }
+        }
+        
+        /* Medium mobile devices (iPhone 12/13) */
+        @media (min-width: 376px) and (max-width: 428px) {
+            .hero-title {
+                font-size: clamp(1.875rem, 6.5vw, 2.25rem);
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(0.875rem, 4.5vw, 1.125rem);
+            }
+            
+            .btn {
+                max-width: 300px;
+            }
+        }
+        
+        /* Large mobile devices (iPhone Pro Max, etc.) */
+        @media (min-width: 429px) and (max-width: 768px) {
+            .hero-title {
+                font-size: clamp(2rem, 6vw, 2.5rem);
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(1rem, 4vw, 1.25rem);
+            }
+            
+            .btn {
+                max-width: 320px;
+            }
+        }
+        
+        /* Landscape mobile optimization */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero {
+                min-height: 85vh;
+                padding-top: 60px;
+            }
+            
+            .hero-title {
+                font-size: clamp(1.5rem, 5vw, 2rem);
+                margin-bottom: 0.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: clamp(0.75rem, 3.5vw, 1rem);
+                margin-bottom: 1rem;
+            }
+            
+            .btn-container {
+                flex-direction: row;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: auto;
+                max-width: 200px;
+                min-width: 160px;
+            }
+            
+            .features {
+                padding: 1.5rem 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .nav-link:hover {
+                transform: none;
+            }
+            
+            .feature-card:hover {
+                transform: none;
+            }
+            
+            /* Enhanced touch targets */
+            .btn, .nav-link, .hamburger {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* Safe area support for notched devices */
+        @supports (padding: max(0px)) {
+            .nav {
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
+            }
+            
+            .hero {
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
+            }
+            
+            .features {
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
+            }
+        }
+        
+        /* Prevent horizontal scrolling */
+        body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+        
+        /* Ensure proper container sizing */
+        .nav-container,
+        .hero-content,
+        .features-grid {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        /* Mobile menu fit improvements */
+        .mobile-menu {
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .mobile-menu a {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+</style>
 </head>
 <body>
     <!-- Navigation -->
