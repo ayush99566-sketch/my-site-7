@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wix Content Extractor</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: monospace;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔄 Wix Content Migration Guide</h1>
+    
+    <div class="warning">
+        <strong>Current Situation:</strong> Your Netlify site shows a generic template, not your actual Wix content.
+    </div>
+
+    <h2>Option 1: Copy Your Wix Content (Recommended)</h2>
+    
+    <div class="step">
+        <h3>Step 1: Visit Your Wix Site</h3>
+        <p>Go to your current Wix website and note down:</p>
+        <ul>
+            <li>Your brand name/logo</li>
+            <li>Main headings and text content</li>
+            <li>Images and media</li>
+            <li>Contact information</li>
+            <li>Color scheme and styling preferences</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h3>Step 2: Update the Lightweight Site</h3>
+        <p>Replace the generic content in <code>index.html</code> with your actual content:</p>
+        <div class="code">
+&lt;!-- Replace "Your Brand" with your actual brand name --&gt;
+&lt;a href="#" class="nav-logo"&gt;Your Actual Brand Name&lt;/a&gt;
+
+&lt;!-- Replace the hero content --&gt;
+&lt;h1 class="hero-title"&gt;Your Actual Main Heading&lt;/h1&gt;
+&lt;p class="hero-subtitle"&gt;Your actual subtitle or description&lt;/p&gt;
+
+&lt;!-- Replace the services section --&gt;
+&lt;h2&gt;Your Actual Section Title&lt;/h2&gt;
+&lt;div class="card"&gt;
+    &lt;h3&gt;Your Actual Service/Feature&lt;/h3&gt;
+    &lt;p&gt;Your actual description&lt;/p&gt;
+&lt;/div&gt;
+        </div>
+    </div>
+
+    <div class="step">
+        <h3>Step 3: Customize Colors and Styling</h3>
+        <p>Update the CSS to match your brand colors:</p>
+        <div class="code">
+/* Replace these colors with your brand colors */
+.hero {
+    background: #YOUR_BRAND_COLOR; /* Instead of #667eea */
+}
+
+.btn-primary {
+    background: #YOUR_SECONDARY_COLOR; /* Instead of #764ba2 */
+}
+
+.nav-link:hover {
+    color: #YOUR_BRAND_COLOR; /* Instead of #667eea */
+}
+        </div>
+    </div>
+
+    <h2>Option 2: Use Wix's Custom Code Feature</h2>
+    
+    <div class="step">
+        <h3>Step 1: Add Custom Code to Wix</h3>
+        <p>In your Wix Editor:</p>
+        <ol>
+            <li>Go to <strong>Settings</strong> → <strong>Custom Code</strong></li>
+            <li>Add the lightweight CSS and JavaScript</li>
+            <li>This will override Wix's heavy code with our lightweight version</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>Step 2: Performance Optimization</h3>
+        <p>Add this CSS to Wix's Custom CSS section:</p>
+        <div class="code">
+/* Lightweight performance optimizations */
+* {
+    animation-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+}
+
+/* Reduce complex animations */
+.wix-animation {
+    animation: none !important;
+}
+
+/* Optimize scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Reduce CPU usage */
+.wix-element {
+    will-change: auto !important;
+    transform: none !important;
+}
+        </div>
+    </div>
+
+    <h2>Option 3: Hybrid Approach</h2>
+    
+    <div class="step">
+        <h3>Best of Both Worlds</h3>
+        <p>Keep your Wix site for design and content management, but:</p>
+        <ul>
+            <li>Add lightweight CSS to improve performance</li>
+            <li>Use Wix's Custom Code for performance optimizations</li>
+            <li>Keep the Netlify version as a backup/alternative</li>
+        </ul>
+    </div>
+
+    <div class="success">
+        <strong>Recommendation:</strong> 
+        <p>I recommend <strong>Option 1</strong> - copy your actual Wix content to the lightweight site. This gives you:</p>
+        <ul>
+            <li>✅ Your actual content and branding</li>
+            <li>✅ Lightweight performance (no CPU hanging)</li>
+            <li>✅ Full control over the code</li>
+            <li>✅ No Wix framework overhead</li>
+        </ul>
+    </div>
+
+    <h2>Need Help?</h2>
+    <p>If you'd like me to help you copy your specific Wix content, please:</p>
+    <ol>
+        <li>Share your Wix site URL, or</li>
+        <li>Tell me what content you want on your site, or</li>
+        <li>Describe your brand and what you want to showcase</li>
+    </ol>
+    
+    <p>I can then update the lightweight site with your actual content!</p>
+</body>
+</html> 
