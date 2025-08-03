@@ -9,21 +9,24 @@
     <meta name="format-detection" content="telephone=no">
     <title>Mobile-Optimized Website</title>
     
-    <!-- Fix for AbortError: The play() request was interrupted by a call to pause() -->
+    <!-- Critical CSS for immediate rendering -->
+    <link rel="stylesheet" href="Home.css">
+    
+    <!-- Non-blocking initialization script -->
     <script>
-        // Prevent AbortError from media play() interruptions
+        // Prevent initial loading crashes with progressive enhancement
         (function() {
-            // Override HTMLMediaElement play() method to handle AbortError
+            // Set loading state
+            document.documentElement.classList.add('loading');
+            
+            // Prevent AbortError from media play() interruptions
             if (typeof HTMLMediaElement !== 'undefined') {
                 const originalPlay = HTMLMediaElement.prototype.play;
                 HTMLMediaElement.prototype.play = function() {
                     return originalPlay.call(this).catch(error => {
-                        // Ignore AbortError as it's expected when play() is interrupted by pause()
                         if (error.name === 'AbortError') {
-                            console.log('Media play() interrupted by pause() - this is normal behavior');
                             return Promise.resolve();
                         }
-                        // Re-throw other errors
                         throw error;
                     });
                 };
@@ -34,15 +37,31 @@
                 if (event.reason && event.reason.name === 'AbortError' && 
                     event.reason.message && event.reason.message.includes('play()')) {
                     event.preventDefault();
-                    console.log('Prevented AbortError from play() interruption');
                 }
             });
+            
+            // Prevent blocking operations during load
+            window.addEventListener('load', function() {
+                // Remove loading state after page is fully loaded
+                setTimeout(() => {
+                    document.documentElement.classList.remove('loading');
+                }, 100);
+            });
+            
+            // Fallback for slow loading
+            setTimeout(() => {
+                document.documentElement.classList.remove('loading');
+            }, 3000);
         })();
     </script>
-    
-    <link rel="stylesheet" href="Home.css">
 </head>
 <body>
+    <!-- Loading indicator -->
+    <div id="loadingIndicator" class="loading-indicator">
+        <div class="loading-spinner"></div>
+        <p>Loading...</p>
+    </div>
+    
     <!-- Navigation Section -->
     <nav class="nav-section" id="navigation">
         <div class="nav-container">
@@ -106,6 +125,53 @@
         <p>Optimized for mobile devices</p>
     </footer>
 
-    <script src="Home.c1dmp.js"></script>
+    <!-- Non-blocking script loading -->
+    <script>
+        // Async script loader to prevent blocking
+        function loadScript(src, callback) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = true;
+            script.defer = true;
+            
+            script.onload = function() {
+                if (callback) callback();
+            };
+            
+            script.onerror = function() {
+                console.warn('Script failed to load:', src);
+                // Continue without the script
+                if (callback) callback();
+            };
+            
+            document.body.appendChild(script);
+        }
+        
+        // Load main script after DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                // Small delay to ensure smooth loading
+                setTimeout(() => {
+                    loadScript('Home.c1dmp.js', function() {
+                        // Hide loading indicator
+                        const loadingIndicator = document.getElementById('loadingIndicator');
+                        if (loadingIndicator) {
+                            loadingIndicator.style.display = 'none';
+                        }
+                    });
+                }, 100);
+            });
+        } else {
+            // DOM is already ready
+            setTimeout(() => {
+                loadScript('Home.c1dmp.js', function() {
+                    const loadingIndicator = document.getElementById('loadingIndicator');
+                    if (loadingIndicator) {
+                        loadingIndicator.style.display = 'none';
+                    }
+                });
+            }, 100);
+        }
+    </script>
 </body>
 </html> 
