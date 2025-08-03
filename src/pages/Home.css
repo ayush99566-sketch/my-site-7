@@ -784,250 +784,347 @@ img {
     }
 } 
 
-/* Premium Scroll Optimizations for Buttery Smooth Experience */
+/* Ultra-Optimized Scroll Performance for Top-Tier Buttery Smooth Experience */
 
-/* Enable smooth scrolling for the entire page */
+/* Ultra-optimized smooth scrolling */
 html {
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+    /* Ultra-performance optimizations */
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
 }
 
 body {
-    /* Premium scroll optimizations */
+    /* Ultra-optimized scroll performance */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    text-rendering: optimizeSpeed;
     font-feature-settings: "kern" 1;
     font-kerning: normal;
     
-    /* Hardware acceleration for smooth scrolling */
+    /* Ultra hardware acceleration */
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
+    transform-style: preserve-3d;
     
-    /* Prevent scroll chaining on mobile */
+    /* Ultra scroll optimizations */
     overscroll-behavior: contain;
+    scroll-behavior: smooth;
     
-    /* Smooth transitions */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Ultra performance */
+    will-change: scroll-position;
+    contain: layout style paint;
+    
+    /* Ultra smooth transitions */
+    transition: none; /* Disable global transitions for better performance */
 }
 
-/* Premium navigation with hardware acceleration */
+/* Ultra-optimized navigation with minimal processing */
 .nav-section {
-    /* Hardware acceleration for smooth nav updates */
+    /* Ultra hardware acceleration */
     transform: translate3d(0, 0, 0);
     will-change: transform, background-color, box-shadow;
     backface-visibility: hidden;
-    
-    /* Premium shadow transition */
-    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Prevent layout shifts */
     contain: layout style paint;
+    
+    /* Ultra-optimized transitions */
+    transition: background-color 0.1s linear, box-shadow 0.1s linear;
+    
+    /* Ultra performance */
+    isolation: isolate;
+    z-index: 1000;
 }
 
-/* Premium hero section with parallax */
+/* Ultra-optimized hero section */
 .hero-section {
-    /* Hardware acceleration for parallax */
+    /* Ultra hardware acceleration */
     transform: translate3d(0, 0, 0);
     will-change: transform;
     backface-visibility: hidden;
-    
-    /* Smooth parallax transition */
-    transition: transform 0.1s linear;
-    
-    /* Prevent layout shifts */
     contain: layout style paint;
+    
+    /* Ultra-optimized parallax */
+    transition: transform 0.05s linear;
+    
+    /* Ultra performance */
+    isolation: isolate;
 }
 
-/* Premium content cards with smooth animations */
+/* Ultra-optimized content cards */
 .content-card {
-    /* Hardware acceleration for smooth hover effects */
+    /* Ultra hardware acceleration */
     transform: translate3d(0, 0, 0);
     will-change: transform, box-shadow;
     backface-visibility: hidden;
-    
-    /* Premium hover transition */
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Prevent layout shifts */
     contain: layout style paint;
+    
+    /* Ultra-optimized hover */
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    /* Ultra performance */
+    isolation: isolate;
 }
 
 .content-card:hover {
-    /* Premium hover effect with smooth transform */
-    transform: translate3d(0, -8px, 0);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    /* Ultra smooth hover effect */
+    transform: translate3d(0, -6px, 0);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
 }
 
-/* Premium buttons with smooth interactions */
+/* Ultra-optimized buttons */
 .btn {
-    /* Hardware acceleration for button animations */
+    /* Ultra hardware acceleration */
     transform: translate3d(0, 0, 0);
     will-change: transform, background-color, box-shadow;
     backface-visibility: hidden;
-    
-    /* Premium button transitions */
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Prevent layout shifts */
     contain: layout style paint;
+    
+    /* Ultra-optimized transitions */
+    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                background-color 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    /* Ultra performance */
+    isolation: isolate;
+    touch-action: manipulation;
 }
 
 .btn:hover {
-    /* Premium hover effect */
-    transform: translate3d(0, -2px, 0);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    /* Ultra smooth hover */
+    transform: translate3d(0, -1px, 0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
 }
 
 .btn:active {
-    /* Premium active state */
+    /* Ultra responsive active state */
     transform: translate3d(0, 0, 0);
-    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.05s linear;
 }
 
-/* Premium mobile menu with smooth animations */
+/* Ultra-optimized mobile menu */
 .nav-menu {
-    /* Hardware acceleration for menu animations */
+    /* Ultra hardware acceleration */
     transform: translate3d(0, 0, 0);
     will-change: transform, opacity;
     backface-visibility: hidden;
-    
-    /* Premium menu transition */
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Prevent layout shifts */
     contain: layout style paint;
+    
+    /* Ultra-optimized transitions */
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    /* Ultra performance */
+    isolation: isolate;
 }
 
 .nav-menu.active {
-    /* Premium active menu state */
+    /* Ultra smooth active state */
     transform: translate3d(0, 0, 0);
     opacity: 1;
 }
 
-/* Premium hamburger menu with smooth animations */
+/* Ultra-optimized hamburger menu */
 .nav-menu-toggle {
-    /* Hardware acceleration for hamburger animation */
+    /* Ultra hardware acceleration */
     transform: translate3d(0, 0, 0);
     will-change: transform;
     backface-visibility: hidden;
-    
-    /* Premium hamburger transition */
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Prevent layout shifts */
     contain: layout style paint;
+    
+    /* Ultra-optimized transitions */
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    /* Ultra performance */
+    isolation: isolate;
+    touch-action: manipulation;
 }
 
 .hamburger-line {
-    /* Hardware acceleration for line animations */
+    /* Ultra hardware acceleration */
     transform: translate3d(0, 0, 0);
     will-change: transform;
     backface-visibility: hidden;
-    
-    /* Premium line transition */
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Prevent layout shifts */
     contain: layout style paint;
+    
+    /* Ultra-optimized transitions */
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    /* Ultra performance */
+    isolation: isolate;
 }
 
-/* Premium scroll performance optimizations */
+/* Ultra scroll performance optimizations */
 * {
-    /* Optimize for smooth scrolling */
+    /* Ultra box model */
     box-sizing: border-box;
     
-    /* Prevent layout shifts during scroll */
+    /* Ultra layout containment */
     contain: layout style paint;
+    
+    /* Ultra performance */
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* Premium image optimizations */
+/* Ultra-optimized images */
 img {
-    /* Hardware acceleration for images */
+    /* Ultra hardware acceleration */
     transform: translate3d(0, 0, 0);
     will-change: auto;
     backface-visibility: hidden;
-    
-    /* Prevent layout shifts */
     contain: layout style paint;
     
-    /* Optimize image rendering */
+    /* Ultra image rendering */
     image-rendering: optimizeSpeed;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: -moz-crisp-edges;
     image-rendering: -o-crisp-edges;
     image-rendering: pixelated;
+    
+    /* Ultra performance */
+    max-width: 100%;
+    height: auto;
 }
 
-/* Premium mobile optimizations */
+/* Ultra mobile optimizations */
 @media (max-width: 768px) {
-    /* Enhanced mobile scroll performance */
+    /* Ultra mobile scroll performance */
     body {
-        /* Optimize mobile scrolling */
         -webkit-overflow-scrolling: touch;
         overscroll-behavior: contain;
-        
-        /* Prevent zoom on input focus */
         touch-action: manipulation;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
     
-    /* Premium mobile button interactions */
+    /* Ultra mobile button interactions */
     .btn:active {
-        /* Enhanced mobile touch feedback */
         transform: translate3d(0, 1px, 0);
-        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.05s linear;
     }
     
-    /* Premium mobile card interactions */
+    /* Ultra mobile card interactions */
     .content-card:active {
-        /* Enhanced mobile touch feedback */
-        transform: translate3d(0, -4px, 0);
-        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translate3d(0, -3px, 0);
+        transition: transform 0.05s linear;
+    }
+    
+    /* Ultra mobile menu optimizations */
+    .nav-menu {
+        /* Ultra mobile menu performance */
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
     }
 }
 
-/* Premium scroll momentum for iOS */
+/* Ultra scroll momentum for iOS */
 @supports (-webkit-overflow-scrolling: touch) {
     body {
-        /* Enable momentum scrolling on iOS */
         -webkit-overflow-scrolling: touch;
     }
-}
-
-/* Premium scroll performance for high-refresh displays */
-@media (min-resolution: 2dppx) {
-    /* Optimize for high-DPI displays */
+    
+    /* Ultra iOS optimizations */
     .nav-section,
     .hero-section,
     .content-card,
     .btn {
-        /* Enhanced performance for high-refresh displays */
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-backface-visibility: hidden;
+        -webkit-perspective: 1000px;
+    }
+}
+
+/* Ultra performance for high-refresh displays */
+@media (min-resolution: 2dppx) {
+    /* Ultra high-DPI optimizations */
+    .nav-section,
+    .hero-section,
+    .content-card,
+    .btn {
         will-change: transform, background-color, box-shadow;
     }
 }
 
-/* Premium scroll performance for reduced motion */
+/* Ultra performance for reduced motion */
 @media (prefers-reduced-motion: reduce) {
-    /* Respect user's motion preferences */
+    /* Ultra reduced motion optimizations */
     *,
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
     
-    /* Disable parallax for users who prefer reduced motion */
+    /* Ultra disable parallax for reduced motion */
     .hero-section {
         transform: none !important;
         transition: none !important;
+    }
+}
+
+/* Ultra performance for low-end devices */
+@media (max-width: 480px) {
+    /* Ultra low-end device optimizations */
+    .content-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .btn:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* Ultra disable complex animations on low-end devices */
+    .hero-section {
+        transition: none;
+    }
+}
+
+/* Ultra performance for battery saving */
+@media (prefers-reduced-data: reduce) {
+    /* Ultra data saving optimizations */
+    .hero-section {
+        transition: none;
+    }
+    
+    .content-card,
+    .btn {
+        transition: none;
+    }
+}
+
+/* Ultra scroll performance for gaming mice */
+@media (pointer: fine) {
+    /* Ultra precision pointer optimizations */
+    .btn:hover {
+        transform: translate3d(0, -2px, 0);
+    }
+    
+    .content-card:hover {
+        transform: translate3d(0, -8px, 0);
+    }
+}
+
+/* Ultra performance for touch devices */
+@media (pointer: coarse) {
+    /* Ultra touch device optimizations */
+    .btn:active {
+        transform: translate3d(0, 1px, 0);
+    }
+    
+    .content-card:active {
+        transform: translate3d(0, -4px, 0);
     }
 } 
