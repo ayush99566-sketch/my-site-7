@@ -40,27 +40,34 @@
         }
     }
     
-    // Smooth scroll handler with throttling
+    // OPTIMIZED scroll handler - Simplified for smooth scrolling
     let scrollTimeout;
+    let lastScrollY = 0;
     function handleScroll() {
         if (scrollTimeout) return;
         
         scrollTimeout = setTimeout(() => {
+            const scrollY = window.scrollY;
             const nav = getElement('#navigation');
+            
             if (nav) {
-                const scrollY = window.scrollY;
-                const opacity = Math.min(scrollY / 100, 1);
-                nav.style.backgroundColor = `rgba(255, 255, 255, ${opacity * 0.95})`;
-                
-                // Add shadow when scrolled
-                if (scrollY > 10) {
-                    nav.style.boxShadow = `0 4px 20px rgba(0, 0, 0, ${Math.min(scrollY / 200, 0.15)})`;
-            } else {
-                    nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                // Only update nav if scroll position changed significantly
+                if (Math.abs(scrollY - lastScrollY) > 5) {
+                    const opacity = Math.min(scrollY / 100, 1);
+                    nav.style.backgroundColor = `rgba(255, 255, 255, ${opacity * 0.95})`;
+                    
+                    // Simplified shadow update
+                    if (scrollY > 10) {
+                        nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
+                    } else {
+                        nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                    }
+                    
+                    lastScrollY = scrollY;
                 }
             }
             scrollTimeout = null;
-        }, 16); // 60fps
+        }, 32); // Reduced frequency for smoother performance
     }
     
     // Smooth scroll to element
@@ -93,12 +100,12 @@
                     smoothScroll(href);
                 }
                 if (state.isMenuOpen) {
-                        toggleMenu();
-                    }
-                });
+                    toggleMenu();
+                }
             });
+        });
         
-        // Initialize scroll handler
+        // OPTIMIZED scroll handler - Passive listener for smooth scrolling
         window.addEventListener('scroll', handleScroll, { passive: true });
         
         // Initialize resize handler
@@ -162,34 +169,14 @@
             }
         });
         
-        // Initialize content card animations
-        const cards = document.querySelectorAll('.content-card');
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const cardObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-        
-        cards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            cardObserver.observe(card);
-        });
+        // REMOVED heavy content card animations that cause scroll lag
+        // Cards will now render normally without intersection observer
         
         // Mark as loaded
         state.isLoaded = true;
         document.body.classList.add('loaded');
         
-        console.log('Smooth performance initialization complete');
+        console.log('Optimized smooth performance initialization complete');
     }
     
     // Wait for loading screen to complete

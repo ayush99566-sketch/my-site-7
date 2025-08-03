@@ -168,7 +168,7 @@ body {
         transform: translateY(30px);
     }
     to {
-    opacity: 1;
+        opacity: 1;
         transform: translateY(0);
     }
 }
@@ -227,11 +227,14 @@ body {
     transform: translateY(-2px);
 }
 
-/* Smooth content section */
+/* OPTIMIZED content section - Reduced animations for smooth scrolling */
 .content-section {
     padding: 4rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    /* Optimize for smooth scrolling */
+    will-change: auto;
+    contain: layout style paint;
 }
 
 .content-section h2 {
@@ -252,55 +255,42 @@ body {
     height: 3px;
     background: linear-gradient(90deg, #667eea, #764ba2);
     border-radius: 2px;
-    }
-    
-    .content-grid {
+}
+
+.content-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-    }
-    
-    .content-card {
+    gap: 2rem;
+    /* Optimize for smooth scrolling */
+    contain: layout style paint;
+}
+
+/* OPTIMIZED content cards - Simplified for smooth scrolling */
+.content-card {
     background: white;
-        padding: 2rem;
+    padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    /* Simplified transitions for smooth scrolling */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* Optimize for smooth scrolling */
+    will-change: auto;
+    contain: layout style paint;
+    /* Remove heavy pseudo-elements that cause lag */
 }
 
-.content-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-}
-
-.content-card:hover::before {
-    transform: scaleX(1);
-}
-
+/* Simplified hover effect for smooth scrolling */
 .content-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .content-card h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: #667eea;
-    transition: color 0.3s ease;
-}
-
-.content-card:hover h3 {
-    color: #5a6fd8;
+    /* Remove transition to prevent lag */
 }
 
 .content-card p {
@@ -308,24 +298,22 @@ body {
     line-height: 1.6;
 }
 
-/* Smooth footer */
-    .footer-section {
+/* OPTIMIZED footer - Simplified for smooth scrolling */
+.footer-section {
     background: #333;
     color: white;
     text-align: center;
     padding: 2rem;
     margin-top: 2rem;
     position: relative;
+    /* Optimize for smooth scrolling */
+    will-change: auto;
+    contain: layout style paint;
 }
 
+/* Remove heavy pseudo-element that causes lag */
 .footer-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    display: none;
 }
 
 /* Smooth mobile menu */
