@@ -169,8 +169,8 @@ $w.onReady(function () {
                     return;
                 }
                 
-                // Mobile-optimized navigation update
-                if (elements.nav) {
+                // Mobile-optimized navigation update - only update if significant change
+                if (elements.nav && Math.abs(currentScrollY - mobileState.lastProcessedScrollY) > 20) {
                     const navOpacity = Math.min(currentScrollY / 100, 1);
                     elements.nav.style.backgroundColor = `rgba(255, 255, 255, ${navOpacity * 0.98})`;
                     
@@ -187,7 +187,7 @@ $w.onReady(function () {
                 lastScrollY = currentScrollY;
                 scrollRAF = null;
             });
-        }, mobileState.isMobile ? 100 : 50); // Slower throttle on mobile
+        }, mobileState.isMobile ? 150 : 100); // Increased throttle for better performance
     };
     
     // Mobile-optimized page initialization
@@ -290,6 +290,7 @@ $w.onReady(function () {
     const initMobileEvents = () => {
         // Optimized scroll listener for mobile
         let isScrolling = false;
+        let scrollThrottleTime = mobileState.isMobile ? 200 : 150; // Increased throttle for desktop
         
         const throttledScrollHandler = () => {
             if (!isScrolling) {
@@ -298,10 +299,11 @@ $w.onReady(function () {
                 
                 setTimeout(() => {
                     isScrolling = false;
-                }, mobileState.isMobile ? 150 : 100);
+                }, scrollThrottleTime);
             }
         };
         
+        // Use passive scroll listener for better performance
         window.addEventListener('scroll', throttledScrollHandler, { passive: true });
         
         // Mobile-optimized resize handler
@@ -311,6 +313,7 @@ $w.onReady(function () {
             resizeTimeout = setTimeout(() => {
                 // Update mobile state
                 mobileState.isMobile = window.innerWidth < 768;
+                scrollThrottleTime = mobileState.isMobile ? 200 : 150; // Update throttle time
                 
                 // Update navigation
                 if (elements.nav) {
@@ -335,6 +338,7 @@ $w.onReady(function () {
             setTimeout(() => {
                 // Recalculate mobile state
                 mobileState.isMobile = window.innerWidth < 768;
+                scrollThrottleTime = mobileState.isMobile ? 200 : 150; // Update throttle time
                 
                 // Update viewport if needed
                 if (mobileState.isMobile) {
@@ -348,27 +352,48 @@ $w.onReady(function () {
     
     // Mobile performance monitoring
     const initMobilePerformanceMonitoring = () => {
+        // Only run performance monitoring in development and limit its impact
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             let frameCount = 0;
             let lastTime = performance.now();
+            let monitoringActive = false;
             
             const monitorFPS = () => {
+                if (!monitoringActive) return;
+                
                 frameCount++;
                 const currentTime = performance.now();
                 
                 if (currentTime - lastTime >= 1000) {
                     const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
-                    if (fps < 50) {
-                        console.warn(`Mobile performance warning: ${fps} FPS - Consider optimizing`);
+                    if (fps < 30) {
+                        console.warn(`Performance warning: ${fps} FPS - Consider optimizing`);
                     }
                     frameCount = 0;
                     lastTime = currentTime;
                 }
                 
-                requestAnimationFrame(monitorFPS);
+                // Only continue monitoring for a limited time to prevent infinite loops
+                if (currentTime - lastTime < 5000) { // Stop after 5 seconds
+                    requestAnimationFrame(monitorFPS);
+                } else {
+                    monitoringActive = false;
+                }
             };
             
-            requestAnimationFrame(monitorFPS);
+            // Start monitoring only when needed
+            const startMonitoring = () => {
+                if (!monitoringActive) {
+                    monitoringActive = true;
+                    frameCount = 0;
+                    lastTime = performance.now();
+                    requestAnimationFrame(monitorFPS);
+                }
+            };
+            
+            // Start monitoring on user interaction to avoid blocking initial load
+            document.addEventListener('click', startMonitoring, { once: true });
+            document.addEventListener('scroll', startMonitoring, { once: true });
         }
     };
     
@@ -418,12 +443,28 @@ $w.onReady(function () {
     const cleanup = () => {
         if (scrollRAF) {
             cancelAnimationFrame(scrollRAF);
+            scrollRAF = null;
         }
         if (scrollTimeout) {
             clearTimeout(scrollTimeout);
+            scrollTimeout = null;
         }
+        
+        // Clear element cache
         elementCache.clear();
+        
+        // Reset body overflow
         document.body.style.overflow = '';
+        
+        // Remove mobile device class
+        document.body.classList.remove('mobile-device');
+        
+        // Reset mobile state
+        mobileState.isScrolling = false;
+        mobileState.isMenuOpen = false;
+        mobileState.activeAnimations = 0;
+        
+        console.log('Mobile homepage cleanup completed');
     };
     
     // Initialize everything with mobile-first approach
