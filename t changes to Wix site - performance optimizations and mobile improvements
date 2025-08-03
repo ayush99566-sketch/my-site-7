@@ -1,0 +1,21 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/Home.css', LF will be replaced by CRLF the next time Git touches it
+.gitignore
+DEPLOYMENT_GUIDE.md
+DESKTOP_OPTIMIZATION.md
+README.md
+WIX_PRELOAD_FIX.md
+cpu-monitor.html
+index.html
+netlify.toml
+performance-comparison.html
+preload-monitor.js
+src/pages/Home-optimized.css
+src/pages/Home-optimized.js
+src/pages/Home.css
+src/pages/index-optimized.html
+src/pages/lightweight-desktop.html
+src/pages/standalone-desktop.html
+test-performance.html
+wix-content-extractor.html
