@@ -6,9 +6,8 @@
     <meta name="theme-color" content="#ff0000">
     <title>TRYB Studios - Creative Community</title>
     
-    <!-- Advanced CSS with animations and effects -->
+    <!-- Exact TRYB Studios CSS -->
     <style>
-        /* Reset with performance optimizations */
         * {
             margin: 0;
             padding: 0;
@@ -21,10 +20,9 @@
             color: #ffffff;
             background: #000000;
             overflow-x: hidden;
-            perspective: 1000px;
         }
         
-        /* Advanced Navigation with animations */
+        /* Navigation */
         .nav {
             position: fixed;
             top: 0;
@@ -33,15 +31,8 @@
             z-index: 1000;
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 0, 0, 0.3);
             padding: 1rem 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .nav.scrolled {
-            background: rgba(0, 0, 0, 0.98);
-            border-bottom-color: #ff0000;
-            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.1);
+            transition: all 0.4s ease;
         }
         
         .nav-container {
@@ -57,23 +48,6 @@
             font-weight: 700;
             color: #ffffff;
             text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-logo::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.3), transparent);
-            transition: left 0.6s ease;
-        }
-        
-        .nav-logo:hover::before {
-            left: 100%;
         }
         
         .nav-menu {
@@ -87,78 +61,64 @@
             text-decoration: none;
             font-weight: 500;
             padding: 0.5rem 1rem;
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: #ff0000;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(-50%);
+            transition: color 0.3s ease;
         }
         
         .nav-link:hover {
             color: #ff0000;
-            transform: translateY(-2px);
         }
         
-        .nav-link:hover::before {
-            width: 100%;
+        /* RGB Color Blocks */
+        .rgb-section {
+            display: flex;
+            height: 100vh;
         }
         
-        /* Advanced Hero Section with parallax and gradients */
+        .rgb-block {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -3px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .rgb-block.r {
+            background: #ff0000;
+            color: #ffffff;
+        }
+        
+        .rgb-block.g {
+            background: #00ff00;
+            color: #000000;
+        }
+        
+        .rgb-block.b {
+            background: #0000ff;
+            color: #ffffff;
+        }
+        
+        .rgb-block:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #000000 0%, #1a0000 50%, #000000 100%);
+            background: #000000;
             color: white;
             text-align: center;
             padding: 2rem;
-            padding-top: 80px;
             position: relative;
             overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 70%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-        
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 0, 0, 0.05) 50%, transparent 70%);
-            animation: shimmer 6s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
         }
         
         .hero-content {
@@ -168,379 +128,252 @@
         }
         
         .hero-title {
-            font-size: 4rem;
+            font-size: 6rem;
             font-weight: 900;
             margin-bottom: 1rem;
             line-height: 1.1;
             text-transform: uppercase;
-            letter-spacing: -2px;
-            background: linear-gradient(45deg, #ffffff, #ff0000, #ffffff);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 3s ease-in-out infinite;
-        }
-        
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            letter-spacing: -3px;
+            color: #ffffff;
         }
         
         .hero-subtitle {
-            font-size: 1.5rem;
+            font-size: 2rem;
             margin-bottom: 2rem;
-            opacity: 0.8;
             font-weight: 300;
-            transform: translateY(30px);
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.5s forwards;
+            color: #cccccc;
         }
         
-        .hero-subtitle:nth-child(3) {
-            animation-delay: 0.8s;
+        .hero-description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            color: #999999;
         }
         
-        @keyframes fadeInUp {
-            to {
-                transform: translateY(0);
-                opacity: 0.8;
-            }
-        }
-        
-        .hero-highlight {
-            color: #ff0000;
-            font-weight: 700;
-        }
-        
-        /* Advanced TRYB Branding with 3D effects */
-        .tryb-brand {
-            font-size: 6rem;
-            font-weight: 900;
-            color: #ff0000;
-            text-transform: uppercase;
-            letter-spacing: -3px;
-            margin: 2rem 0;
+        /* Image Sections */
+        .image-section {
             position: relative;
-            transform-style: preserve-3d;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .tryb-brand::before {
-            content: 'TRYB';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            color: rgba(255, 0, 0, 0.3);
-            z-index: -1;
-        }
-        
-        .tryb-brand::after {
-            content: 'TRYB';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            color: rgba(255, 255, 255, 0.1);
-            z-index: -2;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotateX(0deg); }
-            50% { transform: translateY(-10px) rotateX(5deg); }
-        }
-        
-        /* Advanced Buttons with hover effects */
-        .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            border: 2px solid #ff0000;
-            border-radius: 0;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            margin: 0.5rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
+            height: 100vh;
             overflow: hidden;
-            background: transparent;
         }
         
-        .btn::before {
-            content: '';
+        .image-bg {
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s ease;
+            background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .btn:hover::before {
-            left: 100%;
-        }
-        
-        .btn-primary {
-            background: #ff0000;
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
-        }
-        
-        .btn-primary:hover {
-            background: #cc0000;
-            border-color: #cc0000;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: #ff0000;
-        }
-        
-        .btn-secondary:hover {
-            background: #ff0000;
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
-        }
-        
-        /* Advanced Content Sections with parallax */
-        .content {
-            padding: 6rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+        .image-placeholder {
+            width: 80%;
+            height: 80%;
+            background: linear-gradient(135deg, #333333, #444444);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #ffffff;
             position: relative;
         }
         
-        .content h2 {
+        .image-overlay {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+        
+        .image-overlay h2 {
             font-size: 3rem;
-            margin-bottom: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        
+        .image-overlay p {
+            font-size: 1.2rem;
+            color: #cccccc;
+            line-height: 1.6;
+        }
+        
+        /* Text Sections */
+        .text-section {
+            padding: 8rem 2rem;
+            background: #111111;
             text-align: center;
+        }
+        
+        .text-section h2 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
             color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: -1px;
-            position: relative;
+            letter-spacing: -2px;
         }
         
-        .content h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            width: 60px;
-            height: 3px;
-            background: #ff0000;
-            transform: translateX(-50%);
+        .text-section p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: #cccccc;
         }
         
-        .grid {
+        /* Services Grid */
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            background: #000000;
         }
         
-        /* Advanced Cards with 3D effects */
-        .card {
-            background: linear-gradient(145deg, #111111, #1a1a1a);
+        .service-card {
+            background: #111111;
             padding: 3rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
             border: 1px solid #333;
-            position: relative;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #ff0000, #ff4444, #ff0000);
-            background-size: 200% 100%;
-            animation: gradientMove 2s ease-in-out infinite;
-        }
-        
-        @keyframes gradientMove {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        .card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 0, 0, 0.05) 50%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .card:hover {
+        .service-card:hover {
+            transform: translateY(-10px);
             border-color: #ff0000;
-            transform: translateY(-10px) rotateX(5deg);
             box-shadow: 0 20px 40px rgba(255, 0, 0, 0.2);
         }
         
-        .card:hover::after {
-            opacity: 1;
+        .service-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ff0000;
+            text-transform: uppercase;
         }
         
-        .card h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
+        .service-card p {
+            font-size: 1.1rem;
+            color: #cccccc;
+            line-height: 1.6;
+        }
+        
+        /* Large Typography Sections */
+        .large-text {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: #000000;
+        }
+        
+        .large-text h1 {
+            font-size: 8rem;
+            font-weight: 900;
+            color: #ff0000;
+            text-transform: uppercase;
+            letter-spacing: -4px;
+            margin-bottom: 2rem;
+        }
+        
+        .large-text h2 {
+            font-size: 3rem;
+            font-weight: 700;
             color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: -1px;
-            position: relative;
-        }
-        
-        .card p {
-            color: #cccccc;
-            line-height: 1.8;
-            font-size: 1.1rem;
-        }
-        
-        .card-highlight {
-            color: #ff0000;
-            font-weight: 700;
-        }
-        
-        /* Advanced Services Section */
-        .services {
-            background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
-            padding: 6rem 2rem;
-            position: relative;
-        }
-        
-        .services::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%);
-        }
-        
-        .service-item {
-            text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .service-title {
-            font-size: 2.5rem;
-            color: #ff0000;
-            text-transform: uppercase;
-            letter-spacing: -1px;
             margin-bottom: 1rem;
-            position: relative;
-            overflow: hidden;
         }
         
-        .service-title::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: #ff0000;
-            transition: left 0.6s ease;
-        }
-        
-        .service-item:hover .service-title::before {
-            left: 0;
-        }
-        
-        .service-description {
-            font-size: 1.2rem;
+        .large-text p {
+            font-size: 1.3rem;
             color: #cccccc;
             max-width: 600px;
             margin: 0 auto;
-            line-height: 1.8;
         }
         
-        /* Advanced Contact Section */
+        /* Contact Section */
         .contact {
-            background: linear-gradient(135deg, #000000 0%, #1a0000 100%);
             padding: 6rem 2rem;
+            background: #111111;
             text-align: center;
-            position: relative;
         }
         
-        .contact::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 80% 20%, rgba(255, 0, 0, 0.1) 0%, transparent 50%);
+        .contact h2 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #ffffff;
+            text-transform: uppercase;
         }
         
         .contact-info {
-            font-size: 1.5rem;
+            font-size: 2rem;
             margin-bottom: 2rem;
-            position: relative;
-            z-index: 2;
+        }
+        
+        .contact-phone {
+            color: #ffffff;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 1rem;
         }
         
         .contact-email {
             color: #ff0000;
             text-decoration: none;
             font-weight: 600;
-            position: relative;
-            transition: all 0.3s ease;
+            font-size: 1.5rem;
         }
         
-        .contact-email::before {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+        
+        .contact-cta {
+            margin-top: 3rem;
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            padding: 1.5rem 3rem;
             background: #ff0000;
-            transition: width 0.3s ease;
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
         }
         
-        .contact-email:hover::before {
-            width: 100%;
+        .cta-btn:hover {
+            background: #cc0000;
+            transform: translateY(-3px);
         }
         
-        .contact-phone {
-            color: #ffffff;
+        .cta-text {
+            font-size: 1.2rem;
+            color: #ff0000;
             font-weight: 600;
         }
         
-        /* Advanced Footer */
+        /* Footer */
         .footer {
-            background: linear-gradient(135deg, #000000 0%, #1a0000 100%);
+            background: #000000;
             padding: 3rem 2rem;
             text-align: center;
             color: #666;
             border-top: 1px solid #333;
-            position: relative;
-        }
-        
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #ff0000, transparent);
         }
         
         .footer-brand {
@@ -548,27 +381,14 @@
             color: #ff0000;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: -1px;
             margin-bottom: 1rem;
-            position: relative;
         }
         
-        .footer-brand::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -20px;
-            right: -20px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #ff0000, transparent);
-            transform: translateY(-50%);
-        }
-        
-        /* Advanced Animations */
+        /* Animations */
         .fade-in {
             opacity: 0;
             transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.8s ease;
         }
         
         .fade-in.visible {
@@ -579,7 +399,7 @@
         .slide-in-left {
             opacity: 0;
             transform: translateX(-100px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.8s ease;
         }
         
         .slide-in-left.visible {
@@ -590,7 +410,7 @@
         .slide-in-right {
             opacity: 0;
             transform: translateX(100px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.8s ease;
         }
         
         .slide-in-right.visible {
@@ -598,103 +418,42 @@
             transform: translateX(0);
         }
         
-        .scale-in {
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .scale-in.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        /* Performance optimizations */
-        .card, .btn, .nav-link {
-            will-change: transform;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .rgb-section {
+                flex-direction: column;
+            }
+            
+            .rgb-block {
+                font-size: 4rem;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .large-text h1 {
+                font-size: 4rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
         }
-        
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
-            
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .tryb-brand {
-                font-size: 3rem;
-            }
-            
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .content h2 {
-                font-size: 2rem;
-            }
-        }
-        
-        /* Advanced scroll-triggered animations */
-        .parallax {
-            transform: translateZ(0);
-            will-change: transform;
-        }
-        
-        /* Glitch effect for special elements */
-        .glitch {
-            position: relative;
-        }
-        
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .glitch::before {
-            animation: glitch-1 2s infinite linear alternate-reverse;
-            color: #ff0000;
-            z-index: -1;
-        }
-        
-        .glitch::after {
-            animation: glitch-2 3s infinite linear alternate-reverse;
-            color: #00ff00;
-            z-index: -2;
-        }
-        
-        @keyframes glitch-1 {
-            0%, 100% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-        }
-        
-        @keyframes glitch-2 {
-            0%, 100% { transform: translate(0); }
-            20% { transform: translate(2px, -2px); }
-            40% { transform: translate(2px, 2px); }
-            60% { transform: translate(-2px, -2px); }
-            80% { transform: translate(-2px, 2px); }
-        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="nav" id="nav">
+    <nav class="nav">
         <div class="nav-container">
             <a href="#" class="nav-logo">TRYB STUDIOS</a>
             <ul class="nav-menu">
@@ -706,90 +465,106 @@
         </div>
     </nav>
 
+    <!-- RGB Color Blocks -->
+    <section class="rgb-section">
+        <div class="rgb-block r">R</div>
+        <div class="rgb-block g">G</div>
+        <div class="rgb-block b">B</div>
+    </section>
+
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <div class="tryb-brand glitch" data-text="TRYB">TRYB</div>
             <h1 class="hero-title">WE DON'T JUST SEE YOUR VISION</h1>
             <p class="hero-subtitle">WE BRING IT TO LIFE.</p>
-            <p class="hero-subtitle">A FULL SERVICE CREATIVE COMMUNITY COMMITTED TO THE HUSTLE OF TELLING A STORY LIKE NO ONE HAS BEFORE</p>
-            <div class="btn-container">
-                <a href="#services" class="btn btn-primary">Our Services</a>
-                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            <p class="hero-description">A FULL SERVICE CREATIVE COMMUNITY COMMITTED TO THE HUSTLE OF TELLING A STORY LIKE NO ONE HAS BEFORE</p>
+        </div>
+    </section>
+
+    <!-- Image Section 1 -->
+    <section class="image-section">
+        <div class="image-bg">
+            <div class="image-placeholder">
+                STUDIOS
             </div>
         </div>
     </section>
 
+    <!-- Text Section -->
+    <section class="text-section">
+        <h2 class="fade-in">FUNCTIONING HIGH</h2>
+        <p class="fade-in">HOME TO CREATORS & STORYTELLERS</p>
+    </section>
+
+    <!-- Large TRYB Section -->
+    <section class="large-text">
+        <h1 class="fade-in">TRYB</h1>
+        <p class="fade-in">Websites that aren't built to impress everyone. They are built to feel right for you so that your story is told like never before.</p>
+    </section>
+
     <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="content">
-            <h2 class="fade-in">Creative Services</h2>
-            
-            <div class="service-item slide-in-left">
-                <h3 class="service-title">3D Product Visualization</h3>
-                <p class="service-description">Visual storytelling with lifelike precision that reflects your brand's essence — no studio or inventory needed. From packaging to patios, we craft hyper-real 3D visuals that help you sell, pitch, or preview — without ever lifting a camera.</p>
+    <section class="services-grid" id="services">
+        <div class="service-card slide-in-left">
+            <h3>3D Product Visualization</h3>
+            <p>Visual storytelling with lifelike precision that reflects your brand's essence — no studio or inventory needed. From packaging to patios, we craft hyper-real 3D visuals that help you sell, pitch, or preview — without ever lifting a camera.</p>
+        </div>
+        
+        <div class="service-card slide-in-right">
+            <h3>Advertising</h3>
+            <p>IMMERSIVE EXPERIENCE HIGH IMPACT</p>
+        </div>
+        
+        <div class="service-card slide-in-left">
+            <h3>Website Design</h3>
+            <p>Crafting personalised websites that stand out with meaningful digital experiences that make a difference.</p>
+        </div>
+        
+        <div class="service-card slide-in-right">
+            <h3>Digital Identity</h3>
+            <p>Digital identities that feel natural, look effortless, and leave a lasting impression. We craft striking digital identities that dominate the feed and spark conversations.</p>
+        </div>
+        
+        <div class="service-card slide-in-left">
+            <h3>Branding</h3>
+            <p>We create websites that mean something, make you feel something. An experience, and a story told like never before.</p>
+        </div>
+        
+        <div class="service-card slide-in-right">
+            <h3>Creative Services</h3>
+            <p>EFFORTLESS SMOOTH CLEAN INTENTIONAL</p>
+        </div>
+    </section>
+
+    <!-- Image Section 2 -->
+    <section class="image-section">
+        <div class="image-bg">
+            <div class="image-placeholder">
+                BLOW UP MAIN FEED
             </div>
-            
-            <div class="service-item slide-in-right">
-                <h3 class="service-title">Advertising & Branding</h3>
-                <p class="service-description">With a strategic approach and a keen eye for detail, we help businesses connect with their audience. We create striking digital identities that dominate the feed, spark conversations, and turn first impressions into lasting obsession.</p>
-            </div>
-            
-            <div class="service-item slide-in-left">
-                <h3 class="service-title">Website Design</h3>
-                <p class="service-description">Websites that aren't built to impress everyone. They are built to feel right for you so that your story is told like never before. Crafting personalized websites that stand out with meaningful digital experiences that make a difference.</p>
-            </div>
-            
-            <div class="grid">
-                <div class="card scale-in">
-                    <h3>High Impact</h3>
-                    <p>Immersive experiences that leave lasting impressions and drive results for your brand.</p>
-                </div>
-                <div class="card scale-in">
-                    <h3>Effortless</h3>
-                    <p>Smooth, clean, and intentional design that feels natural and looks effortless.</p>
-                </div>
-                <div class="card scale-in">
-                    <h3>Storytelling</h3>
-                    <p>We create experiences that mean something, make you feel something, and tell stories like never before.</p>
-                </div>
+            <div class="image-overlay">
+                <h2>We craft striking digital identities that dominate the feed, spark conversations, and turn first impressions into lasting obsession.</h2>
             </div>
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section class="content" id="projects">
-        <h2 class="fade-in">Selected Projects</h2>
-        <p style="text-align: center; font-size: 1.2rem; color: #cccccc; margin-bottom: 3rem;" class="fade-in">UI, UX & 3D Design</p>
-        
-        <div class="grid">
-            <div class="card slide-in-left">
-                <h3>Digital Identity</h3>
-                <p>Digital identities that feel natural, look effortless, and leave a lasting impression. We craft striking digital identities that dominate the feed and spark conversations.</p>
-            </div>
-            <div class="card slide-in-right">
-                <h3>Brand Experience</h3>
-                <p>We create websites that mean something, make you feel something. An experience, and a story told like never before.</p>
-            </div>
-            <div class="card slide-in-left">
-                <h3>Creative Solutions</h3>
-                <p>From packaging to patios, we craft hyper-real 3D visuals that help you sell, pitch, or preview without ever lifting a camera.</p>
-            </div>
-        </div>
+    <section class="large-text" id="projects">
+        <h1 class="fade-in">TRYB</h1>
+        <h2 class="fade-in">SOME SELECTED</h2>
+        <p class="fade-in">UI, UX & 3D DESIGN</p>
     </section>
 
     <!-- Contact Section -->
     <section class="contact" id="contact">
-        <div class="content">
-            <h2 class="fade-in">Contact</h2>
-            <div class="contact-info fade-in">
-                <p><span class="contact-phone">+91 8126839679</span></p>
-                <p><a href="mailto:connect@trybstudios.com" class="contact-email">connect@trybstudios.com</a></p>
-            </div>
-            <div class="btn-container fade-in">
-                <a href="mailto:connect@trybstudios.com" class="btn btn-primary">GO AHEAD</a>
-                <p style="margin-top: 2rem; font-size: 1.2rem; color: #ff0000; font-weight: 600;">YOUR MOVE</p>
-            </div>
+        <h2 class="fade-in">CONTACT</h2>
+        <div class="contact-info fade-in">
+            <span class="contact-phone">+91 8126839679</span>
+            <br>
+            <a href="mailto:connect@trybstudios.com" class="contact-email">connect@trybstudios.com</a>
+        </div>
+        <div class="contact-cta fade-in">
+            <a href="mailto:connect@trybstudios.com" class="cta-btn">GO AHEAD</a>
+            <p class="cta-text">YOUR MOVE</p>
         </div>
     </section>
 
@@ -799,43 +574,23 @@
         <p>&copy; 2025 TRYB COLLECTIVE. All Rights Reserved.</p>
     </footer>
 
-    <!-- Advanced JavaScript with smooth animations -->
+    <!-- JavaScript -->
     <script>
-        // Advanced scroll-based navigation
-        let lastScrollY = 0;
-        let ticking = false;
-        
-        function updateNav() {
-            const nav = document.querySelector('.nav');
-            const scrollY = window.scrollY;
-            
-            if (Math.abs(scrollY - lastScrollY) > 10) {
-                if (scrollY > 50) {
-                    nav.classList.add('scrolled');
-                } else {
-                    nav.classList.remove('scrolled');
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
-                lastScrollY = scrollY;
-            }
-            
-            ticking = false;
-        }
+            });
+        });
         
-        function requestTick() {
-            if (!ticking) {
-                requestAnimationFrame(updateNav);
-                ticking = true;
-            }
-        }
-        
-        // Throttled scroll listener
-        let scrollTimeout;
-        window.addEventListener('scroll', () => {
-            if (scrollTimeout) clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(requestTick, 16);
-        }, { passive: true });
-        
-        // Advanced intersection observer for animations
+        // Intersection Observer for animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -850,108 +605,25 @@
         }, observerOptions);
         
         // Observe all animated elements
-        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in').forEach(el => {
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
             observer.observe(el);
         });
         
-        // Parallax effect for hero section
-        function parallaxEffect() {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            const rate = scrolled * -0.5;
-            
-            if (hero) {
-                hero.style.transform = `translateY(${rate}px)`;
-            }
-        }
-        
+        // Navigation scroll effect
         window.addEventListener('scroll', () => {
-            requestAnimationFrame(parallaxEffect);
-        }, { passive: true });
-        
-        // Smooth scroll with easing
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const targetPosition = target.offsetTop - 80;
-                    const startPosition = window.pageYOffset;
-                    const distance = targetPosition - startPosition;
-                    const duration = 1000;
-                    let start = null;
-                    
-                    function animation(currentTime) {
-                        if (start === null) start = currentTime;
-                        const timeElapsed = currentTime - start;
-                        const run = ease(timeElapsed, startPosition, distance, duration);
-                        window.scrollTo(0, run);
-                        if (timeElapsed < duration) requestAnimationFrame(animation);
-                    }
-                    
-                    function ease(t, b, c, d) {
-                        t /= d / 2;
-                        if (t < 1) return c / 2 * t * t + b;
-                        t--;
-                        return -c / 2 * (t * (t - 2) - 1) + b;
-                    }
-                    
-                    requestAnimationFrame(animation);
-                }
-            });
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(0, 0, 0, 0.98)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.95)';
+            }
         });
-        
-        // Advanced hover effects for cards
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) rotateX(5deg) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) rotateX(0) scale(1)';
-            });
-        });
-        
-        // Glitch effect trigger
-        function triggerGlitch() {
-            const glitchElements = document.querySelectorAll('.glitch');
-            glitchElements.forEach(element => {
-                element.style.animation = 'none';
-                setTimeout(() => {
-                    element.style.animation = '';
-                }, 100);
-            });
-        }
-        
-        // Trigger glitch effect periodically
-        setInterval(triggerGlitch, 5000);
         
         // Performance monitoring
         const startTime = performance.now();
         window.addEventListener('load', () => {
             const loadTime = performance.now() - startTime;
-            console.log(`TRYB Studios advanced page loaded in ${loadTime.toFixed(2)}ms`);
-        });
-        
-        // Memory usage monitoring
-        if (performance.memory) {
-            setInterval(() => {
-                const memoryMB = (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(2);
-                if (memoryMB > 50) {
-                    console.warn(`High memory usage: ${memoryMB}MB`);
-                }
-            }, 10000);
-        }
-        
-        // Initialize animations on page load
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.querySelectorAll('.fade-in').forEach(el => {
-                    if (el.getBoundingClientRect().top < window.innerHeight) {
-                        el.classList.add('visible');
-                    }
-                });
-            }, 100);
+            console.log(`TRYB Studios exact replica loaded in ${loadTime.toFixed(2)}ms`);
         });
     </script>
 </body>
