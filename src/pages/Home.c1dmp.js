@@ -55,7 +55,7 @@
                 // Add shadow when scrolled
                 if (scrollY > 10) {
                     nav.style.boxShadow = `0 4px 20px rgba(0, 0, 0, ${Math.min(scrollY / 200, 0.15)})`;
-                } else {
+            } else {
                     nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
                 }
             }
@@ -93,10 +93,10 @@
                     smoothScroll(href);
                 }
                 if (state.isMenuOpen) {
-                    toggleMenu();
-                }
+                        toggleMenu();
+                    }
+                });
             });
-        });
         
         // Initialize scroll handler
         window.addEventListener('scroll', handleScroll, { passive: true });
