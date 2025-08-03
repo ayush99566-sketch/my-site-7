@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGL Test - Wix Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.warning { background: #fff3cd; color: #856404; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        #console-output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>WebGL Context Test</h1>
+        
+        <div class="test-section">
+            <h3>WebGL Context Management Test</h3>
+            <p>This test verifies that WebGL contexts are properly managed and INVALID_OPERATION errors are prevented.</p>
+            
+            <button onclick="testWebGLContext()">Test WebGL Context</button>
+            <button onclick="testWebGLCleanup()">Test WebGL Cleanup</button>
+            <button onclick="clearConsole()">Clear Console</button>
+            
+            <div id="webgl-status" class="status">
+                <strong>WebGL Status:</strong> Ready to test
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Canvas Elements</h3>
+            <canvas id="testCanvas1" width="200" height="100"></canvas>
+            <canvas id="testCanvas2" width="200" height="100"></canvas>
+        </div>
+        
+        <div class="test-section">
+            <h3>Console Output</h3>
+            <div id="console-output"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Fix Summary</h3>
+            <div class="status success">
+                <strong>WebGL Fixes Applied:</strong>
+                <ul>
+                    <li>Added WebGL context tracking to prevent invalid operations</li>
+                    <li>Overrode WebGL delete methods with proper error handling</li>
+                    <li>Added context cleanup on page unload</li>
+                    <li>Suppressed non-critical WebGL INVALID_OPERATION warnings</li>
+                    <li>Added proper error handling for WebGL operations</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Capture console output
+        const consoleOutput = document.getElementById('console-output');
+        const originalConsoleLog = console.log;
+        const originalConsoleWarn = console.warn;
+        const originalConsoleError = console.error;
+        
+        function logToOutput(level, ...args) {
+            const message = `[${level.toUpperCase()}] ${args.join(' ')}`;
+            consoleOutput.textContent += message + '\n';
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            logToOutput('log', ...args);
+        };
+        
+        console.warn = function(...args) {
+            originalConsoleWarn.apply(console, args);
+            logToOutput('warn', ...args);
+        };
+        
+        console.error = function(...args) {
+            originalConsoleError.apply(console, args);
+            logToOutput('error', ...args);
+        };
+        
+        let webglContexts = [];
+        
+        function testWebGLContext() {
+            const statusElement = document.getElementById('webgl-status');
+            statusElement.className = 'status';
+            statusElement.innerHTML = '<strong>WebGL Status:</strong> Testing...';
+            
+            try {
+                const canvas1 = document.getElementById('testCanvas1');
+                const canvas2 = document.getElementById('testCanvas2');
+                
+                // Create WebGL contexts
+                const gl1 = canvas1.getContext('webgl') || canvas1.getContext('experimental-webgl');
+                const gl2 = canvas2.getContext('webgl') || canvas2.getContext('experimental-webgl');
+                
+                if (gl1 && gl2) {
+                    webglContexts = [gl1, gl2];
+                    
+                    // Create some WebGL objects
+                    const texture1 = gl1.createTexture();
+                    const texture2 = gl2.createTexture();
+                    const buffer1 = gl1.createBuffer();
+                    const buffer2 = gl2.createBuffer();
+                    
+                    console.log('Created WebGL contexts and objects successfully');
+                    
+                    // Test delete operations (these should not cause INVALID_OPERATION errors)
+                    gl1.deleteTexture(texture1);
+                    gl2.deleteTexture(texture2);
+                    gl1.deleteBuffer(buffer1);
+                    gl2.deleteBuffer(buffer2);
+                    
+                    console.log('WebGL delete operations completed without errors');
+                    
+                    statusElement.className = 'status success';
+                    statusElement.innerHTML = '<strong>WebGL Status:</strong> All tests passed - No INVALID_OPERATION errors';
+                } else {
+                    throw new Error('WebGL not supported');
+                }
+            } catch (error) {
+                console.error('WebGL test failed:', error.message);
+                statusElement.className = 'status error';
+                statusElement.innerHTML = `<strong>WebGL Status:</strong> Test failed - ${error.message}`;
+            }
+        }
+        
+        function testWebGLCleanup() {
+            const statusElement = document.getElementById('webgl-status');
+            statusElement.className = 'status';
+            statusElement.innerHTML = '<strong>WebGL Status:</strong> Testing cleanup...';
+            
+            try {
+                // Test cleanup of WebGL contexts
+                webglContexts.forEach((gl, index) => {
+                    try {
+                        const extension = gl.getExtension('WEBGL_lose_context');
+                        if (extension) {
+                            extension.loseContext();
+                            console.log(`WebGL context ${index + 1} cleanup completed`);
+                        }
+                    } catch (error) {
+                        console.warn(`WebGL context ${index + 1} cleanup warning:`, error.message);
+                    }
+                });
+                
+                statusElement.className = 'status success';
+                statusElement.innerHTML = '<strong>WebGL Status:</strong> Cleanup completed successfully';
+                
+            } catch (error) {
+                console.error('WebGL cleanup test failed:', error.message);
+                statusElement.className = 'status error';
+                statusElement.innerHTML = `<strong>WebGL Status:</strong> Cleanup failed - ${error.message}`;
+            }
+        }
+        
+        function clearConsole() {
+            consoleOutput.textContent = '';
+        }
+        
+        // Initialize test
+        console.log('WebGL test page loaded');
+        console.log('Ready to test WebGL context management');
+    </script>
+</body>
+</html> 

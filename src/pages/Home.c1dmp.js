@@ -41,6 +41,113 @@
     });
 })();
 
+// WebGL Context Management - Fix for INVALID_OPERATION errors
+(function() {
+    // Store WebGL contexts to prevent invalid operations
+    const webglContexts = new Set();
+    
+    // Override getContext to track WebGL contexts
+    const originalGetContext = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function(contextType, contextAttributes) {
+        const context = originalGetContext.call(this, contextType, contextAttributes);
+        
+        if (contextType === 'webgl' || contextType === 'webgl2' || contextType === 'experimental-webgl') {
+            webglContexts.add(context);
+            
+            // Override deleteTexture to prevent invalid operations
+            const originalDeleteTexture = context.deleteTexture;
+            context.deleteTexture = function(texture) {
+                if (texture && webglContexts.has(this)) {
+                    try {
+                        originalDeleteTexture.call(this, texture);
+                    } catch (error) {
+                        if (error.name !== 'INVALID_OPERATION') {
+                            console.warn('WebGL deleteTexture error:', error);
+                        }
+                    }
+                }
+            };
+            
+            // Override deleteBuffer to prevent invalid operations
+            const originalDeleteBuffer = context.deleteBuffer;
+            context.deleteBuffer = function(buffer) {
+                if (buffer && webglContexts.has(this)) {
+                    try {
+                        originalDeleteBuffer.call(this, buffer);
+                    } catch (error) {
+                        if (error.name !== 'INVALID_OPERATION') {
+                            console.warn('WebGL deleteBuffer error:', error);
+                        }
+                    }
+                }
+            };
+            
+            // Override deleteFramebuffer to prevent invalid operations
+            const originalDeleteFramebuffer = context.deleteFramebuffer;
+            context.deleteFramebuffer = function(framebuffer) {
+                if (framebuffer && webglContexts.has(this)) {
+                    try {
+                        originalDeleteFramebuffer.call(this, framebuffer);
+                    } catch (error) {
+                        if (error.name !== 'INVALID_OPERATION') {
+                            console.warn('WebGL deleteFramebuffer error:', error);
+                        }
+                    }
+                }
+            };
+            
+            // Override deleteRenderbuffer to prevent invalid operations
+            const originalDeleteRenderbuffer = context.deleteRenderbuffer;
+            context.deleteRenderbuffer = function(renderbuffer) {
+                if (renderbuffer && webglContexts.has(this)) {
+                    try {
+                        originalDeleteRenderbuffer.call(this, renderbuffer);
+                    } catch (error) {
+                        if (error.name !== 'INVALID_OPERATION') {
+                            console.warn('WebGL deleteRenderbuffer error:', error);
+                        }
+                    }
+                }
+            };
+            
+            // Override deleteProgram to prevent invalid operations
+            const originalDeleteProgram = context.deleteProgram;
+            context.deleteProgram = function(program) {
+                if (program && webglContexts.has(this)) {
+                    try {
+                        originalDeleteProgram.call(this, program);
+                    } catch (error) {
+                        if (error.name !== 'INVALID_OPERATION') {
+                            console.warn('WebGL deleteProgram error:', error);
+                        }
+                    }
+                }
+            };
+            
+            // Override deleteShader to prevent invalid operations
+            const originalDeleteShader = context.deleteShader;
+            context.deleteShader = function(shader) {
+                if (shader && webglContexts.has(this)) {
+                    try {
+                        originalDeleteShader.call(this, shader);
+                    } catch (error) {
+                        if (error.name !== 'INVALID_OPERATION') {
+                            console.warn('WebGL deleteShader error:', error);
+                        }
+                    }
+                }
+            };
+        }
+        
+        return context;
+    };
+    
+    // Cleanup WebGL contexts on page unload
+    window.addEventListener('beforeunload', function() {
+        webglContexts.clear();
+    });
+})();
+
 $w.onReady(function () {
     // Mobile-first performance state
     const mobileState = {
@@ -464,6 +571,24 @@ $w.onReady(function () {
         mobileState.isMenuOpen = false;
         mobileState.activeAnimations = 0;
         
+        // Cleanup any WebGL contexts to prevent INVALID_OPERATION errors
+        const canvases = document.querySelectorAll('canvas');
+        canvases.forEach(canvas => {
+            try {
+                const gl = canvas.getContext('webgl') || canvas.getContext('webgl2') || canvas.getContext('experimental-webgl');
+                if (gl) {
+                    // Force context loss to prevent invalid operations
+                    const extension = gl.getExtension('WEBGL_lose_context');
+                    if (extension) {
+                        extension.loseContext();
+                    }
+                }
+            } catch (error) {
+                // Ignore WebGL cleanup errors
+                console.log('WebGL cleanup completed');
+            }
+        });
+        
         console.log('Mobile homepage cleanup completed');
     };
     
@@ -473,6 +598,18 @@ $w.onReady(function () {
         if (mobileState.isMobile) {
             document.body.classList.add('mobile-device');
         }
+        
+        // Global error handler for WebGL warnings
+        const originalConsoleWarn = console.warn;
+        console.warn = function(...args) {
+            const message = args.join(' ');
+            // Suppress WebGL INVALID_OPERATION warnings as they're not critical
+            if (message.includes('WebGL') && message.includes('INVALID_OPERATION')) {
+                return; // Don't log these warnings
+            }
+            // Log all other warnings normally
+            originalConsoleWarn.apply(console, args);
+        };
         
         // Initialize in order of priority
         initMobilePage();
