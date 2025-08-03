@@ -113,10 +113,6 @@
         }
     </style>
     
-    <!-- Preload all critical resources -->
-    <link rel="preload" href="Home.css" as="style">
-    <link rel="preload" href="Home.c1dmp.js" as="script">
-    
     <!-- Load CSS immediately -->
     <link rel="stylesheet" href="Home.css">
 </head>
@@ -208,17 +204,19 @@
         let loadingProgress = 0;
         let loadingComplete = false;
         
-        // Simulate loading progress (1-2 seconds total)
+        // Simulate loading progress (2-3 seconds total for complete loading)
         function updateLoadingProgress(progress) {
             loadingProgress = progress;
             progressBar.style.width = progress + '%';
             
             // Update loading text based on progress
             const loadingText = document.querySelector('.loading-text');
-            if (progress < 30) {
+            if (progress < 25) {
                 loadingText.textContent = 'Loading your experience...';
-            } else if (progress < 60) {
+            } else if (progress < 50) {
                 loadingText.textContent = 'Preparing content...';
+            } else if (progress < 75) {
+                loadingText.textContent = 'Optimizing performance...';
             } else if (progress < 90) {
                 loadingText.textContent = 'Almost ready...';
             } else {
@@ -247,10 +245,10 @@
             console.log('Website fully loaded and ready!');
         }
         
-        // Loading sequence
+        // Loading sequence - Extended to 2.5 seconds for complete preparation
         function startLoading() {
             const startTime = Date.now();
-            const totalLoadTime = 1500; // 1.5 seconds total loading time
+            const totalLoadTime = 2500; // 2.5 seconds total loading time for complete preparation
             
             const loadingInterval = setInterval(() => {
                 const elapsed = Date.now() - startTime;
@@ -293,7 +291,7 @@
             }).catch(() => {
                 console.log('Main script loaded with fallback');
             });
-        }, 1000); // Load script after 1 second
+        }, 2000); // Load script after 2 seconds
     </script>
 </body>
 </html> 

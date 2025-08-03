@@ -1,4 +1,4 @@
-// Smooth Performance JavaScript - Optimized for Zero Lag After Loading
+// Simplified JavaScript - No Hanging Operations
 
 // Initialize when DOM is ready
 (function() {
@@ -20,7 +20,7 @@
         return elements[selector];
     }
     
-    // Smooth mobile menu toggle
+    // Simple mobile menu toggle
     function toggleMenu() {
         const menu = getElement('#navMenu');
         const toggle = getElement('#navMenuToggle');
@@ -40,9 +40,8 @@
         }
     }
     
-    // OPTIMIZED scroll handler - Simplified for smooth scrolling
+    // SIMPLIFIED scroll handler - Minimal operations
     let scrollTimeout;
-    let lastScrollY = 0;
     function handleScroll() {
         if (scrollTimeout) return;
         
@@ -51,30 +50,19 @@
             const nav = getElement('#navigation');
             
             if (nav) {
-                // Only update nav if scroll position changed significantly
-                if (Math.abs(scrollY - lastScrollY) > 5) {
-                    const opacity = Math.min(scrollY / 100, 1);
-                    nav.style.backgroundColor = `rgba(255, 255, 255, ${opacity * 0.95})`;
-                    
-                    // Simplified shadow update
-                    if (scrollY > 10) {
-                        nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
-                    } else {
-                        nav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-                    }
-                    
-                    lastScrollY = scrollY;
-                }
+                // Simple nav update only
+                const opacity = Math.min(scrollY / 100, 1);
+                nav.style.backgroundColor = `rgba(255, 255, 255, ${opacity * 0.95})`;
             }
             scrollTimeout = null;
-        }, 32); // Reduced frequency for smoother performance
+        }, 100); // Reduced frequency
     }
     
-    // Smooth scroll to element
+    // Simple scroll to element
     function smoothScroll(target) {
         const element = document.querySelector(target);
         if (element) {
-            const offsetTop = element.offsetTop - 80; // Account for fixed nav
+            const offsetTop = element.offsetTop - 80;
             window.scrollTo({
                 top: offsetTop,
                 behavior: 'smooth'
@@ -105,10 +93,10 @@
             });
         });
         
-        // OPTIMIZED scroll handler - Passive listener for smooth scrolling
+        // SIMPLIFIED scroll handler - Passive listener
         window.addEventListener('scroll', handleScroll, { passive: true });
         
-        // Initialize resize handler
+        // Simple resize handler
         let resizeTimeout;
         window.addEventListener('resize', () => {
             if (resizeTimeout) clearTimeout(resizeTimeout);
@@ -139,44 +127,28 @@
             }
         });
         
-        // Initialize button interactions
+        // SIMPLIFIED button interactions - No heavy effects
         const buttons = document.querySelectorAll('.btn');
         buttons.forEach(button => {
-            // Desktop hover effects
+            // Simple hover effects only
             button.addEventListener('mouseenter', () => {
                 if (!state.isMobile) {
-                    button.style.transform = 'translateY(-2px)';
+                    button.style.opacity = '0.8';
                 }
             });
             
             button.addEventListener('mouseleave', () => {
                 if (!state.isMobile) {
-                    button.style.transform = 'translateY(0)';
+                    button.style.opacity = '1';
                 }
             });
-            
-            // Mobile touch feedback
-            if (state.isMobile) {
-                button.addEventListener('touchstart', () => {
-                    button.style.transform = 'translateY(1px)';
-                });
-                
-                button.addEventListener('touchend', () => {
-                    setTimeout(() => {
-                        button.style.transform = 'translateY(0)';
-                    }, 150);
-                });
-            }
         });
-        
-        // REMOVED heavy content card animations that cause scroll lag
-        // Cards will now render normally without intersection observer
         
         // Mark as loaded
         state.isLoaded = true;
         document.body.classList.add('loaded');
         
-        console.log('Optimized smooth performance initialization complete');
+        console.log('Simplified initialization complete - No hanging operations');
     }
     
     // Wait for loading screen to complete
