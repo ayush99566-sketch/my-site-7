@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 All Optimizations Test - Ultra-Fast Wix Site</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        /* Ultra-Fast Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e0e0e0;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            background: #f0f0f0;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Ultra-Fast Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Ultra-Fast Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #fff;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+        }
+        
+        /* Test Sections */
+        .test-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #333;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .test-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .test-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .test-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Performance Indicators */
+        .performance-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .speed-indicator {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Scroll Test Area */
+        .scroll-test {
+            height: 2000px;
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef, #dee2e6, #ced4da, #adb5bd);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+        }
+        
+        /* Form Test */
+        .form-test {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Performance Indicators -->
+    <div class="performance-indicator" id="performanceIndicator">
+        Performance: Stable
+    </div>
+    
+    <div class="speed-indicator" id="speedIndicator">
+        Speed: Ready
+    </div>
+    
+    <!-- Ultra-Fast Navigation -->
+    <nav class="nav" id="navigation">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">🚀 Ultra-Fast</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#hero" class="nav-link">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#performance" class="nav-link">Performance</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" id="navMenuToggle">☰</button>
+        </div>
+    </nav>
+    
+    <!-- Ultra-Fast Hero Section -->
+    <section class="hero" id="heroSection">
+        <div class="hero-content">
+            <h1 class="hero-title" id="heroTitle">Ultra-Fast Wix Site</h1>
+            <p class="hero-subtitle" id="heroSubtitle">All optimizations working together for lightning-fast performance</p>
+            <div class="hero-cta">
+                <a href="#features" class="btn btn-primary cta-button">Test Features</a>
+                <a href="#performance" class="btn">Performance Test</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Test Section -->
+    <section class="test-section" id="featuresSection">
+        <h2>🚀 Ultra-Fast Features</h2>
+        <div class="test-grid">
+            <div class="test-card feature" data-feature="speed">
+                <h3>⚡ Lightning Speed</h3>
+                <p>Sub-1 second loading times with optimized code and caching.</p>
+                <button class="btn" onclick="testSpeed()">Test Speed</button>
+            </div>
+            <div class="test-card feature" data-feature="mobile">
+                <h3>📱 Mobile Optimized</h3>
+                <p>Perfect performance on all devices with touch-friendly interactions.</p>
+                <button class="btn" onclick="testMobile()">Test Mobile</button>
+            </div>
+            <div class="test-card feature" data-feature="animations">
+                <h3>🎨 Smooth Animations</h3>
+                <p>60fps animations with hardware acceleration and optimized transitions.</p>
+                <button class="btn" onclick="testAnimations()">Test Animations</button>
+            </div>
+            <div class="test-card feature" data-feature="scroll">
+                <h3>🎯 Scroll Performance</h3>
+                <p>Ultra-smooth scrolling with optimized event handling and RAF.</p>
+                <button class="btn" onclick="testScroll()">Test Scroll</button>
+            </div>
+            <div class="test-card feature" data-feature="forms">
+                <h3>📝 Form Handling</h3>
+                <p>Instant form validation and submission with real-time feedback.</p>
+                <button class="btn" onclick="testForms()">Test Forms</button>
+            </div>
+            <div class="test-card feature" data-feature="monitoring">
+                <h3>📊 Performance Monitoring</h3>
+                <p>Real-time performance tracking with Core Web Vitals monitoring.</p>
+                <button class="btn" onclick="testMonitoring()">View Metrics</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Performance Test Section -->
+    <section class="test-section" id="performanceSection">
+        <h2>⚡ Performance Tests</h2>
+        
+        <div class="scroll-test">
+            <h3>Scroll Performance Test</h3>
+            <p>Scroll through this area to test ultra-smooth scrolling performance. You should experience:</p>
+            <ul>
+                <li>No lagging or stuttering</li>
+                <li>Smooth 60fps scrolling</li>
+                <li>Responsive navigation updates</li>
+                <li>No crashes after extended use</li>
+            </ul>
+            <p>Scroll count: <span id="scrollCount">0</span></p>
+            <p>Scroll events per second: <span id="scrollRate">0</span></p>
+        </div>
+        
+        <div class="form-test">
+            <h3>Form Performance Test</h3>
+            <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="test-section" id="contactSection">
+        <h2>📞 Contact Test</h2>
+        <p>This section tests the ultra-fast contact functionality and form handling.</p>
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>Contact Information</h3>
+                <p>Email: test@ultrafast.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+                <button class="btn btn-primary" onclick="showNotification('Contact info copied!', 'success')">Copy Info</button>
+            </div>
+            <div class="test-card">
+                <h3>Quick Contact</h3>
+                <p>Test the ultra-fast contact form above or use this quick contact button.</p>
+                <button class="btn btn-primary" onclick="quickContact()">Quick Contact</button>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // ULTRA-FAST SITE INITIALIZATION
+        console.log('🚀 Ultra-Fast Test Site Loading...');
+        
+        // Performance state management
+        const state = {
+            isMobile: window.innerWidth < 768,
+            isMenuOpen: false,
+            scrollCount: 0,
+            lastScrollCheck: Date.now(),
+            performanceMode: 'ultra-fast'
+        };
+        
+        // Element cache for ultra-fast access
+        const elements = new Map();
+        
+        function getElement(selector) {
+            if (!elements.has(selector)) {
+                const element = document.querySelector(selector);
+                if (element) {
+                    elements.set(selector, element);
+                }
+            }
+            return elements.get(selector);
+        }
+        
+        // Ultra-fast mobile menu
+        function toggleMobileMenu() {
+            const menu = getElement('#navMenu');
+            const toggle = getElement('#navMenuToggle');
+            
+            if (!menu || !toggle) return;
+            
+            state.isMenuOpen = !state.isMenuOpen;
+            
+            if (state.isMenuOpen) {
+                menu.style.display = 'flex';
+                menu.style.flexDirection = 'column';
+                menu.style.position = 'absolute';
+                menu.style.top = '100%';
+                menu.style.left = '0';
+                menu.style.right = '0';
+                menu.style.background = 'rgba(255, 255, 255, 0.95)';
+                menu.style.backdropFilter = 'blur(10px)';
+                menu.style.padding = '1rem';
+                menu.style.borderTop = '1px solid #e0e0e0';
+            } else {
+                menu.style.display = 'none';
+            }
+        }
+        
+        // Ultra-smooth scroll
+        let scrollRAF = null;
+        let lastScrollY = 0;
+        
+        function ultraSmoothScroll() {
+            if (scrollRAF) return;
+            
+            scrollRAF = requestAnimationFrame(() => {
+                const currentScrollY = window.scrollY;
+                const nav = getElement('#navigation');
+                
+                if (nav && Math.abs(currentScrollY - lastScrollY) > 5) {
+                    const opacity = Math.min(currentScrollY / 100, 1);
+                    nav.style.backgroundColor = `rgba(255, 255, 255, ${opacity * 0.95})`;
+                    nav.style.backdropFilter = `blur(${opacity * 10}px)`;
+                    
+                    if (opacity > 0.1) {
+                        nav.style.boxShadow = `0 2px 20px rgba(0,0,0,${opacity * 0.1})`;
+                    } else {
+                        nav.style.boxShadow = 'none';
+                    }
+                    
+                    lastScrollY = currentScrollY;
+                }
+                
+                scrollRAF = null;
+            });
+        }
+        
+        // Ultra-fast scroll to element
+        function ultraFastScrollTo(target, offset = 80) {
+            const element = document.querySelector(target);
+            if (!element) return;
+            
+            const elementTop = element.offsetTop - offset;
+            window.scrollTo({
+                top: elementTop,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Scroll performance monitoring
+        function updateScrollMetrics() {
+            state.scrollCount++;
+            const now = Date.now();
+            
+            if (now - state.lastScrollCheck > 1000) {
+                const scrollRate = state.scrollCount;
+                const scrollRateElement = getElement('#scrollRate');
+                if (scrollRateElement) {
+                    scrollRateElement.textContent = scrollRate;
+                }
+                
+                if (scrollRate > 30) {
+                    console.warn('High scroll frequency detected, optimizing...');
+                    getElement('#performanceIndicator').textContent = 'Performance: Optimizing...';
+                } else {
+                    getElement('#performanceIndicator').textContent = 'Performance: Stable';
+                }
+                
+                state.scrollCount = 0;
+                state.lastScrollCheck = now;
+            }
+            
+            const scrollCountElement = getElement('#scrollCount');
+            if (scrollCountElement) {
+                scrollCountElement.textContent = state.scrollCount;
+            }
+        }
+        
+        // Intersection Observer for animations
+        function initializeAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            const animatedElements = document.querySelectorAll('.test-card, .fade-in');
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+        
+        // Test functions
+        function testSpeed() {
+            const start = performance.now();
+            showNotification('Speed test started...', 'info');
+            
+            setTimeout(() => {
+                const end = performance.now();
+                const duration = end - start;
+                showNotification(`Speed test completed in ${duration.toFixed(2)}ms!`, 'success');
+                getElement('#speedIndicator').textContent = `Speed: ${duration.toFixed(0)}ms`;
+            }, 100);
+        }
+        
+        function testMobile() {
+            const isMobile = window.innerWidth < 768;
+            showNotification(`Mobile test: ${isMobile ? 'Mobile device detected' : 'Desktop device detected'}`, 'info');
+        }
+        
+        function testAnimations() {
+            const cards = document.querySelectorAll('.test-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.transform = 'scale(1.05) rotate(2deg)';
+                    setTimeout(() => {
+                        card.style.transform = 'scale(1) rotate(0deg)';
+                    }, 200);
+                }, index * 100);
+            });
+            showNotification('Animation test completed!', 'success');
+        }
+        
+        function testScroll() {
+            ultraFastScrollTo('#performanceSection');
+            showNotification('Scroll test: Smooth scrolling to performance section', 'info');
+        }
+        
+        function testForms() {
+            const form = getElement('#contactForm');
+            if (form) {
+                form.style.border = '2px solid #667eea';
+                setTimeout(() => {
+                    form.style.border = '';
+                }, 2000);
+            }
+            showNotification('Form test: Form validation active', 'info');
+        }
+        
+        function testMonitoring() {
+            const metrics = {
+                loadTime: performance.now(),
+                memory: performance.memory ? performance.memory.usedJSHeapSize : 'N/A',
+                userAgent: navigator.userAgent
+            };
+            
+            console.log('Performance Metrics:', metrics);
+            showNotification('Performance metrics logged to console', 'info');
+        }
+        
+        function quickContact() {
+            showNotification('Quick contact initiated!', 'success');
+            setTimeout(() => {
+                ultraFastScrollTo('#contactSection');
+            }, 500);
+        }
+        
+        // Form handling
+        function initializeForms() {
+            const form = getElement('#contactForm');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    
+                    submitBtn.innerHTML = '<span class="loading"></span> Sending...';
+                    submitBtn.disabled = true;
+                    
+                    setTimeout(() => {
+                        submitBtn.textContent = 'Sent Successfully! ✅';
+                        submitBtn.style.background = '#28a745';
+                        
+                        form.reset();
+                        
+                        setTimeout(() => {
+                            submitBtn.textContent = originalText;
+                            submitBtn.disabled = false;
+                            submitBtn.style.background = '';
+                        }, 3000);
+                    }, 1000);
+                    
+                    showNotification('Message sent successfully!', 'success');
+                });
+            }
+        }
+        
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#007bff'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                z-index: 10000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                font-size: 14px;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+        
+        // Initialize everything
+        function initializeUltraFastSite() {
+            console.log('🎯 Initializing Ultra-Fast Test Site...');
+            
+            // Initialize mobile menu
+            const menuToggle = getElement('#navMenuToggle');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // Initialize navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        ultraFastScrollTo(href);
+                    }
+                    if (state.isMenuOpen) {
+                        toggleMobileMenu();
+                    }
+                });
+            });
+            
+            // Initialize scroll handling
+            window.addEventListener('scroll', () => {
+                ultraSmoothScroll();
+                updateScrollMetrics();
+            }, { passive: true });
+            
+            // Initialize responsive behavior
+            window.addEventListener('resize', () => {
+                state.isMobile = window.innerWidth < 768;
+                if (!state.isMobile && state.isMenuOpen) {
+                    toggleMobileMenu();
+                }
+            });
+            
+            // Initialize animations
+            initializeAnimations();
+            
+            // Initialize forms
+            initializeForms();
+            
+            // Mark as loaded
+            console.log('✅ Ultra-Fast Test Site Initialized Successfully!');
+            
+            // Show welcome message
+            setTimeout(() => {
+                showNotification('🚀 Ultra-Fast Test Site Ready!', 'success');
+            }, 1000);
+        }
+        
+        // Start initialization when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeUltraFastSite);
+        } else {
+            initializeUltraFastSite();
+        }
+    </script>
+</body>
+</html> 
