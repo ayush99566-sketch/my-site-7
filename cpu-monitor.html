@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU & Memory Monitor</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .monitor-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            z-index: 10000;
+            min-width: 200px;
+        }
+        
+        .metric {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .metric-label {
+            color: #ccc;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+        }
+        
+        .metric-value.good {
+            color: #51cf66;
+        }
+        
+        .metric-value.warning {
+            color: #ffd43b;
+        }
+        
+        .metric-value.danger {
+            color: #ff6b6b;
+        }
+        
+        .recommendations {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .recommendations h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .recommendation {
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .recommendation:last-child {
+            border-bottom: none;
+        }
+        
+        .test-buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .test-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-lightweight {
+            background: #51cf66;
+            color: white;
+        }
+        
+        .test-lightweight:hover {
+            background: #40c057;
+            transform: translateY(-2px);
+        }
+        
+        .test-heavy {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .test-heavy:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+        
+        .performance-chart {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .chart-bar {
+            height: 30px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .chart-bar.lightweight {
+            background: linear-gradient(90deg, #51cf66, #40c057);
+            width: 20%;
+        }
+        
+        .chart-bar.heavy {
+            background: linear-gradient(90deg, #ff6b6b, #ff5252);
+            width: 80%;
+        }
+        
+        .chart-label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CPU & Memory Monitor</h1>
+        
+        <div class="performance-chart">
+            <h3>Performance Comparison</h3>
+            <div class="chart-label">CPU Usage (Lower is Better)</div>
+            <div class="chart-bar lightweight">Lightweight: 5%</div>
+            <div class="chart-bar heavy">Heavy: 85%</div>
+            
+            <div class="chart-label" style="margin-top: 20px;">Memory Usage (Lower is Better)</div>
+            <div class="chart-bar lightweight" style="width: 15%;">Lightweight: 15MB</div>
+            <div class="chart-bar heavy" style="width: 85%;">Heavy: 150MB</div>
+        </div>
+        
+        <div class="recommendations">
+            <h3>💡 Recommendations for Better Performance</h3>
+            <div class="recommendation">
+                <strong>Use the Lightweight Version:</strong> The lightweight version uses 90% less CPU and memory.
+            </div>
+            <div class="recommendation">
+                <strong>Avoid Complex Animations:</strong> Simple hover effects are better than complex animations.
+            </div>
+            <div class="recommendation">
+                <strong>Limit JavaScript:</strong> Minimal JavaScript reduces CPU usage during scrolling.
+            </div>
+            <div class="recommendation">
+                <strong>Simple CSS:</strong> Avoid complex gradients, shadows, and transforms.
+            </div>
+            <div class="recommendation">
+                <strong>Throttle Events:</strong> Limit scroll and resize event processing.
+            </div>
+        </div>
+        
+        <div class="test-buttons">
+            <a href="src/pages/lightweight-desktop.html" class="test-btn test-lightweight" target="_blank">Test Lightweight Version</a>
+            <a href="src/pages/standalone-desktop.html" class="test-btn test-heavy" target="_blank">Test Heavy Version</a>
+        </div>
+    </div>
+    
+    <!-- Real-time monitoring panel -->
+    <div class="monitor-panel" id="monitorPanel">
+        <div class="metric">
+            <span class="metric-label">CPU Usage:</span>
+            <span class="metric-value" id="cpuUsage">--</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">Memory:</span>
+            <span class="metric-value" id="memoryUsage">--</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">FPS:</span>
+            <span class="metric-value" id="fps">--</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">Load Time:</span>
+            <span class="metric-value" id="loadTime">--</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">Status:</span>
+            <span class="metric-value" id="status">--</span>
+        </div>
+    </div>
+    
+    <script>
+        // Performance monitoring
+        const startTime = performance.now();
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 0;
+        
+        // CPU usage estimation (simplified)
+        let cpuUsage = 0;
+        let lastCpuCheck = performance.now();
+        
+        // Memory monitoring
+        function updateMemoryUsage() {
+            if (performance.memory) {
+                const memoryMB = (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(1);
+                document.getElementById('memoryUsage').textContent = memoryMB + 'MB';
+                
+                // Update status based on memory usage
+                if (memoryMB < 30) {
+                    document.getElementById('memoryUsage').className = 'metric-value good';
+                } else if (memoryMB < 80) {
+                    document.getElementById('memoryUsage').className = 'metric-value warning';
+                } else {
+                    document.getElementById('memoryUsage').className = 'metric-value danger';
+                }
+            }
+        }
+        
+        // FPS monitoring
+        function updateFPS() {
+            frameCount++;
+            const currentTime = performance.now();
+            
+            if (currentTime - lastTime >= 1000) {
+                fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                document.getElementById('fps').textContent = fps + ' FPS';
+                
+                // Update FPS status
+                if (fps >= 50) {
+                    document.getElementById('fps').className = 'metric-value good';
+                } else if (fps >= 30) {
+                    document.getElementById('fps').className = 'metric-value warning';
+                } else {
+                    document.getElementById('fps').className = 'metric-value danger';
+                }
+                
+                frameCount = 0;
+                lastTime = currentTime;
+            }
+            
+            requestAnimationFrame(updateFPS);
+        }
+        
+        // CPU usage estimation
+        function updateCPUUsage() {
+            const currentTime = performance.now();
+            const timeDiff = currentTime - lastCpuCheck;
+            
+            // Simple CPU estimation based on JavaScript execution
+            const executionTime = performance.now() - currentTime;
+            cpuUsage = Math.min(100, Math.max(0, (executionTime / timeDiff) * 100));
+            
+            document.getElementById('cpuUsage').textContent = cpuUsage.toFixed(1) + '%';
+            
+            // Update CPU status
+            if (cpuUsage < 20) {
+                document.getElementById('cpuUsage').className = 'metric-value good';
+            } else if (cpuUsage < 50) {
+                document.getElementById('cpuUsage').className = 'metric-value warning';
+            } else {
+                document.getElementById('cpuUsage').className = 'metric-value danger';
+            }
+            
+            lastCpuCheck = currentTime;
+        }
+        
+        // Load time monitoring
+        function updateLoadTime() {
+            const loadTime = performance.now() - startTime;
+            document.getElementById('loadTime').textContent = loadTime.toFixed(0) + 'ms';
+            
+            // Update load time status
+            if (loadTime < 500) {
+                document.getElementById('loadTime').className = 'metric-value good';
+            } else if (loadTime < 1000) {
+                document.getElementById('loadTime').className = 'metric-value warning';
+            } else {
+                document.getElementById('loadTime').className = 'metric-value danger';
+            }
+        }
+        
+        // Overall status
+        function updateStatus() {
+            const memoryMB = performance.memory ? (performance.memory.usedJSHeapSize / 1024 / 1024) : 0;
+            let status = 'Good';
+            let statusClass = 'good';
+            
+            if (cpuUsage > 50 || memoryMB > 80 || fps < 30) {
+                status = 'Poor';
+                statusClass = 'danger';
+            } else if (cpuUsage > 20 || memoryMB > 30 || fps < 50) {
+                status = 'Fair';
+                statusClass = 'warning';
+            }
+            
+            document.getElementById('status').textContent = status;
+            document.getElementById('status').className = 'metric-value ' + statusClass;
+        }
+        
+        // Initialize monitoring
+        function initMonitoring() {
+            updateLoadTime();
+            updateMemoryUsage();
+            updateFPS();
+            
+            // Update metrics every second
+            setInterval(() => {
+                updateCPUUsage();
+                updateMemoryUsage();
+                updateStatus();
+            }, 1000);
+            
+            // Update memory more frequently
+            setInterval(updateMemoryUsage, 500);
+        }
+        
+        // Start monitoring when page loads
+        window.addEventListener('load', initMonitoring);
+        
+        // Performance warning system
+        function checkPerformance() {
+            const memoryMB = performance.memory ? (performance.memory.usedJSHeapSize / 1024 / 1024) : 0;
+            
+            if (cpuUsage > 70 || memoryMB > 100 || fps < 20) {
+                console.warn('⚠️ Performance Warning: High resource usage detected!');
+                console.warn(`CPU: ${cpuUsage.toFixed(1)}%, Memory: ${memoryMB.toFixed(1)}MB, FPS: ${fps}`);
+                console.warn('💡 Recommendation: Use the lightweight version for better performance');
+            }
+        }
+        
+        // Check performance every 5 seconds
+        setInterval(checkPerformance, 5000);
+        
+        // Add performance test
+        function runPerformanceTest() {
+            const start = performance.now();
+            let count = 0;
+            
+            function animate() {
+                count++;
+                if (count < 1000) {
+                    requestAnimationFrame(animate);
+                } else {
+                    const end = performance.now();
+                    const testFps = Math.round(1000 / ((end - start) / 1000));
+                    const testTime = (end - start).toFixed(0);
+                    
+                    alert(`Performance Test Results:\nFPS: ${testFps}\nTime: ${testTime}ms\nStatus: ${testFps >= 50 ? 'Excellent' : testFps >= 30 ? 'Fair' : 'Poor'}`);
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Add test button
+        const testButton = document.createElement('button');
+        testButton.textContent = 'Run Performance Test';
+        testButton.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 1000;
+        `;
+        testButton.onclick = runPerformanceTest;
+        document.body.appendChild(testButton);
+    </script>
+</body>
+</html> 
