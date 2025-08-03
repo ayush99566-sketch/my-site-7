@@ -293,35 +293,36 @@ $w.onReady(function () {
         
         // Add scroll listener with passive option for ultra-smooth performance
         window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
+    }
+    
+    // ===== ULTRA-SMOOTH SCROLL TO FUNCTION =====
+    // Define ultraSmoothScrollTo function globally to avoid build errors
+    function ultraSmoothScrollTo(target, offset = 80) {
+        const element = typeof target === 'string' ? $w(target) : target;
+        if (!element) return;
         
-        // Ultra-smooth scroll to element function
-        window.ultraSmoothScrollTo = function(target, offset = 80) {
-            const element = typeof target === 'string' ? $w(target) : target;
-            if (!element) return;
-            
-            const targetPosition = element.offsetTop - offset;
-            const startPosition = window.pageYOffset;
-            const distance = targetPosition - startPosition;
-            const duration = 1200;
-            let start = null;
-            
-            function animation(currentTime) {
-                if (start === null) start = currentTime;
-                const timeElapsed = currentTime - start;
-                const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
-                window.scrollTo(0, run);
-                if (timeElapsed < duration) requestAnimationFrame(animation);
-            }
-            
-            function easeInOutCubic(t, b, c, d) {
-                t /= d / 2;
-                if (t < 1) return c / 2 * t * t * t + b;
-                t -= 2;
-                return c / 2 * (t * t * t + 2) + b;
-            }
-            
-            requestAnimationFrame(animation);
-        };
+        const targetPosition = element.offsetTop - offset;
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 1200;
+        let start = null;
+        
+        function animation(currentTime) {
+            if (start === null) start = currentTime;
+            const timeElapsed = currentTime - start;
+            const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+        
+        function easeInOutCubic(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t * t + b;
+            t -= 2;
+            return c / 2 * (t * t * t + 2) + b;
+        }
+        
+        requestAnimationFrame(animation);
     }
     
     // ===== ULTRA-SMOOTH PERFORMANCE FEATURES =====
