@@ -713,5 +713,4 @@ function initializeMobileOptimizations() {
     setTimeout(() => {
         initializeMobileOptimizations();
     }, 100);
-};
 });
