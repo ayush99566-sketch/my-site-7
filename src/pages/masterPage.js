@@ -315,9 +315,10 @@ $w.onReady(function () {
         toggleMenu: toggleMobileMenu,
         getElement: getElement,
         state: state
-    
-    // ===== MOBILE OPTIMIZATIONS =====
-    function initializeMobileOptimizations() {
+    };
+
+// ===== MOBILE OPTIMIZATIONS =====
+function initializeMobileOptimizations() {
         console.log('📱 Initializing Mobile Optimizations...');
         
         // Mobile detection
