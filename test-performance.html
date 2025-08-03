@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Test - Desktop vs Mobile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .performance-metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .metric-label {
+            font-weight: bold;
+        }
+        .metric-value {
+            color: #007bff;
+        }
+        .good { color: #28a745; }
+        .warning { color: #ffc107; }
+        .poor { color: #dc3545; }
+        .test-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        .test-button:active {
+            transform: translateY(0);
+        }
+        .animation-test {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+        }
+        .animation-test:hover {
+            transform: scale(1.2) rotate(180deg);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+        }
+        .scroll-test {
+            height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+        .scroll-content {
+            height: 1000px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        .device-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .device-info h4 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Desktop Performance Test</h1>
+        <p>This page helps you test the desktop optimizations. Compare the performance between the original and optimized versions.</p>
+        
+        <div class="device-info">
+            <h4>Device Information</h4>
+            <div class="performance-metric">
+                <span class="metric-label">Screen Width:</span>
+                <span class="metric-value" id="screenWidth">Loading...</span>
+            </div>
+            <div class="performance-metric">
+                <span class="metric-label">Device Type:</span>
+                <span class="metric-value" id="deviceType">Loading...</span>
+            </div>
+            <div class="performance-metric">
+                <span class="metric-label">User Agent:</span>
+                <span class="metric-value" id="userAgent">Loading...</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Animation Performance Test</h3>
+            <p>Hover over the circle below to test animation smoothness:</p>
+            <div class="animation-test"></div>
+            <div class="performance-metric">
+                <span class="metric-label">Animation Status:</span>
+                <span class="metric-value" id="animationStatus">Testing...</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Button Interaction Test</h3>
+            <p>Click and hover over these buttons to test responsiveness:</p>
+            <button class="test-button" onclick="testButtonClick(this)">Test Button 1</button>
+            <button class="test-button" onclick="testButtonClick(this)">Test Button 2</button>
+            <button class="test-button" onclick="testButtonClick(this)">Test Button 3</button>
+            <div class="performance-metric">
+                <span class="metric-label">Button Response Time:</span>
+                <span class="metric-value" id="buttonResponse">Click a button to test</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Scroll Performance Test</h3>
+            <p>Scroll in the box below to test smoothness:</p>
+            <div class="scroll-test" id="scrollTest">
+                <div class="scroll-content">
+                    Scroll Performance Test Area
+                </div>
+            </div>
+            <div class="performance-metric">
+                <span class="metric-label">Scroll FPS:</span>
+                <span class="metric-value" id="scrollFPS">Scroll to test</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Performance Metrics</h3>
+            <div class="performance-metric">
+                <span class="metric-label">Page Load Time:</span>
+                <span class="metric-value" id="loadTime">Calculating...</span>
+            </div>
+            <div class="performance-metric">
+                <span class="metric-label">Current FPS:</span>
+                <span class="metric-value" id="currentFPS">Monitoring...</span>
+            </div>
+            <div class="performance-metric">
+                <span class="metric-label">Memory Usage:</span>
+                <span class="metric-value" id="memoryUsage">Checking...</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Optimization Status</h3>
+            <div class="performance-metric">
+                <span class="metric-label">CSS Optimizations:</span>
+                <span class="metric-value good" id="cssStatus">Checking...</span>
+            </div>
+            <div class="performance-metric">
+                <span class="metric-label">JavaScript Optimizations:</span>
+                <span class="metric-value good" id="jsStatus">Checking...</span>
+            </div>
+            <div class="metric-label">Overall Performance:</span>
+            <span class="metric-value" id="overallStatus">Evaluating...</span>
+        </div>
+    </div>
+
+    <script>
+        // Performance monitoring
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 0;
+        let scrollFrameCount = 0;
+        let scrollLastTime = performance.now();
+        let scrollFps = 0;
+
+        // Initialize device information
+        function initDeviceInfo() {
+            document.getElementById('screenWidth').textContent = window.innerWidth + 'px';
+            document.getElementById('deviceType').textContent = window.innerWidth < 768 ? 'Mobile' : 'Desktop';
+            document.getElementById('userAgent').textContent = navigator.userAgent.substring(0, 50) + '...';
+        }
+
+        // FPS monitoring
+        function monitorFPS() {
+            frameCount++;
+            const currentTime = performance.now();
+            
+            if (currentTime - lastTime >= 1000) {
+                fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                document.getElementById('currentFPS').textContent = fps + ' FPS';
+                document.getElementById('currentFPS').className = 'metric-value ' + (fps >= 50 ? 'good' : fps >= 30 ? 'warning' : 'poor');
+                frameCount = 0;
+                lastTime = currentTime;
+            }
+            
+            requestAnimationFrame(monitorFPS);
+        }
+
+        // Scroll FPS monitoring
+        function monitorScrollFPS() {
+            scrollFrameCount++;
+            const currentTime = performance.now();
+            
+            if (currentTime - scrollLastTime >= 1000) {
+                scrollFps = Math.round((scrollFrameCount * 1000) / (currentTime - scrollLastTime));
+                document.getElementById('scrollFPS').textContent = scrollFps + ' FPS';
+                document.getElementById('scrollFPS').className = 'metric-value ' + (scrollFps >= 50 ? 'good' : scrollFps >= 30 ? 'warning' : 'poor');
+                scrollFrameCount = 0;
+                scrollLastTime = currentTime;
+            }
+        }
+
+        // Button click test
+        function testButtonClick(button) {
+            const startTime = performance.now();
+            button.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                const responseTime = performance.now() - startTime;
+                document.getElementById('buttonResponse').textContent = responseTime.toFixed(2) + 'ms';
+                document.getElementById('buttonResponse').className = 'metric-value ' + (responseTime < 50 ? 'good' : responseTime < 100 ? 'warning' : 'poor');
+            }, 100);
+        }
+
+        // Check optimizations
+        function checkOptimizations() {
+            // Check if animations are working (not disabled globally)
+            const testElement = document.createElement('div');
+            testElement.style.transition = 'opacity 0.1s';
+            document.body.appendChild(testElement);
+            
+            const computedStyle = window.getComputedStyle(testElement);
+            const transitionDuration = computedStyle.transitionDuration;
+            
+            if (transitionDuration === '0.01s' || transitionDuration === '0.01ms') {
+                document.getElementById('cssStatus').textContent = '❌ Animations Disabled';
+                document.getElementById('cssStatus').className = 'metric-value poor';
+            } else {
+                document.getElementById('cssStatus').textContent = '✅ Optimized';
+                document.getElementById('cssStatus').className = 'metric-value good';
+            }
+            
+            document.body.removeChild(testElement);
+            
+            // Check JavaScript performance
+            const jsStartTime = performance.now();
+            for (let i = 0; i < 1000000; i++) {
+                Math.random();
+            }
+            const jsTime = performance.now() - jsStartTime;
+            
+            if (jsTime < 50) {
+                document.getElementById('jsStatus').textContent = '✅ Fast (' + jsTime.toFixed(2) + 'ms)';
+                document.getElementById('jsStatus').className = 'metric-value good';
+            } else {
+                document.getElementById('jsStatus').textContent = '⚠️ Slow (' + jsTime.toFixed(2) + 'ms)';
+                document.getElementById('jsStatus').className = 'metric-value warning';
+            }
+        }
+
+        // Overall performance evaluation
+        function evaluateOverallPerformance() {
+            const cssGood = document.getElementById('cssStatus').className.includes('good');
+            const jsGood = document.getElementById('jsStatus').className.includes('good');
+            const fpsGood = fps >= 50;
+            
+            if (cssGood && jsGood && fpsGood) {
+                document.getElementById('overallStatus').textContent = '✅ Excellent';
+                document.getElementById('overallStatus').className = 'metric-value good';
+            } else if (cssGood && jsGood) {
+                document.getElementById('overallStatus').textContent = '⚠️ Good';
+                document.getElementById('overallStatus').className = 'metric-value warning';
+            } else {
+                document.getElementById('overallStatus').textContent = '❌ Needs Optimization';
+                document.getElementById('overallStatus').className = 'metric-value poor';
+            }
+        }
+
+        // Initialize everything
+        window.addEventListener('load', () => {
+            // Page load time
+            const loadTime = performance.now();
+            document.getElementById('loadTime').textContent = loadTime.toFixed(2) + 'ms';
+            
+            // Initialize device info
+            initDeviceInfo();
+            
+            // Start monitoring
+            monitorFPS();
+            
+            // Check optimizations after a short delay
+            setTimeout(() => {
+                checkOptimizations();
+                evaluateOverallPerformance();
+            }, 1000);
+            
+            // Memory usage (if available)
+            if (performance.memory) {
+                const memoryMB = (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(2);
+                document.getElementById('memoryUsage').textContent = memoryMB + ' MB';
+            } else {
+                document.getElementById('memoryUsage').textContent = 'Not available';
+            }
+        });
+
+        // Scroll performance monitoring
+        document.getElementById('scrollTest').addEventListener('scroll', () => {
+            monitorScrollFPS();
+        });
+
+        // Animation status check
+        const animationTest = document.querySelector('.animation-test');
+        animationTest.addEventListener('mouseenter', () => {
+            document.getElementById('animationStatus').textContent = '✅ Animations Working';
+            document.getElementById('animationStatus').className = 'metric-value good';
+        });
+    </script>
+</body>
+</html> 
