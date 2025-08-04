@@ -1653,6 +1653,37 @@ $w.onReady(function () {
     // Initialize the progressive loading system
     initializeProgressiveLoadingSystem();
     
+    // IMMEDIATE DEBUGGING - Check if everything is working
+    console.log('🔍 DEBUGGING TEST PAGE: Checking if progressive loading system is working...');
+    
+    // Check if the system was initialized
+    if (window.progressiveLoader) {
+        console.log('✅ DEBUGGING TEST PAGE: Progressive loader found in window object');
+        console.log('📊 DEBUGGING TEST PAGE: Current state:', window.progressiveLoader.getState());
+    } else {
+        console.log('❌ DEBUGGING TEST PAGE: Progressive loader NOT found in window object');
+    }
+    
+    // Check if we're in the right context
+    console.log('🔍 DEBUGGING TEST PAGE: Current page context -', typeof $w);
+    console.log('🔍 DEBUGGING TEST PAGE: Window object available -', typeof window);
+    
+    // Try to manually trigger the progressive loader
+    setTimeout(() => {
+        console.log('🔍 DEBUGGING TEST PAGE: Attempting to manually trigger progressive loader...');
+        if (window.progressiveLoader && window.progressiveLoader.forceReveal) {
+            console.log('✅ DEBUGGING TEST PAGE: Manually triggering force reveal...');
+            window.progressiveLoader.forceReveal();
+        } else {
+            console.log('❌ DEBUGGING TEST PAGE: Cannot find forceReveal function');
+        }
+    }, 2000);
+    
+    // Add a simple test to see if basic console logging works
+    console.log('🔍 DEBUGGING TEST PAGE: Basic console logging test - if you see this, console is working');
+    console.warn('🔍 DEBUGGING TEST PAGE: Warning test - if you see this, warnings work');
+    console.error('🔍 DEBUGGING TEST PAGE: Error test - if you see this, errors work');
+    
     // Start waiting for master page
     waitForMasterPage();
 }); 

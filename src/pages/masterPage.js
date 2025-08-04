@@ -6,12 +6,15 @@ $w.onReady(function () {
     
     // Performance state management
     const state = {
-        isMobile: window.innerWidth < 768,
-        isMenuOpen: false,
         isLoaded: false,
-        loadPhase: 0, // 0: critical, 1: essential, 2: enhanced, 3: full
-        scrollRAF: null, // Variable to hold the RAF ID for smooth scroll
-        lastScrollY: 0 // Variable to hold the last scroll position
+        isMobile: typeof window !== 'undefined' ? window.innerWidth < 768 : false,
+        scrollY: 0,
+        isMenuOpen: false,
+        performance: {
+            startTime: Date.now(),
+            loadTime: 0,
+            renderTime: 0
+        }
     };
     
     // Element cache for fast access
@@ -131,7 +134,9 @@ $w.onReady(function () {
         console.log('✅ Full site loaded successfully!');
         
         // Dispatch custom event for other scripts
-        window.dispatchEvent(new CustomEvent('ultraFastSiteReady'));
+        if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('ultraFastSiteReady'));
+        }
     }
     
     // Mobile menu system
@@ -175,7 +180,9 @@ $w.onReady(function () {
     // Smooth scroll system (Phase 2)
     function setupSmoothScroll() {
         if (state.scrollRAF) return;
-        window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
+        if (typeof window !== 'undefined') {
+            window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
+        }
     }
     
     function ultraSmoothScroll() {
@@ -183,7 +190,7 @@ $w.onReady(function () {
         
         state.scrollRAF = requestAnimationFrame(() => {
             try {
-                const currentScrollY = window.scrollY;
+                const currentScrollY = typeof window !== 'undefined' ? window.scrollY : 0;
                 const nav = getElement('#navigation');
                 
                 if (nav && Math.abs(currentScrollY - state.lastScrollY) > 5) {
@@ -219,10 +226,12 @@ $w.onReady(function () {
             
             setTimeout(() => {
                 const elementTop = element.offsetTop - offset;
-                window.scrollTo({
-                    top: elementTop,
-                    behavior: 'smooth'
-                });
+                if (typeof window !== 'undefined') {
+                    window.scrollTo({
+                        top: elementTop,
+                        behavior: 'smooth'
+                    });
+                }
             }, 50);
         } catch (error) {
             console.warn('Ultra-fast scroll failed:', error);
@@ -303,17 +312,19 @@ $w.onReady(function () {
     // Basic responsive (Phase 1)
     function setupBasicResponsive() {
         let resizeTimeout;
-        window.addEventListener('resize', () => {
+        if (typeof window !== 'undefined') {
+            window.addEventListener('resize', () => {
             if (resizeTimeout) clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 const wasMobile = state.isMobile;
-                state.isMobile = window.innerWidth < 768;
+                state.isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
                 
                 if (!state.isMobile && wasMobile && state.isMenuOpen) {
                     toggleMobileMenu();
                 }
             }, 250);
-        });
+            });
+        }
     }
     
     // Performance monitoring
@@ -336,7 +347,9 @@ $w.onReady(function () {
                 }
             };
             
+            if (typeof window !== 'undefined') {
             window.addEventListener('scroll', scrollObserver, { passive: true });
+        }
         } catch (error) {
             console.warn('Performance monitoring failed:', error);
         }
@@ -344,26 +357,28 @@ $w.onReady(function () {
     
     // Error handling & crash prevention
     function setupErrorHandling() {
-        window.addEventListener('error', (e) => {
-            console.warn('Error caught and handled:', e.error);
-            e.preventDefault();
-        });
+        if (typeof window !== 'undefined') {
+            window.addEventListener('error', (e) => {
+                console.warn('Error caught and handled:', e.error);
+                e.preventDefault();
+            });
+            
+            window.addEventListener('unhandledrejection', (e) => {
+                console.warn('Unhandled promise rejection caught:', e.reason);
+                e.preventDefault();
+            });
+        }
         
-        window.addEventListener('unhandledrejection', (e) => {
-            console.warn('Unhandled promise rejection caught:', e.reason);
-            e.preventDefault();
-        });
-        
-        const originalWixFunction = window.$w;
+        const originalWixFunction = typeof window !== 'undefined' ? window.$w : null;
         if (originalWixFunction) {
-            window.$w = function(...args) {
+            typeof window !== 'undefined' ? window.$w = function(...args) {
                 try {
                     return originalWixFunction.apply(this, args);
                 } catch (error) {
                     console.warn('Wix function error:', error);
                     return null;
                 }
-            };
+            } : null;
         }
     }
     
@@ -372,8 +387,8 @@ $w.onReady(function () {
         console.log('📱 Initializing Mobile Optimizations...');
         
         try {
-            const isMobile = window.innerWidth < 768;
-            const isTouchDevice = 'ontouchstart' in window;
+            const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+            const isTouchDevice = typeof window !== 'undefined' ? 'ontouchstart' in window : false;
             
             state.isMobile = isMobile;
             state.isTouchDevice = isTouchDevice;
@@ -1296,11 +1311,13 @@ $w.onReady(function () {
         console.log('✅ DEDICATED "03" Section Optimizer initialized');
         
         // Export for manual triggering
-        window.section03Optimizer = {
-            optimize: optimize03SectionImmediately,
-            emergency: emergency03Optimization,
-            getState: () => section03State
-        };
+        if (typeof window !== 'undefined') {
+            window.section03Optimizer = {
+                optimize: optimize03SectionImmediately,
+                emergency: emergency03Optimization,
+                getState: () => section03State
+            };
+        }
     }
     
     // Initialize the dedicated "03" optimizer
@@ -1532,12 +1549,14 @@ $w.onReady(function () {
         console.log('✅ "03" Balloon Black Screen Fix initialized');
         
         // Export for manual triggering
-        window.balloonFix = {
-            fix: fix03BalloonImmediately,
-            preserve: preserveBackgroundElements,
-            emergency: emergencyRecovery,
-            getState: () => balloonFixState
-        };
+        if (typeof window !== 'undefined') {
+            window.balloonFix = {
+                fix: fix03BalloonImmediately,
+                preserve: preserveBackgroundElements,
+                emergency: emergencyRecovery,
+                getState: () => balloonFixState
+            };
+        }
     }
     
     // Initialize the balloon fix
@@ -1869,47 +1888,203 @@ $w.onReady(function () {
         console.log('✅ Comprehensive Progressive Loading System initialized');
         
         // Export for manual control
-        window.progressiveLoader = {
-            getState: () => progressiveState,
-            forceReveal: phase7SmoothReveal,
-            reload: () => {
-                progressiveState.phase = 0;
-                progressiveState.isLoaded = false;
-                progressiveState.isVisible = false;
-                progressiveState.elementsLoaded = 0;
-                progressiveState.loadStartTime = Date.now();
-                
-                // Restart sequence
-                phase1HideAndPrepare();
-                setTimeout(() => phase2LoadCritical(), 100);
-                setTimeout(() => phase3LoadEssential(), 300);
-                setTimeout(() => phase4LoadEnhanced(), 500);
-                setTimeout(() => phase5LoadRemaining(), 800);
-                setTimeout(() => phase6LoadProblematic(), 1200);
-                setTimeout(() => phase7SmoothReveal(), 1500);
-            }
-        };
+        if (typeof window !== 'undefined') {
+            window.progressiveLoader = {
+                getState: () => progressiveState,
+                forceReveal: phase7SmoothReveal,
+                reload: () => {
+                    progressiveState.phase = 0;
+                    progressiveState.isLoaded = false;
+                    progressiveState.isVisible = false;
+                    progressiveState.elementsLoaded = 0;
+                    progressiveState.loadStartTime = Date.now();
+                    
+                    // Restart sequence
+                    phase1HideAndPrepare();
+                    setTimeout(() => phase2LoadCritical(), 100);
+                    setTimeout(() => phase3LoadEssential(), 300);
+                    setTimeout(() => phase4LoadEnhanced(), 500);
+                    setTimeout(() => phase5LoadRemaining(), 800);
+                    setTimeout(() => phase6LoadProblematic(), 1200);
+                    setTimeout(() => phase7SmoothReveal(), 1500);
+                }
+            };
+        }
     }
     
     // Initialize the progressive loading system
     initializeProgressiveLoadingSystem();
     
+    // WIX-COMPATIBLE DEBUGGING - Visual indicators instead of console logs
+    console.log('🔍 WIX DEBUGGING: Progressive loading system initialized');
+    
+    // Create a visual debug element to show progress
+    try {
+        const debugElement = $w('#debugInfo') || createDebugElement();
+        if (debugElement) {
+            debugElement.text = '🚀 Progressive Loading: Initialized';
+            debugElement.style.visibility = 'visible';
+        }
+    } catch (error) {
+        console.log('🔍 WIX DEBUGGING: Could not create visual debug element');
+    }
+    
+    // Check if progressive loader was created
+    try {
+        if (typeof window !== 'undefined' && window.progressiveLoader) {
+            console.log('✅ WIX DEBUGGING: Progressive loader found');
+            showDebugMessage('✅ Progressive loader found and working');
+        } else {
+            console.log('❌ WIX DEBUGGING: Progressive loader not found');
+            showDebugMessage('❌ Progressive loader not found - using fallback');
+            // Fallback: manually trigger the phases
+            setTimeout(() => manualProgressiveLoad(), 100);
+        }
+    } catch (error) {
+        console.log('🔍 WIX DEBUGGING: Error checking progressive loader');
+        showDebugMessage('⚠️ Error checking progressive loader');
+    }
+    
+    // Helper function to create debug element
+    function createDebugElement() {
+        try {
+            // Try to create a text element for debugging
+            const elements = $w('*');
+            for (let element of elements) {
+                if (element && element.text && element.id && element.id.includes('debug')) {
+                    return element;
+                }
+            }
+        } catch (error) {
+            console.log('🔍 WIX DEBUGGING: Could not find debug element');
+        }
+        return null;
+    }
+    
+    // Helper function to show debug messages
+    function showDebugMessage(message) {
+        try {
+            // Try to show in any available text element
+            const elements = $w('*');
+            for (let element of elements) {
+                if (element && element.text && element.visible) {
+                    element.text = message;
+                    break;
+                }
+            }
+        } catch (error) {
+            console.log('🔍 WIX DEBUGGING: Could not show debug message');
+        }
+    }
+    
+    // Manual progressive loading fallback
+    function manualProgressiveLoad() {
+        console.log('🔍 WIX DEBUGGING: Starting manual progressive loading...');
+        showDebugMessage('🔄 Manual progressive loading started...');
+        
+        // Phase 1: Hide everything
+        setTimeout(() => {
+            try {
+                const allElements = $w('*');
+                allElements.forEach(element => {
+                    if (element && element.style) {
+                        element.style.visibility = 'hidden';
+                        element.style.opacity = '0';
+                    }
+                });
+                showDebugMessage('📦 Phase 1: All elements hidden');
+            } catch (error) {
+                console.log('🔍 WIX DEBUGGING: Phase 1 failed');
+            }
+        }, 0);
+        
+        // Phase 2: Show critical elements
+        setTimeout(() => {
+            try {
+                const criticalElements = $w('body, html, [class*="background"], [class*="bg"]');
+                criticalElements.forEach(element => {
+                    if (element && element.style) {
+                        element.style.visibility = 'visible';
+                        element.style.opacity = '1';
+                    }
+                });
+                showDebugMessage('🔧 Phase 2: Critical elements shown');
+            } catch (error) {
+                console.log('🔍 WIX DEBUGGING: Phase 2 failed');
+            }
+        }, 200);
+        
+        // Phase 3: Show essential content
+        setTimeout(() => {
+            try {
+                const essentialElements = $w('[class*="header"], [class*="nav"], [class*="main"], [class*="content"]');
+                essentialElements.forEach(element => {
+                    if (element && element.style) {
+                        element.style.visibility = 'visible';
+                        element.style.opacity = '1';
+                    }
+                });
+                showDebugMessage('📄 Phase 3: Essential content shown');
+            } catch (error) {
+                console.log('🔍 WIX DEBUGGING: Phase 3 failed');
+            }
+        }, 400);
+        
+        // Phase 4: Show remaining elements
+        setTimeout(() => {
+            try {
+                const allElements = $w('*');
+                allElements.forEach(element => {
+                    if (element && element.style) {
+                        element.style.visibility = 'visible';
+                        element.style.opacity = '1';
+                    }
+                });
+                showDebugMessage('✨ Phase 4: All elements shown');
+            } catch (error) {
+                console.log('🔍 WIX DEBUGGING: Phase 4 failed');
+            }
+        }, 600);
+        
+        // Phase 5: Final reveal
+        setTimeout(() => {
+            try {
+                const allElements = $w('*');
+                allElements.forEach(element => {
+                    if (element && element.style) {
+                        element.style.transition = 'opacity 0.3s ease-in-out';
+                        element.style.visibility = 'visible';
+                        element.style.opacity = '1';
+                    }
+                });
+                showDebugMessage('🌟 Phase 5: Everything revealed smoothly!');
+                console.log('✅ WIX DEBUGGING: Manual progressive loading completed');
+            } catch (error) {
+                console.log('🔍 WIX DEBUGGING: Phase 5 failed');
+            }
+        }, 800);
+    }
+    
     // Start progressive loading
     progressiveLoad();
     
     // Export functions for other pages to use
-    window.ultraFastSite = {
-        scrollTo: ultraFastScrollTo,
-        toggleMenu: toggleMobileMenu,
-        getElement: getElement,
-        state: state,
-        isReady: () => state.isLoaded,
-        waitForReady: (callback) => {
-            if (state.isLoaded) {
-                callback();
-            } else {
-                window.addEventListener('ultraFastSiteReady', callback);
+    if (typeof window !== 'undefined') {
+        window.ultraFastSite = {
+            scrollTo: ultraFastScrollTo,
+            toggleMenu: toggleMobileMenu,
+            getElement: getElement,
+            state: state,
+            isReady: () => state.isLoaded,
+            waitForReady: (callback) => {
+                if (state.isLoaded) {
+                    callback();
+                } else {
+                    if (typeof window !== 'undefined') {
+                        window.addEventListener('ultraFastSiteReady', callback);
+                    }
+                }
             }
-        }
-    };
+        };
+    }
 }); 
