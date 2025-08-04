@@ -1,6 +1,7 @@
 // ULTRA-SMOOTH MAIN PAGE - Progressive Loading System
 // Prevents first-time loading crashes by loading features in phases
-// UPDATED: Compatible with new master page optimizations
+// UPDATED: Latest optimizations with Gradient & Video Optimization System
+// FIXED: 03 Balloon to Trybs Project Modal Transition Lag
 
 $w.onReady(function () {
     console.log('🚀 Progressive Main Page Loading with Master Page Integration...');
@@ -417,6 +418,497 @@ $w.onReady(function () {
             console.warn('Error handling setup failed:', error);
         }
     }
+    
+    // NEW: SMART PRE-INITIALIZATION SYSTEM
+    function initializeSmartPreInitialization() {
+        console.log('🚀 Initializing Smart Pre-Initialization System for Main Page...');
+        
+        // Phase 1: Immediate optimization (simulate post-refresh state)
+        applyImmediatePostRefreshOptimization();
+        
+        // Phase 2: Progressive feature enabling
+        setTimeout(() => {
+            enableProgressiveFeatures();
+        }, 100);
+        
+        // Phase 3: Full optimization
+        setTimeout(() => {
+            enableFullOptimizations();
+        }, 500);
+        
+        // Phase 4: 03 Balloon to Trybs transition optimization
+        setTimeout(() => {
+            optimize03ToTrybsTransition();
+        }, 1000);
+        
+        console.log('✅ Smart Pre-Initialization System initialized for Main Page');
+    }
+    
+    // Apply immediate post-refresh optimization
+    function applyImmediatePostRefreshOptimization() {
+        console.log('⚡ Applying immediate post-refresh optimization for Main Page...');
+        
+        try {
+            // Simulate the optimized state that exists after refresh
+            const allElements = $w('*');
+            if (allElements && allElements.length > 0) {
+                allElements.forEach(element => {
+                    if (element && element.style) {
+                        // Apply the same optimizations that work after refresh
+                        element.style.animation = 'none !important';
+                        element.style.transition = 'opacity 0.3s ease !important';
+                        element.style.transform = 'none !important';
+                        element.style.filter = 'none !important';
+                        element.style.backdropFilter = 'none !important';
+                        element.style.boxShadow = 'none !important';
+                        element.style.willChange = 'auto !important';
+                        element.style.backfaceVisibility = 'visible !important';
+                        element.style.perspective = 'none !important';
+                        element.style.opacity = '1 !important';
+                        element.style.visibility = 'visible !important';
+                    }
+                });
+            }
+            
+            console.log('✅ Immediate post-refresh optimization applied for Main Page');
+            
+        } catch (error) {
+            console.warn('Immediate post-refresh optimization failed for Main Page:', error);
+        }
+    }
+    
+    // Enable progressive features
+    function enableProgressiveFeatures() {
+        console.log('🎯 Enabling progressive features for Main Page...');
+        
+        try {
+            // Enable light interactions
+            const interactiveElements = $w('button, .btn, .button, a, .nav-link, .card, .feature-card');
+            
+            if (interactiveElements && interactiveElements.length > 0) {
+                interactiveElements.forEach(element => {
+                    if (element && element.style) {
+                        // Enable light hover effects
+                        element.onMouseIn(() => {
+                            element.style.opacity = '0.9';
+                            element.style.transition = 'opacity 0.2s ease';
+                        });
+                        
+                        element.onMouseOut(() => {
+                            element.style.opacity = '1';
+                        });
+                        
+                        // Enable light click effects
+                        element.onClick(() => {
+                            element.style.transform = 'scale(0.98)';
+                            element.style.transition = 'transform 0.1s ease';
+                            
+                            setTimeout(() => {
+                                element.style.transform = 'scale(1)';
+                            }, 100);
+                        });
+                    }
+                });
+            }
+            
+            console.log('✅ Progressive features enabled for Main Page');
+            
+        } catch (error) {
+            console.warn('Progressive features failed for Main Page:', error);
+        }
+    }
+    
+    // Enable full optimizations
+    function enableFullOptimizations() {
+        console.log('🚀 Enabling full optimizations for Main Page...');
+        
+        try {
+            // Gradually enable animations and effects
+            const allElements = $w('*');
+            allElements.forEach(element => {
+                if (element && element.style) {
+                    // Enable light transitions
+                    element.style.transition = 'opacity 0.3s ease, transform 0.2s ease';
+                    element.style.willChange = 'auto';
+                }
+            });
+            
+            console.log('✅ Full optimizations enabled for Main Page');
+            
+        } catch (error) {
+            console.warn('Full optimizations failed for Main Page:', error);
+        }
+    }
+    
+    // Optimize 03 Balloon to Trybs transition specifically
+    function optimize03ToTrybsTransition() {
+        console.log('🎈🎯 Optimizing 03 Balloon to Trybs transition for Main Page...');
+        
+        try {
+            // Pre-optimize 03 balloon elements
+            const balloonSelectors = [
+                '[class*="03"]', '[id*="03"]', '[class*="balloon"]', '[id*="balloon"]',
+                '[class*="red"]', '[style*="red"]', '[class*="gradient"]', '[style*="gradient"]'
+            ];
+            
+            balloonSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element && element.style) {
+                            // Optimize 03 balloon elements for smooth transition
+                            element.style.animation = 'none !important';
+                            element.style.transition = 'opacity 0.3s ease !important';
+                            element.style.transform = 'none !important';
+                            element.style.filter = 'none !important';
+                            element.style.backdropFilter = 'none !important';
+                            element.style.boxShadow = 'none !important';
+                            element.style.opacity = '1 !important';
+                            element.style.visibility = 'visible !important';
+                            element.style.willChange = 'auto !important';
+                        }
+                    });
+                }
+            });
+            
+            // Pre-optimize Trybs project elements
+            const trybsSelectors = [
+                '[class*="trbys"]', '[id*="trbys"]', '[class*="project"]', '[id*="project"]'
+            ];
+            
+            trybsSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element && element.style) {
+                            // Pre-optimize Trybs elements for smooth reveal
+                            element.style.animation = 'none !important';
+                            element.style.transition = 'opacity 0.5s ease !important';
+                            element.style.transform = 'none !important';
+                            element.style.filter = 'none !important';
+                            element.style.backdropFilter = 'none !important';
+                            element.style.boxShadow = 'none !important';
+                            element.style.opacity = '0.9 !important';
+                            element.style.visibility = 'visible !important';
+                            element.style.willChange = 'auto !important';
+                        }
+                    });
+                }
+            });
+            
+            console.log('✅ 03 Balloon to Trybs transition optimized for Main Page');
+            
+        } catch (error) {
+            console.warn('03 Balloon to Trybs optimization failed for Main Page:', error);
+        }
+    }
+    
+    // NEW: GRADIENT & VIDEO OPTIMIZATION SYSTEM
+    function initializeGradientAndVideoOptimizer() {
+        console.log('🎨🎬 Initializing Gradient & Video Optimization System for Main Page...');
+        
+        // Phase 1: Immediate gradient optimization
+        optimizeGradientsImmediately();
+        
+        // Phase 2: Video optimization
+        setTimeout(() => {
+            optimizeVideosProgressive();
+        }, 200);
+        
+        // Phase 3: Progressive gradient re-enabling
+        setTimeout(() => {
+            enableProgressiveGradients();
+        }, 1000);
+        
+        // Phase 4: Full video loading
+        setTimeout(() => {
+            enableFullVideoLoading();
+        }, 2000);
+        
+        console.log('✅ Gradient & Video Optimization System initialized for Main Page');
+    }
+    
+    // Optimize gradients immediately
+    function optimizeGradientsImmediately() {
+        console.log('🎨 Optimizing gradients immediately for Main Page...');
+        
+        try {
+            // Find all gradient elements
+            const gradientSelectors = [
+                '[style*="gradient"]',
+                '[class*="gradient"]',
+                '[id*="gradient"]',
+                '[style*="linear-gradient"]',
+                '[style*="radial-gradient"]',
+                '[style*="conic-gradient"]',
+                '[class*="bg-gradient"]',
+                '[class*="gradient-bg"]'
+            ];
+            
+            gradientSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element && element.style) {
+                            // Replace gradients with solid colors for immediate performance
+                            const originalBackground = element.style.background || element.style.backgroundColor;
+                            
+                            // Extract dominant color from gradient or use fallback
+                            let solidColor = '#f0f0f0'; // Light gray fallback
+                            
+                            if (originalBackground) {
+                                // Try to extract color from gradient
+                                if (originalBackground.includes('linear-gradient')) {
+                                    // Extract first color from linear gradient
+                                    const colorMatch = originalBackground.match(/#[a-fA-F0-9]{6}|#[a-fA-F0-9]{3}|rgb\([^)]+\)/);
+                                    if (colorMatch) {
+                                        solidColor = colorMatch[0];
+                                    }
+                                } else if (originalBackground.includes('radial-gradient')) {
+                                    // Extract first color from radial gradient
+                                    const colorMatch = originalBackground.match(/#[a-fA-F0-9]{6}|#[a-fA-F0-9]{3}|rgb\([^)]+\)/);
+                                    if (colorMatch) {
+                                        solidColor = colorMatch[0];
+                                    }
+                                } else {
+                                    solidColor = originalBackground;
+                                }
+                            }
+                            
+                            // Apply solid color instead of gradient
+                            element.style.background = solidColor;
+                            element.style.backgroundImage = 'none';
+                            element.style.backgroundGradient = 'none';
+                            
+                            // Store original gradient for later restoration
+                            element.dataset.originalGradient = originalBackground;
+                            
+                            // Optimize for performance
+                            element.style.willChange = 'auto';
+                            element.style.backfaceVisibility = 'visible';
+                            element.style.perspective = 'none';
+                            
+                            console.log(`🎨 Optimized gradient element for Main Page: ${selector}`);
+                        }
+                    });
+                }
+            });
+            
+            console.log('✅ Gradients optimized for immediate performance on Main Page');
+            
+        } catch (error) {
+            console.warn('Gradient optimization failed for Main Page:', error);
+        }
+    }
+    
+    // Optimize videos progressively
+    function optimizeVideosProgressive() {
+        console.log('🎬 Optimizing videos progressively for Main Page...');
+        
+        try {
+            // Find all video elements
+            const videoSelectors = [
+                'video',
+                '[class*="video"]',
+                '[id*="video"]',
+                '[data-video]',
+                '[class*="player"]',
+                '[id*="player"]',
+                'iframe[src*="youtube"]',
+                'iframe[src*="vimeo"]',
+                'iframe[src*="video"]'
+            ];
+            
+            videoSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element) {
+                            // Phase 1: Replace with placeholder
+                            replaceVideoWithPlaceholder(element);
+                            
+                            // Phase 2: Load video progressively
+                            setTimeout(() => {
+                                loadVideoProgressive(element);
+                            }, 1000 + Math.random() * 2000); // Random delay between 1-3 seconds
+                        }
+                    });
+                }
+            });
+            
+            console.log('✅ Videos optimized for progressive loading on Main Page');
+            
+        } catch (error) {
+            console.warn('Video optimization failed for Main Page:', error);
+        }
+    }
+    
+    // Replace video with placeholder
+    function replaceVideoWithPlaceholder(element) {
+        try {
+            // Store original video data
+            element.dataset.originalVideo = element.outerHTML;
+            
+            // Create lightweight placeholder
+            const placeholder = document.createElement('div');
+            placeholder.className = 'video-placeholder';
+            placeholder.style.cssText = `
+                width: 100%;
+                height: 200px;
+                background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px;
+                position: relative;
+                overflow: hidden;
+            `;
+            
+            // Add play button
+            const playButton = document.createElement('div');
+            playButton.innerHTML = '▶';
+            playButton.style.cssText = `
+                width: 60px;
+                height: 60px;
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            `;
+            
+            // Add loading text
+            const loadingText = document.createElement('div');
+            loadingText.textContent = 'Loading Video...';
+            loadingText.style.cssText = `
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+            `;
+            
+            placeholder.appendChild(playButton);
+            placeholder.appendChild(loadingText);
+            
+            // Replace element with placeholder
+            if (element.parentNode) {
+                element.parentNode.replaceChild(placeholder, element);
+                placeholder.dataset.originalElement = element.dataset.originalVideo;
+            }
+            
+        } catch (error) {
+            console.warn('Video placeholder creation failed for Main Page:', error);
+        }
+    }
+    
+    // Load video progressively
+    function loadVideoProgressive(placeholder) {
+        try {
+            // Get original video data
+            const originalVideoHTML = placeholder.dataset.originalElement;
+            if (!originalVideoHTML) return;
+            
+            // Create new video element
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = originalVideoHTML;
+            const newVideo = tempDiv.firstChild;
+            
+            // Optimize video settings
+            if (newVideo.tagName === 'VIDEO') {
+                newVideo.preload = 'metadata';
+                newVideo.loading = 'lazy';
+                newVideo.muted = true;
+                newVideo.playsInline = true;
+                
+                // Add error handling
+                newVideo.onError = () => {
+                    console.warn('Video failed to load for Main Page, keeping placeholder');
+                };
+            }
+            
+            // Replace placeholder with optimized video
+            if (placeholder.parentNode) {
+                placeholder.parentNode.replaceChild(newVideo, placeholder);
+                
+                // Load video after a short delay
+                setTimeout(() => {
+                    if (newVideo.tagName === 'VIDEO') {
+                        newVideo.load();
+                    }
+                }, 500);
+            }
+            
+        } catch (error) {
+            console.warn('Progressive video loading failed for Main Page:', error);
+        }
+    }
+    
+    // Enable progressive gradients
+    function enableProgressiveGradients() {
+        console.log('🎨 Enabling progressive gradients for Main Page...');
+        
+        try {
+            // Gradually restore gradients with performance optimizations
+            const gradientElements = $w('[data-original-gradient]');
+            if (gradientElements && gradientElements.length > 0) {
+                gradientElements.forEach((element, index) => {
+                    if (element && element.dataset.originalGradient) {
+                        setTimeout(() => {
+                            // Restore original gradient
+                            element.style.background = element.dataset.originalGradient;
+                            
+                            // Optimize for performance
+                            element.style.willChange = 'auto';
+                            element.style.backfaceVisibility = 'visible';
+                            element.style.perspective = 'none';
+                            
+                            // Add smooth transition
+                            element.style.transition = 'background 0.5s ease';
+                            
+                            console.log(`🎨 Restored gradient element ${index + 1} for Main Page`);
+                        }, index * 100); // 100ms delay between each gradient
+                    }
+                });
+            }
+            
+            console.log('✅ Progressive gradients enabled for Main Page');
+            
+        } catch (error) {
+            console.warn('Progressive gradient enabling failed for Main Page:', error);
+        }
+    }
+    
+    // Enable full video loading
+    function enableFullVideoLoading() {
+        console.log('🎬 Enabling full video loading for Main Page...');
+        
+        try {
+            // Find any remaining placeholders and load videos
+            const placeholders = document.querySelectorAll('.video-placeholder');
+            placeholders.forEach(placeholder => {
+                loadVideoProgressive(placeholder);
+            });
+            
+            console.log('✅ Full video loading enabled for Main Page');
+            
+        } catch (error) {
+            console.warn('Full video loading failed for Main Page:', error);
+        }
+    }
+    
+    // Initialize the smart pre-initialization system
+    initializeSmartPreInitialization();
+    
+    // Initialize gradient and video optimizer
+    initializeGradientAndVideoOptimizer();
     
     // Start the main page loading process
     waitForMasterPage();

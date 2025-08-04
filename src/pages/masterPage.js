@@ -816,6 +816,365 @@ $w.onReady(function () {
     // Initialize the smart pre-initialization system
     initializeSmartPreInitialization();
     
+    // NEW: GRADIENT & VIDEO OPTIMIZATION SYSTEM
+    function initializeGradientAndVideoOptimizer() {
+        console.log('🎨🎬 Initializing Gradient & Video Optimization System...');
+        
+        // Optimization state
+        const gradientVideoState = {
+            gradientsOptimized: false,
+            videosOptimized: false,
+            isLowEndDevice: false,
+            optimizationLevel: 0
+        };
+        
+        // Phase 1: Immediate gradient optimization
+        optimizeGradientsImmediately();
+        
+        // Phase 2: Video optimization
+        setTimeout(() => {
+            optimizeVideosProgressive();
+        }, 200);
+        
+        // Phase 3: Progressive gradient re-enabling
+        setTimeout(() => {
+            enableProgressiveGradients();
+        }, 1000);
+        
+        // Phase 4: Full video loading
+        setTimeout(() => {
+            enableFullVideoLoading();
+        }, 2000);
+        
+        console.log('✅ Gradient & Video Optimization System initialized');
+    }
+    
+    // Optimize gradients immediately
+    function optimizeGradientsImmediately() {
+        console.log('🎨 Optimizing gradients immediately...');
+        
+        try {
+            // Find all gradient elements
+            const gradientSelectors = [
+                '[style*="gradient"]',
+                '[class*="gradient"]',
+                '[id*="gradient"]',
+                '[style*="linear-gradient"]',
+                '[style*="radial-gradient"]',
+                '[style*="conic-gradient"]',
+                '[class*="bg-gradient"]',
+                '[class*="gradient-bg"]'
+            ];
+            
+            gradientSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element && element.style) {
+                            // Replace gradients with solid colors for immediate performance
+                            const originalBackground = element.style.background || element.style.backgroundColor;
+                            
+                            // Extract dominant color from gradient or use fallback
+                            let solidColor = '#f0f0f0'; // Light gray fallback
+                            
+                            if (originalBackground) {
+                                // Try to extract color from gradient
+                                if (originalBackground.includes('linear-gradient')) {
+                                    // Extract first color from linear gradient
+                                    const colorMatch = originalBackground.match(/#[a-fA-F0-9]{6}|#[a-fA-F0-9]{3}|rgb\([^)]+\)/);
+                                    if (colorMatch) {
+                                        solidColor = colorMatch[0];
+                                    }
+                                } else if (originalBackground.includes('radial-gradient')) {
+                                    // Extract first color from radial gradient
+                                    const colorMatch = originalBackground.match(/#[a-fA-F0-9]{6}|#[a-fA-F0-9]{3}|rgb\([^)]+\)/);
+                                    if (colorMatch) {
+                                        solidColor = colorMatch[0];
+                                    }
+                                } else {
+                                    solidColor = originalBackground;
+                                }
+                            }
+                            
+                            // Apply solid color instead of gradient
+                            element.style.background = solidColor;
+                            element.style.backgroundImage = 'none';
+                            element.style.backgroundGradient = 'none';
+                            
+                            // Store original gradient for later restoration
+                            element.dataset.originalGradient = originalBackground;
+                            
+                            // Optimize for performance
+                            element.style.willChange = 'auto';
+                            element.style.backfaceVisibility = 'visible';
+                            element.style.perspective = 'none';
+                            
+                            console.log(`🎨 Optimized gradient element: ${selector}`);
+                        }
+                    });
+                }
+            });
+            
+            // Also optimize any CSS gradients
+            injectGradientOptimizationCSS();
+            
+            console.log('✅ Gradients optimized for immediate performance');
+            
+        } catch (error) {
+            console.warn('Gradient optimization failed:', error);
+        }
+    }
+    
+    // Inject gradient optimization CSS
+    function injectGradientOptimizationCSS() {
+        try {
+            const gradientCSS = `
+                /* Gradient optimization - replace with solid colors */
+                [style*="gradient"], [class*="gradient"] {
+                    background-image: none !important;
+                    background: #f0f0f0 !important;
+                    transition: background 0.3s ease !important;
+                }
+                
+                /* Specific gradient optimizations */
+                [style*="linear-gradient"] {
+                    background: linear-gradient(45deg, #f0f0f0, #e0e0e0) !important;
+                    background-image: none !important;
+                }
+                
+                [style*="radial-gradient"] {
+                    background: #f0f0f0 !important;
+                    background-image: none !important;
+                }
+                
+                [style*="conic-gradient"] {
+                    background: #f0f0f0 !important;
+                    background-image: none !important;
+                }
+            `;
+            
+            const style = document.createElement('style');
+            style.id = 'gradient-optimization';
+            style.textContent = gradientCSS;
+            document.head.appendChild(style);
+            
+        } catch (error) {
+            console.warn('Gradient CSS injection failed:', error);
+        }
+    }
+    
+    // Optimize videos progressively
+    function optimizeVideosProgressive() {
+        console.log('🎬 Optimizing videos progressively...');
+        
+        try {
+            // Find all video elements
+            const videoSelectors = [
+                'video',
+                '[class*="video"]',
+                '[id*="video"]',
+                '[data-video]',
+                '[class*="player"]',
+                '[id*="player"]',
+                'iframe[src*="youtube"]',
+                'iframe[src*="vimeo"]',
+                'iframe[src*="video"]'
+            ];
+            
+            videoSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element) {
+                            // Phase 1: Replace with placeholder
+                            replaceVideoWithPlaceholder(element);
+                            
+                            // Phase 2: Load video progressively
+                            setTimeout(() => {
+                                loadVideoProgressive(element);
+                            }, 1000 + Math.random() * 2000); // Random delay between 1-3 seconds
+                        }
+                    });
+                }
+            });
+            
+            console.log('✅ Videos optimized for progressive loading');
+            
+        } catch (error) {
+            console.warn('Video optimization failed:', error);
+        }
+    }
+    
+    // Replace video with placeholder
+    function replaceVideoWithPlaceholder(element) {
+        try {
+            // Store original video data
+            element.dataset.originalVideo = element.outerHTML;
+            
+            // Create lightweight placeholder
+            const placeholder = document.createElement('div');
+            placeholder.className = 'video-placeholder';
+            placeholder.style.cssText = `
+                width: 100%;
+                height: 200px;
+                background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px;
+                position: relative;
+                overflow: hidden;
+            `;
+            
+            // Add play button
+            const playButton = document.createElement('div');
+            playButton.innerHTML = '▶';
+            playButton.style.cssText = `
+                width: 60px;
+                height: 60px;
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            `;
+            
+            // Add loading text
+            const loadingText = document.createElement('div');
+            loadingText.textContent = 'Loading Video...';
+            loadingText.style.cssText = `
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+            `;
+            
+            placeholder.appendChild(playButton);
+            placeholder.appendChild(loadingText);
+            
+            // Replace element with placeholder
+            if (element.parentNode) {
+                element.parentNode.replaceChild(placeholder, element);
+                placeholder.dataset.originalElement = element.dataset.originalVideo;
+            }
+            
+        } catch (error) {
+            console.warn('Video placeholder creation failed:', error);
+        }
+    }
+    
+    // Load video progressively
+    function loadVideoProgressive(placeholder) {
+        try {
+            // Get original video data
+            const originalVideoHTML = placeholder.dataset.originalElement;
+            if (!originalVideoHTML) return;
+            
+            // Create new video element
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = originalVideoHTML;
+            const newVideo = tempDiv.firstChild;
+            
+            // Optimize video settings
+            if (newVideo.tagName === 'VIDEO') {
+                newVideo.preload = 'metadata';
+                newVideo.loading = 'lazy';
+                newVideo.muted = true;
+                newVideo.playsInline = true;
+                
+                // Add error handling
+                newVideo.onError = () => {
+                    console.warn('Video failed to load, keeping placeholder');
+                };
+            }
+            
+            // Replace placeholder with optimized video
+            if (placeholder.parentNode) {
+                placeholder.parentNode.replaceChild(newVideo, placeholder);
+                
+                // Load video after a short delay
+                setTimeout(() => {
+                    if (newVideo.tagName === 'VIDEO') {
+                        newVideo.load();
+                    }
+                }, 500);
+            }
+            
+        } catch (error) {
+            console.warn('Progressive video loading failed:', error);
+        }
+    }
+    
+    // Enable progressive gradients
+    function enableProgressiveGradients() {
+        console.log('🎨 Enabling progressive gradients...');
+        
+        try {
+            // Gradually restore gradients with performance optimizations
+            const gradientElements = $w('[data-original-gradient]');
+            if (gradientElements && gradientElements.length > 0) {
+                gradientElements.forEach((element, index) => {
+                    if (element && element.dataset.originalGradient) {
+                        setTimeout(() => {
+                            // Restore original gradient
+                            element.style.background = element.dataset.originalGradient;
+                            
+                            // Optimize for performance
+                            element.style.willChange = 'auto';
+                            element.style.backfaceVisibility = 'visible';
+                            element.style.perspective = 'none';
+                            
+                            // Add smooth transition
+                            element.style.transition = 'background 0.5s ease';
+                            
+                            console.log(`🎨 Restored gradient element ${index + 1}`);
+                        }, index * 100); // 100ms delay between each gradient
+                    }
+                });
+            }
+            
+            // Remove gradient optimization CSS
+            const gradientCSS = document.getElementById('gradient-optimization');
+            if (gradientCSS) {
+                gradientCSS.remove();
+            }
+            
+            console.log('✅ Progressive gradients enabled');
+            
+        } catch (error) {
+            console.warn('Progressive gradient enabling failed:', error);
+        }
+    }
+    
+    // Enable full video loading
+    function enableFullVideoLoading() {
+        console.log('🎬 Enabling full video loading...');
+        
+        try {
+            // Find any remaining placeholders and load videos
+            const placeholders = document.querySelectorAll('.video-placeholder');
+            placeholders.forEach(placeholder => {
+                loadVideoProgressive(placeholder);
+            });
+            
+            console.log('✅ Full video loading enabled');
+            
+        } catch (error) {
+            console.warn('Full video loading failed:', error);
+        }
+    }
+    
+    // Initialize gradient and video optimizer
+    initializeGradientAndVideoOptimizer();
+    
     // OPTIONAL: CONTROLLED AUTO-REFRESH SYSTEM (Use only if needed)
     function initializeControlledAutoRefresh() {
         console.log('🔄 Initializing Controlled Auto-Refresh System...');
