@@ -1,16 +1,12 @@
-// ULTRA-FAST WIX SITE - Desktop & Mobile Optimized
+// ULTRA-LIGHT WIX SITE - No Hanging Version
 $w.onReady(function () {
-    console.log('⚡ Ultra-Fast Site Loading...');
+    console.log('⚡ Ultra-Light Site Loading...');
     
-    // Enhanced state for desktop
+    // Minimal state
     const state = {
         isLoaded: false,
         isMenuOpen: false,
-        isDesktop: false,
-        isMobile: false,
-        scrollY: 0,
-        lastScrollY: 0,
-        scrollRAF: null
+        isDesktop: false
     };
     
     // Simple element cache
@@ -31,109 +27,27 @@ $w.onReady(function () {
     // DETECT SCREEN SIZE
     function detectScreenSize() {
         try {
-            // Check if we're on desktop (Wix environment)
             state.isDesktop = true; // Assume desktop for Wix
-            state.isMobile = false;
-            
             console.log('🖥️ Desktop mode detected');
         } catch (error) {
             console.warn('Screen size detection failed:', error);
         }
     }
     
-    // DESKTOP SMOOTH SCROLL SYSTEM
-    function initializeDesktopSmoothScroll() {
-        if (!state.isDesktop) return;
-        
-        console.log('🎯 Initializing desktop smooth scroll system...');
-        
-        function smoothScrollTo(target, offset = 80) {
-            try {
-                const element = typeof target === 'string' ? getElement(target) : target;
-                if (!element) return;
-                
-                // Desktop smooth scroll with easing
-                element.scrollTo();
-                
-                setTimeout(() => {
-                    try {
-                        const elementTop = element.offsetTop - offset;
-                        // Use Wix's native scroll with smooth behavior
-                        element.scrollTo();
-                    } catch (error) {
-                        console.warn('Desktop scroll positioning failed:', error);
-                    }
-                }, 50);
-                
-            } catch (error) {
-                console.warn('Desktop smooth scroll failed:', error);
-            }
-        }
-        
-        function setupDesktopScrollEffects() {
-            if (state.scrollRAF) return;
-            
-            try {
-                const nav = getElement('#navigation') || getElement('.nav') || getElement('.navigation');
-                if (nav) {
-                    // Desktop scroll effects with smooth transitions
-                    nav.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                    nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-                    nav.style.backdropFilter = 'blur(10px)';
-                    nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
-                }
-            } catch (error) {
-                console.warn('Desktop scroll effects failed:', error);
-            }
-        }
-        
-        function setupNavigationLinks() {
-            try {
-                // Handle navigation links with desktop smoothness
-                const navLinks = $w('.nav-link');
-                navLinks.forEach(link => {
-                    try {
-                        const href = link.href || link.getAttribute('href');
-                        if (href && href.startsWith('#')) {
-                            link.onClick((e) => {
-                                e.preventDefault();
-                                smoothScrollTo(href);
-                                if (state.isMenuOpen) {
-                                    toggleMobileMenu();
-                                }
-                            });
-                        }
-                    } catch (error) {
-                        console.warn('Desktop link setup failed:', error);
-                    }
-                });
-                
-            } catch (error) {
-                console.warn('Desktop navigation setup failed:', error);
-            }
-        }
-        
-        setupDesktopScrollEffects();
-        setupNavigationLinks();
-        console.log('✅ Desktop smooth scroll system initialized');
-    }
-    
-    // MOBILE SIMPLE SCROLL SYSTEM
-    function initializeMobileSimpleScroll() {
-        if (state.isDesktop) return;
-        
-        console.log('📱 Initializing mobile simple scroll system...');
+    // SIMPLE SCROLL SYSTEM - No animations
+    function initializeSimpleScroll() {
+        console.log('🎯 Initializing simple scroll system...');
         
         function simpleScrollTo(target) {
             try {
                 const element = typeof target === 'string' ? getElement(target) : target;
                 if (!element) return;
                 
-                // Use Wix's native scroll - no custom animations for mobile
+                // Use Wix's native scroll - no custom animations
                 element.scrollTo();
                 
             } catch (error) {
-                console.warn('Mobile simple scroll failed:', error);
+                console.warn('Simple scroll failed:', error);
             }
         }
         
@@ -154,202 +68,26 @@ $w.onReady(function () {
                             });
                         }
                     } catch (error) {
-                        console.warn('Mobile link setup failed:', error);
+                        console.warn('Link setup failed:', error);
                     }
                 });
                 
             } catch (error) {
-                console.warn('Mobile navigation setup failed:', error);
+                console.warn('Navigation setup failed:', error);
             }
         }
         
         setupNavigationLinks();
-        console.log('✅ Mobile simple scroll system initialized');
+        console.log('✅ Simple scroll system initialized');
     }
     
-    // DESKTOP SMOOTH ANIMATIONS
-    function initializeDesktopAnimations() {
-        if (!state.isDesktop) return;
-        
-        console.log('✨ Initializing desktop smooth animations...');
-        
-        function setupButtonAnimations() {
-            try {
-                const buttons = $w('.btn');
-                buttons.forEach(button => {
-                    if (!button) return;
-                    
-                    // Desktop button animations
-                    button.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                    
-                    button.onMouseIn(() => {
-                        button.style.transform = 'translateY(-2px) scale(1.02)';
-                        button.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.3)';
-                    });
-                    
-                    button.onMouseOut(() => {
-                        button.style.transform = 'translateY(0) scale(1)';
-                        button.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.2)';
-                    });
-                    
-                    button.onClick(() => {
-                        button.style.transform = 'translateY(0) scale(0.98)';
-                        setTimeout(() => {
-                            button.style.transform = 'translateY(0) scale(1)';
-                        }, 100);
-                    });
-                });
-                
-                const ctaButtons = $w('.cta-button');
-                ctaButtons.forEach(button => {
-                    if (!button) return;
-                    
-                    button.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                    
-                    button.onMouseIn(() => {
-                        button.style.transform = 'translateY(-2px) scale(1.02)';
-                        button.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.3)';
-                    });
-                    
-                    button.onMouseOut(() => {
-                        button.style.transform = 'translateY(0) scale(1)';
-                        button.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.2)';
-                    });
-                    
-                    button.onClick(() => {
-                        button.style.transform = 'translateY(0) scale(0.98)';
-                        setTimeout(() => {
-                            button.style.transform = 'translateY(0) scale(1)';
-                        }, 100);
-                    });
-                });
-            } catch (error) {
-                console.warn('Desktop button animations failed:', error);
-            }
-        }
-        
-        function setupCardAnimations() {
-            try {
-                const cards = $w('.feature-card');
-                cards.forEach((card, index) => {
-                    if (!card) return;
-                    
-                    // Desktop card animations
-                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(30px)';
-                    
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 200 + (index * 100));
-                    
-                    card.onMouseIn(() => {
-                        card.style.transform = 'translateY(-8px) scale(1.02)';
-                        card.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15)';
-                    });
-                    
-                    card.onMouseOut(() => {
-                        card.style.transform = 'translateY(0) scale(1)';
-                        card.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-                    });
-                });
-                
-                const featureCards = $w('.featureCard');
-                featureCards.forEach((card, index) => {
-                    if (!card) return;
-                    
-                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(30px)';
-                    
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 200 + (index * 100));
-                    
-                    card.onMouseIn(() => {
-                        card.style.transform = 'translateY(-8px) scale(1.02)';
-                        card.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15)';
-                    });
-                    
-                    card.onMouseOut(() => {
-                        card.style.transform = 'translateY(0) scale(1)';
-                        card.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-                    });
-                });
-            } catch (error) {
-                console.warn('Desktop card animations failed:', error);
-            }
-        }
-        
-        function setupPageLoadAnimation() {
-            try {
-                const mainContent = getElement('#mainContent');
-                if (mainContent) {
-                    mainContent.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-                    mainContent.style.opacity = '0';
-                    mainContent.style.transform = 'translateY(30px)';
-                    
-                    setTimeout(() => {
-                        mainContent.style.opacity = '1';
-                        mainContent.style.transform = 'translateY(0)';
-                    }, 300);
-                }
-            } catch (error) {
-                console.warn('Desktop page load animation failed:', error);
-            }
-        }
-        
-        function setupTextAnimations() {
-            try {
-                const heroTitles = $w('.hero-title');
-                heroTitles.forEach((title, index) => {
-                    if (!title) return;
-                    
-                    title.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                    title.style.opacity = '0';
-                    title.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        title.style.opacity = '1';
-                        title.style.transform = 'translateY(0)';
-                    }, 400 + (index * 100));
-                });
-                
-                const heroTitles2 = $w('.heroTitle');
-                heroTitles2.forEach((title, index) => {
-                    if (!title) return;
-                    
-                    title.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                    title.style.opacity = '0';
-                    title.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        title.style.opacity = '1';
-                        title.style.transform = 'translateY(0)';
-                    }, 400 + (index * 100));
-                });
-            } catch (error) {
-                console.warn('Desktop text animations failed:', error);
-            }
-        }
-        
-        setupButtonAnimations();
-        setupCardAnimations();
-        setupPageLoadAnimation();
-        setupTextAnimations();
-        
-        console.log('✅ Desktop smooth animations initialized');
-    }
-    
-    // MINIMAL MOBILE CSS - No heavy effects
-    function injectMinimalCSS() {
-        const minimalCSS = `
+    // ULTRA-LIGHT CSS - No heavy effects
+    function injectUltraLightCSS() {
+        const ultraLightCSS = `
             * { box-sizing: border-box; }
             body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; }
             
-            /* DESKTOP STYLES - Smooth and beautiful */
+            /* DESKTOP STYLES - Ultra light, no animations */
             @media (min-width: 769px) {
                 .nav, .navigation, #navigation {
                     padding: 1rem 2rem !important;
@@ -359,9 +97,7 @@ $w.onReady(function () {
                     right: 0 !important;
                     z-index: 1000 !important;
                     background: rgba(255, 255, 255, 0.95) !important;
-                    backdrop-filter: blur(10px) !important;
-                    box-shadow: 0 2px 20px rgba(0,0,0,0.1) !important;
-                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                    border-bottom: 1px solid #eee !important;
                 }
                 
                 .hero, .heroSection, #heroSection {
@@ -408,7 +144,7 @@ $w.onReady(function () {
                     text-align: center !important;
                     border-radius: 12px !important;
                     border: none !important;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                    background: #667eea !important;
                     color: white !important;
                     font-weight: 600 !important;
                     text-decoration: none !important;
@@ -416,13 +152,6 @@ $w.onReady(function () {
                     align-items: center !important;
                     justify-content: center !important;
                     cursor: pointer !important;
-                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
-                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                }
-                
-                .btn:hover, .button:hover, .cta-button:hover {
-                    transform: translateY(-2px) scale(1.02) !important;
-                    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
                 }
                 
                 .features, .featuresSection, #featuresSection {
@@ -448,14 +177,7 @@ $w.onReady(function () {
                     margin: 0 !important;
                     border-radius: 16px !important;
                     background: white !important;
-                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
                     border: 1px solid #eee !important;
-                    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                }
-                
-                .feature-card:hover, .featureCard:hover {
-                    transform: translateY(-8px) scale(1.02) !important;
-                    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
                 }
                 
                 .feature-card h3, .featureCard h3 {
@@ -701,17 +423,15 @@ $w.onReady(function () {
                 height: auto !important;
             }
             
-            /* Mobile performance - disable animations */
-            @media (max-width: 768px) {
-                * {
-                    animation: none !important;
-                    transition: none !important;
-                    transform: none !important;
-                    filter: none !important;
-                    backdrop-filter: none !important;
-                    box-shadow: none !important;
-                    will-change: auto !important;
-                }
+            /* DISABLE ALL ANIMATIONS FOR PERFORMANCE */
+            * {
+                animation: none !important;
+                transition: none !important;
+                transform: none !important;
+                filter: none !important;
+                backdrop-filter: none !important;
+                box-shadow: none !important;
+                will-change: auto !important;
             }
         `;
         
@@ -719,7 +439,7 @@ $w.onReady(function () {
         try {
             const styleElement = $w('style');
             if (styleElement) {
-                styleElement.text = minimalCSS;
+                styleElement.text = ultraLightCSS;
             }
         } catch (error) {
             console.warn('CSS injection failed:', error);
@@ -803,9 +523,9 @@ $w.onReady(function () {
         }
     }
     
-    // MINIMAL PERFORMANCE OPTIMIZATIONS
+    // ULTRA-LIGHT PERFORMANCE OPTIMIZATIONS
     function optimizePerformance() {
-        console.log('⚡ Applying performance optimizations...');
+        console.log('⚡ Applying ultra-light performance optimizations...');
         
         try {
             // Optimize images
@@ -816,38 +536,36 @@ $w.onReady(function () {
                 }
             });
             
-            // Mobile-specific optimizations
-            if (!state.isDesktop) {
-                const allElements = $w('*');
-                allElements.forEach(element => {
-                    if (element && element.style) {
-                        element.style.animation = 'none';
-                        element.style.transition = 'none';
-                        element.style.transform = 'none';
-                        element.style.filter = 'none';
-                        element.style.backdropFilter = 'none';
-                        element.style.boxShadow = 'none';
-                        element.style.willChange = 'auto';
-                    }
-                });
-            }
+            // Disable ALL animations and effects
+            const allElements = $w('*');
+            allElements.forEach(element => {
+                if (element && element.style) {
+                    element.style.animation = 'none';
+                    element.style.transition = 'none';
+                    element.style.transform = 'none';
+                    element.style.filter = 'none';
+                    element.style.backdropFilter = 'none';
+                    element.style.boxShadow = 'none';
+                    element.style.willChange = 'auto';
+                }
+            });
             
         } catch (error) {
             console.warn('Performance optimization failed:', error);
         }
         
-        console.log('✅ Performance optimizations applied');
+        console.log('✅ Ultra-light performance optimizations applied');
     }
     
     // ULTRA-FAST INITIALIZATION
-    console.log('🚀 Starting ultra-fast initialization...');
+    console.log('🚀 Starting ultra-light initialization...');
     
     // Step 1: Detect screen size (0ms)
     detectScreenSize();
     
-    // Step 2: Inject CSS (50ms)
+    // Step 2: Inject ultra-light CSS (50ms)
     setTimeout(() => {
-        injectMinimalCSS();
+        injectUltraLightCSS();
     }, 50);
     
     // Step 3: Setup mobile menu (100ms)
@@ -855,33 +573,22 @@ $w.onReady(function () {
         setupMobileMenu();
     }, 100);
     
-    // Step 4: Setup scroll system based on device (150ms)
+    // Step 4: Setup simple scroll (150ms)
     setTimeout(() => {
-        if (state.isDesktop) {
-            initializeDesktopSmoothScroll();
-        } else {
-            initializeMobileSimpleScroll();
-        }
+        initializeSimpleScroll();
     }, 150);
     
-    // Step 5: Setup animations based on device (200ms)
-    setTimeout(() => {
-        if (state.isDesktop) {
-            initializeDesktopAnimations();
-        }
-    }, 200);
-    
-    // Step 6: Apply performance optimizations (250ms)
+    // Step 5: Apply ultra-light performance optimizations (200ms)
     setTimeout(() => {
         optimizePerformance();
-    }, 250);
+    }, 200);
     
-    // Step 7: Mark as loaded (300ms)
+    // Step 6: Mark as loaded (250ms)
     setTimeout(() => {
         state.isLoaded = true;
-        console.log('✅ Ultra-fast site loaded successfully!');
-        console.log(`🎯 Mode: ${state.isDesktop ? 'Desktop (Smooth)' : 'Mobile (Fast)'}`);
-    }, 300);
+        console.log('✅ Ultra-light site loaded successfully!');
+        console.log('🎯 Mode: Ultra-light (No hanging)');
+    }, 250);
     
-    console.log('✅ Ultra-fast Wix site ready!');
+    console.log('✅ Ultra-light Wix site ready!');
 }); 
