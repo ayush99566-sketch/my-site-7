@@ -1,266 +1,308 @@
-// ULTRA-SMOOTH WIX SITE - Master Page with Butter-Smooth Performance
-// Includes: Ultra-smooth scrolling, Enhanced animations, Mobile optimization, Performance monitoring
+// ULTRA-SMOOTH WIX SITE - Master Page with Progressive Loading
+// Prevents first-time loading crashes by loading features in phases
 
 $w.onReady(function () {
-    console.log('🚀 Ultra-Fast Master Page Loading...');
+    console.log('🚀 Progressive Master Page Loading...');
     
-    // ===== PERFORMANCE STATE MANAGEMENT =====
+    // Performance state management
     const state = {
         isMobile: window.innerWidth < 768,
         isMenuOpen: false,
         isLoaded: false,
-        scrollY: 0,
-        lastScrollTime: 0,
-        performanceMode: 'ultra-fast'
+        loadPhase: 0 // 0: critical, 1: essential, 2: enhanced, 3: full
     };
     
-    // ===== ELEMENT CACHE FOR ULTRA-FAST ACCESS =====
+    // Element cache for fast access
     const elements = new Map();
     
     function getElement(selector) {
         if (!elements.has(selector)) {
-            const element = $w(selector);
-            if (element) {
-                elements.set(selector, element);
+            try {
+                const element = $w(selector);
+                if (element) elements.set(selector, element);
+            } catch (error) {
+                console.warn('Element not found:', selector);
             }
         }
         return elements.get(selector);
     }
     
-    // ===== ULTRA-FAST MOBILE MENU SYSTEM =====
+    // Progressive loading system
+    function progressiveLoad() {
+        console.log('📦 Starting progressive load...');
+        
+        // Phase 0: Critical functionality only
+        loadCriticalElements();
+        
+        // Phase 1: Essential features (after 100ms)
+        setTimeout(() => loadEssentialFeatures(), 100);
+        
+        // Phase 2: Enhanced features (after 300ms)
+        setTimeout(() => loadEnhancedFeatures(), 300);
+        
+        // Phase 3: Full features (after 800ms)
+        setTimeout(() => loadFullFeatures(), 800);
+    }
+    
+    function loadCriticalElements() {
+        console.log('🔧 Loading critical elements...');
+        state.loadPhase = 0;
+        
+        // Only essential navigation
+        const menuToggle = getElement('#navMenuToggle');
+        if (menuToggle) {
+            menuToggle.onClick(() => toggleMobileMenu());
+        }
+        
+        // Basic error handling
+        setupErrorHandling();
+        
+        console.log('✅ Critical elements loaded');
+    }
+    
+    function loadEssentialFeatures() {
+        console.log('⚡ Loading essential features...');
+        state.loadPhase = 1;
+        
+        // Mobile menu overlay
+        const mobileOverlay = getElement('#mobileOverlay');
+        if (mobileOverlay) {
+            mobileOverlay.onClick(() => toggleMobileMenu());
+        }
+        
+        // Basic navigation links
+        const navLinks = $w('.nav-link, a[href^="#"]');
+        navLinks.forEach(link => {
+            try {
+                link.onClick((e) => {
+                    e.preventDefault();
+                    const href = link.href || link.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        simpleScrollTo(href);
+                    }
+                    if (state.isMenuOpen) {
+                        toggleMobileMenu();
+                    }
+                });
+            } catch (error) {
+                console.warn('Link setup failed:', error);
+            }
+        });
+        
+        // Basic responsive behavior
+        setupBasicResponsive();
+        
+        console.log('✅ Essential features loaded');
+    }
+    
+    function loadEnhancedFeatures() {
+        console.log('🎨 Loading enhanced features...');
+        state.loadPhase = 2;
+        
+        // Smooth scroll system
+        setupSmoothScroll();
+        
+        // Basic animations
+        setupBasicAnimations();
+        
+        // Image optimization
+        optimizeImages();
+        
+        console.log('✅ Enhanced features loaded');
+    }
+    
+    function loadFullFeatures() {
+        console.log('🚀 Loading full features...');
+        state.loadPhase = 3;
+        
+        // Enhanced animations
+        setupEnhancedAnimations();
+        
+        // Performance monitoring
+        startPerformanceMonitoring();
+        
+        // Mobile optimizations
+        initializeMobileOptimizations();
+        
+        // Mark as fully loaded
+        state.isLoaded = true;
+        console.log('✅ Full site loaded successfully!');
+        
+        // Dispatch custom event for other scripts
+        window.dispatchEvent(new CustomEvent('ultraFastSiteReady'));
+    }
+    
+    // Mobile menu system
     function toggleMobileMenu() {
-        const menu = getElement('#navMenu');
-        const toggle = getElement('#navMenuToggle');
-        const overlay = getElement('#mobileOverlay');
-        
-        if (!menu || !toggle) return;
-        
-        state.isMenuOpen = !state.isMenuOpen;
-        
-        if (state.isMenuOpen) {
-            // Ultra-fast menu open
-            menu.expand();
-            toggle.expand();
-            if (overlay) overlay.expand();
+        try {
+            const menu = getElement('#navMenu');
+            const toggle = getElement('#navMenuToggle');
+            const overlay = getElement('#mobileOverlay');
             
-            // Prevent body scroll
-            document.body.style.overflow = 'hidden';
-        } else {
-            // Ultra-fast menu close
-            menu.collapse();
-            toggle.collapse();
-            if (overlay) overlay.collapse();
+            if (!menu || !toggle) return;
             
-            // Restore body scroll
-            document.body.style.overflow = '';
+            state.isMenuOpen = !state.isMenuOpen;
+            
+            if (state.isMenuOpen) {
+                menu.expand();
+                toggle.expand();
+                if (overlay) overlay.expand();
+                document.body.style.overflow = 'hidden';
+            } else {
+                menu.collapse();
+                toggle.collapse();
+                if (overlay) overlay.collapse();
+                document.body.style.overflow = '';
+            }
+        } catch (error) {
+            console.warn('Menu toggle failed:', error);
         }
     }
     
-    // ===== ULTRA-SMOOTH SCROLL SYSTEM =====
+    // Simple scroll system (Phase 1)
+    function simpleScrollTo(target) {
+        try {
+            const element = typeof target === 'string' ? getElement(target) : target;
+            if (!element) return;
+            element.scrollTo();
+        } catch (error) {
+            console.warn('Simple scroll failed:', error);
+        }
+    }
+    
+    // Smooth scroll system (Phase 2)
     let scrollRAF = null;
     let lastScrollY = 0;
+    
+    function setupSmoothScroll() {
+        if (scrollRAF) return;
+        window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
+    }
     
     function ultraSmoothScroll() {
         if (scrollRAF) return;
         
         scrollRAF = requestAnimationFrame(() => {
-            const currentScrollY = window.scrollY;
-            const nav = getElement('#navigation');
-            
-            if (nav && Math.abs(currentScrollY - lastScrollY) > 5) {
-                // Ultra-smooth nav background transition
-                const opacity = Math.min(currentScrollY / 100, 1);
-                const backgroundColor = `rgba(255, 255, 255, ${opacity * 0.95})`;
+            try {
+                const currentScrollY = window.scrollY;
+                const nav = getElement('#navigation');
                 
-                nav.style.backgroundColor = backgroundColor;
-                nav.style.backdropFilter = `blur(${opacity * 10}px)`;
-                
-                // Add shadow for depth
-                if (opacity > 0.1) {
-                    nav.style.boxShadow = `0 2px 20px rgba(0,0,0,${opacity * 0.1})`;
-                } else {
-                    nav.style.boxShadow = 'none';
+                if (nav && Math.abs(currentScrollY - lastScrollY) > 5) {
+                    const opacity = Math.min(currentScrollY / 100, 1);
+                    const backgroundColor = `rgba(255, 255, 255, ${opacity * 0.95})`;
+                    
+                    nav.style.backgroundColor = backgroundColor;
+                    nav.style.backdropFilter = `blur(${opacity * 10}px)`;
+                    
+                    if (opacity > 0.1) {
+                        nav.style.boxShadow = `0 2px 20px rgba(0,0,0,${opacity * 0.1})`;
+                    } else {
+                        nav.style.boxShadow = 'none';
+                    }
+                    
+                    lastScrollY = currentScrollY;
                 }
-                
-                lastScrollY = currentScrollY;
+            } catch (error) {
+                console.warn('Smooth scroll failed:', error);
             }
             
             scrollRAF = null;
         });
     }
     
-    // ===== ULTRA-FAST SCROLL TO ELEMENT =====
+    // Ultra-fast scroll to element (Phase 3)
     function ultraFastScrollTo(target, offset = 80) {
-        const element = typeof target === 'string' ? getElement(target) : target;
-        if (!element) return;
-        
-        // Use Wix's optimized scrollTo with custom offset
-        element.scrollTo();
-        
-        // Additional smooth behavior for better UX
-        setTimeout(() => {
-            const elementTop = element.offsetTop - offset;
-            window.scrollTo({
-                top: elementTop,
-                behavior: 'smooth'
-            });
-        }, 50);
+        try {
+            const element = typeof target === 'string' ? getElement(target) : target;
+            if (!element) return;
+            
+            element.scrollTo();
+            
+            setTimeout(() => {
+                const elementTop = element.offsetTop - offset;
+                window.scrollTo({
+                    top: elementTop,
+                    behavior: 'smooth'
+                });
+            }, 50);
+        } catch (error) {
+            console.warn('Ultra-fast scroll failed:', error);
+        }
     }
     
-    // ===== ULTRA-FAST IMAGE OPTIMIZATION =====
+    // Image optimization
     function optimizeImages() {
-        const images = $w('img');
-        images.forEach(img => {
-            // Add loading="lazy" for better performance
-            if (img.loading !== 'lazy') {
-                img.loading = 'lazy';
-            }
-            
-            // Add error handling
-            img.onError(() => {
-                console.warn('Image failed to load:', img.src);
-                // Could add fallback image here
+        try {
+            const images = $w('img');
+            images.forEach(img => {
+                if (img.loading !== 'lazy') {
+                    img.loading = 'lazy';
+                }
+                
+                img.onError(() => {
+                    console.warn('Image failed to load:', img.src);
+                });
             });
-        });
+        } catch (error) {
+            console.warn('Image optimization failed:', error);
+        }
     }
     
-    // ===== ULTRA-FAST BUTTON INTERACTIONS =====
-    function initializeButtons() {
-        const buttons = $w('button, .btn, .cta-button');
-        buttons.forEach(button => {
-            // Ultra-fast hover effects
-            button.onMouseIn(() => {
-                button.scale = 1.02;
-                button.style.transition = 'transform 0.1s ease';
-            });
-            
-            button.onMouseOut(() => {
-                button.scale = 1;
-            });
-            
-            // Ultra-fast click effects
-            button.onClick(() => {
-                button.scale = 0.98;
+    // Basic animations (Phase 2)
+    function setupBasicAnimations() {
+        try {
+            const mainContent = getElement('#mainContent') || $w('main') || $w('.main-content');
+            if (mainContent) {
+                mainContent.opacity = 0;
+                mainContent.style.transition = 'opacity 0.5s ease';
+                
                 setTimeout(() => {
+                    mainContent.opacity = 1;
+                }, 200);
+            }
+        } catch (error) {
+            console.warn('Basic animations failed:', error);
+        }
+    }
+    
+    // Enhanced animations (Phase 3)
+    function setupEnhancedAnimations() {
+        try {
+            const buttons = $w('button, .btn, .cta-button');
+            buttons.forEach(button => {
+                button.onMouseIn(() => {
+                    button.scale = 1.02;
+                    button.style.transition = 'transform 0.1s ease';
+                });
+                
+                button.onMouseOut(() => {
                     button.scale = 1;
-                }, 100);
+                });
+                
+                button.onClick(() => {
+                    button.scale = 0.98;
+                    setTimeout(() => {
+                        button.scale = 1;
+                    }, 100);
+                });
             });
-        });
-    }
-    
-    // ===== ULTRA-FAST FORM HANDLING =====
-    function initializeForms() {
-        const forms = $w('form');
-        forms.forEach(form => {
-            form.onSubmit((event) => {
-                // Prevent default to handle custom submission
-                event.preventDefault();
+            
+            const listItems = $w('li, .list-item');
+            listItems.forEach((item, index) => {
+                item.opacity = 0;
+                item.style.transition = `opacity 0.3s ease ${index * 0.1}s`;
                 
-                // Add loading state
-                const submitBtn = form.querySelector('button[type="submit"]');
-                if (submitBtn) {
-                    submitBtn.text = 'Sending...';
-                    submitBtn.disabled = true;
-                }
-                
-                // Simulate form submission (replace with actual logic)
                 setTimeout(() => {
-                    if (submitBtn) {
-                        submitBtn.text = 'Sent!';
-                        setTimeout(() => {
-                            submitBtn.text = 'Submit';
-                            submitBtn.disabled = false;
-                        }, 2000);
-                    }
-                }, 1000);
+                    item.opacity = 1;
+                }, 200 + (index * 100));
             });
-        });
+        } catch (error) {
+            console.warn('Enhanced animations failed:', error);
+        }
     }
     
-    // ===== ULTRA-FAST ANIMATIONS =====
-    function initializeAnimations() {
-        // Fade in page content
-        const mainContent = getElement('#mainContent') || $w('main') || $w('.main-content');
-        if (mainContent) {
-            mainContent.opacity = 0;
-            mainContent.style.transition = 'opacity 0.3s ease';
-            
-            setTimeout(() => {
-                mainContent.opacity = 1;
-            }, 100);
-        }
-        
-        // Stagger animations for lists
-        const listItems = $w('li, .list-item');
-        listItems.forEach((item, index) => {
-            item.opacity = 0;
-            item.style.transition = `opacity 0.3s ease ${index * 0.1}s`;
-            
-            setTimeout(() => {
-                item.opacity = 1;
-            }, 200 + (index * 100));
-        });
-    }
-    
-    // ===== ULTRA-FAST PERFORMANCE MONITORING =====
-    function startPerformanceMonitoring() {
-        // Monitor scroll performance
-        let scrollCount = 0;
-        let lastScrollCheck = Date.now();
-        
-        const scrollObserver = () => {
-            scrollCount++;
-            const now = Date.now();
-            
-            if (now - lastScrollCheck > 1000) {
-                const scrollsPerSecond = scrollCount;
-                if (scrollsPerSecond > 30) {
-                    console.warn('High scroll frequency detected, optimizing...');
-                    // Could implement additional optimizations here
-                }
-                scrollCount = 0;
-                lastScrollCheck = now;
-            }
-        };
-        
-        window.addEventListener('scroll', scrollObserver, { passive: true });
-    }
-    
-    // ===== ULTRA-FAST INITIALIZATION =====
-    function initializeUltraFastSite() {
-        console.log('🚀 Initializing Ultra-Fast Site...');
-        
-        // Initialize mobile menu
-        const menuToggle = getElement('#navMenuToggle');
-        if (menuToggle) {
-            menuToggle.onClick(() => toggleMobileMenu());
-        }
-        
-        // Initialize mobile overlay
-        const mobileOverlay = getElement('#mobileOverlay');
-        if (mobileOverlay) {
-            mobileOverlay.onClick(() => toggleMobileMenu());
-        }
-        
-        // Initialize navigation links with ultra-fast scrolling
-        const navLinks = $w('.nav-link, a[href^="#"]');
-        navLinks.forEach(link => {
-            link.onClick((e) => {
-                e.preventDefault();
-                const href = link.href || link.getAttribute('href');
-                if (href && href.startsWith('#')) {
-                    ultraFastScrollTo(href);
-                }
-                if (state.isMenuOpen) {
-                    toggleMobileMenu();
-                }
-            });
-        });
-        
-        // Initialize ultra-smooth scroll
-        window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
-        
-        // Initialize responsive behavior
+    // Basic responsive (Phase 1)
+    function setupBasicResponsive() {
         let resizeTimeout;
         window.addEventListener('resize', () => {
             if (resizeTimeout) clearTimeout(resizeTimeout);
@@ -268,90 +310,93 @@ $w.onReady(function () {
                 const wasMobile = state.isMobile;
                 state.isMobile = window.innerWidth < 768;
                 
-                // Close mobile menu if switching to desktop
                 if (!state.isMobile && wasMobile && state.isMenuOpen) {
                     toggleMobileMenu();
                 }
             }, 250);
         });
-        
-        // Initialize all optimizations
-        optimizeImages();
-        initializeButtons();
-        initializeForms();
-        initializeAnimations();
-        startPerformanceMonitoring();
-        
-        // Mark as loaded
-        state.isLoaded = true;
-        console.log('✅ Ultra-Fast Site Initialized Successfully!');
-        
-        // Dispatch custom event for other scripts
-        window.dispatchEvent(new CustomEvent('ultraFastSiteReady'));
     }
     
-    // ===== ERROR HANDLING & CRASH PREVENTION =====
+    // Performance monitoring
+    function startPerformanceMonitoring() {
+        try {
+            let scrollCount = 0;
+            let lastScrollCheck = Date.now();
+            
+            const scrollObserver = () => {
+                scrollCount++;
+                const now = Date.now();
+                
+                if (now - lastScrollCheck > 1000) {
+                    const scrollsPerSecond = scrollCount;
+                    if (scrollsPerSecond > 30) {
+                        console.warn('High scroll frequency detected, optimizing...');
+                    }
+                    scrollCount = 0;
+                    lastScrollCheck = now;
+                }
+            };
+            
+            window.addEventListener('scroll', scrollObserver, { passive: true });
+        } catch (error) {
+            console.warn('Performance monitoring failed:', error);
+        }
+    }
+    
+    // Error handling & crash prevention
     function setupErrorHandling() {
-        // Prevent common crashes
         window.addEventListener('error', (e) => {
             console.warn('Error caught and handled:', e.error);
             e.preventDefault();
         });
         
-        // Handle unhandled promise rejections
         window.addEventListener('unhandledrejection', (e) => {
             console.warn('Unhandled promise rejection caught:', e.reason);
             e.preventDefault();
         });
+        
+        const originalWixFunction = window.$w;
+        if (originalWixFunction) {
+            window.$w = function(...args) {
+                try {
+                    return originalWixFunction.apply(this, args);
+                } catch (error) {
+                    console.warn('Wix function error:', error);
+                    return null;
+                }
+            };
+        }
     }
     
-    // ===== START EVERYTHING =====
-    setupErrorHandling();
-    initializeUltraFastSite();
-    
-    // Export functions for other pages to use
-    window.ultraFastSite = {
-        scrollTo: ultraFastScrollTo,
-        toggleMenu: toggleMobileMenu,
-        getElement: getElement,
-        state: state
-    
-    // ===== MOBILE OPTIMIZATIONS =====
+    // Mobile optimizations
     function initializeMobileOptimizations() {
         console.log('📱 Initializing Mobile Optimizations...');
         
-        // Mobile detection
-        const isMobile = window.innerWidth < 768;
-        const isTouchDevice = 'ontouchstart' in window;
-        
-        // Update state for mobile
-        if (state) {
+        try {
+            const isMobile = window.innerWidth < 768;
+            const isTouchDevice = 'ontouchstart' in window;
+            
             state.isMobile = isMobile;
             state.isTouchDevice = isTouchDevice;
+            
+            injectMobileCSS();
+            
+            if (isTouchDevice) {
+                initializeTouchOptimizations();
+            }
+            
+            initializeMobileResponsive();
+            initializeMobilePerformance();
+            
+            console.log('✅ Mobile optimizations initialized!');
+        } catch (error) {
+            console.warn('Mobile optimizations failed:', error);
         }
-        
-        // Mobile-specific CSS injection
-        injectMobileCSS();
-        
-        // Mobile touch optimizations
-        if (isTouchDevice) {
-            initializeTouchOptimizations();
-        }
-        
-        // Mobile responsive adjustments
-        initializeMobileResponsive();
-        
-        // Mobile performance optimizations
-        initializeMobilePerformance();
-        
-        console.log('✅ Mobile optimizations initialized!');
     }
     
     function injectMobileCSS() {
         const mobileCSS = `
-            /* Mobile Optimizations */
             @media (max-width: 768px) {
-                /* Navigation adjustments */
                 .nav, .navigation {
                     padding: 0.75rem 1rem !important;
                 }
@@ -364,7 +409,6 @@ $w.onReady(function () {
                     font-size: 1.25rem !important;
                 }
                 
-                /* Hero section mobile fit */
                 .hero, .heroSection {
                     min-height: 100vh !important;
                     padding: 1rem !important;
@@ -391,7 +435,6 @@ $w.onReady(function () {
                     margin-bottom: 1.5rem !important;
                 }
                 
-                /* Button container mobile fit */
                 .btn-container, .buttonContainer {
                     flex-direction: column !important;
                     align-items: center !important;
@@ -409,7 +452,6 @@ $w.onReady(function () {
                     touch-action: manipulation !important;
                 }
                 
-                /* Features section mobile fit */
                 .features, .featuresSection {
                     padding: 2rem 1rem !important;
                 }
@@ -441,7 +483,6 @@ $w.onReady(function () {
                 }
             }
             
-            /* Small mobile devices (iPhone SE, etc.) */
             @media (max-width: 375px) {
                 .hero, .heroSection {
                     padding: 0.75rem !important;
@@ -476,7 +517,6 @@ $w.onReady(function () {
                 }
             }
             
-            /* Medium mobile devices (iPhone 12/13) */
             @media (min-width: 376px) and (max-width: 428px) {
                 .hero-title, .heroTitle {
                     font-size: clamp(1.875rem, 6.5vw, 2.25rem) !important;
@@ -491,7 +531,6 @@ $w.onReady(function () {
                 }
             }
             
-            /* Large mobile devices (iPhone Pro Max, etc.) */
             @media (min-width: 429px) and (max-width: 768px) {
                 .hero-title, .heroTitle {
                     font-size: clamp(2rem, 6vw, 2.5rem) !important;
@@ -506,7 +545,6 @@ $w.onReady(function () {
                 }
             }
             
-            /* Landscape mobile optimization */
             @media (max-width: 768px) and (orientation: landscape) {
                 .hero, .heroSection {
                     min-height: 85vh !important;
@@ -545,7 +583,6 @@ $w.onReady(function () {
                 }
             }
             
-            /* Touch device optimizations */
             @media (hover: none) and (pointer: coarse) {
                 .btn:hover, .button:hover {
                     transform: none !important;
@@ -560,14 +597,12 @@ $w.onReady(function () {
                     transform: none !important;
                 }
                 
-                /* Enhanced touch targets */
                 .btn, .button, .nav-link, .navLink {
                     min-height: 44px !important;
                     min-width: 44px !important;
                 }
             }
             
-            /* Safe area support for notched devices */
             @supports (padding: max(0px)) {
                 .nav, .navigation {
                     padding-left: max(1rem, env(safe-area-inset-left)) !important;
@@ -585,13 +620,11 @@ $w.onReady(function () {
                 }
             }
             
-            /* Prevent horizontal scrolling */
             body {
                 overflow-x: hidden !important;
                 width: 100% !important;
             }
             
-            /* Ensure proper container sizing */
             .nav-container, .nav-wrapper,
             .hero-content, .heroContent,
             .features-grid, .featuresGrid {
@@ -601,116 +634,128 @@ $w.onReady(function () {
             }
         `;
         
-        // Inject CSS into head
         const style = document.createElement('style');
         style.textContent = mobileCSS;
         document.head.appendChild(style);
     }
     
     function initializeTouchOptimizations() {
-        // Enhanced touch feedback for buttons
-        const buttons = $w('.btn, .button, [data-testid*="button"]');
-        buttons.forEach(btn => {
-            if (!btn) return;
-            
-            // Touch start effect
-            btn.onTouchStart(() => {
-                btn.style.transform = 'scale(0.95)';
-                btn.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+        try {
+            const buttons = $w('.btn, .button, [data-testid*="button"]');
+            buttons.forEach(btn => {
+                if (!btn) return;
+                
+                btn.onTouchStart(() => {
+                    btn.style.transform = 'scale(0.95)';
+                    btn.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+                
+                btn.onTouchEnd(() => {
+                    setTimeout(() => {
+                        btn.style.transform = '';
+                        btn.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    }, 150);
+                });
             });
             
-            // Touch end effect
-            btn.onTouchEnd(() => {
-                setTimeout(() => {
-                    btn.style.transform = '';
-                    btn.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                }, 150);
-            });
-        });
-        
-        // Enhanced touch feedback for cards
-        const cards = $w('.feature-card, .featureCard, .card');
-        cards.forEach(card => {
-            if (!card) return;
-            
-            card.onTouchStart(() => {
-                card.style.transform = 'scale(0.98)';
-                card.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+            const cards = $w('.feature-card, .featureCard, .card');
+            cards.forEach(card => {
+                if (!card) return;
+                
+                card.onTouchStart(() => {
+                    card.style.transform = 'scale(0.98)';
+                    card.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+                
+                card.onTouchEnd(() => {
+                    setTimeout(() => {
+                        card.style.transform = '';
+                        card.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    }, 150);
+                });
             });
             
-            card.onTouchEnd(() => {
-                setTimeout(() => {
-                    card.style.transform = '';
-                    card.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                }, 150);
-            });
-        });
-        
-        // Prevent zoom on double tap
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (event) => {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', (event) => {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        } catch (error) {
+            console.warn('Touch optimizations failed:', error);
+        }
     }
     
     function initializeMobileResponsive() {
-        // Mobile-specific element adjustments
-        const heroSection = $w('#heroSection') || $w('.hero');
-        if (heroSection && state.isMobile) {
-            // Adjust hero for mobile
-            heroSection.style.minHeight = '100vh';
-            heroSection.style.padding = '1rem';
-            heroSection.style.paddingTop = '70px';
-        }
-        
-        // Mobile navigation adjustments
-        const nav = $w('.nav, .navigation');
-        if (nav && state.isMobile) {
-            nav.style.padding = '0.75rem 1rem';
-        }
-        
-        // Mobile button adjustments
-        const buttons = $w('.btn, .button');
-        buttons.forEach(btn => {
-            if (!btn || !state.isMobile) return;
+        try {
+            const heroSection = $w('#heroSection') || $w('.hero');
+            if (heroSection && state.isMobile) {
+                heroSection.style.minHeight = '100vh';
+                heroSection.style.padding = '1rem';
+                heroSection.style.paddingTop = '70px';
+            }
             
-            btn.style.width = '100%';
-            btn.style.maxWidth = '280px';
-            btn.style.minHeight = '48px';
-            btn.style.padding = '0.875rem 1.5rem';
-            btn.style.fontSize = '1rem';
-            btn.style.textAlign = 'center';
-            btn.style.touchAction = 'manipulation';
-        });
+            const nav = $w('.nav, .navigation');
+            if (nav && state.isMobile) {
+                nav.style.padding = '0.75rem 1rem';
+            }
+            
+            const buttons = $w('.btn, .button');
+            buttons.forEach(btn => {
+                if (!btn || !state.isMobile) return;
+                
+                btn.style.width = '100%';
+                btn.style.maxWidth = '280px';
+                btn.style.minHeight = '48px';
+                btn.style.padding = '0.875rem 1.5rem';
+                btn.style.fontSize = '1rem';
+                btn.style.textAlign = 'center';
+                btn.style.touchAction = 'manipulation';
+            });
+        } catch (error) {
+            console.warn('Mobile responsive failed:', error);
+        }
     }
     
     function initializeMobilePerformance() {
-        // Mobile-specific performance optimizations
-        if (state.isMobile) {
-            // Reduce animation complexity on mobile
-            const animations = $w('[data-animation]');
-            animations.forEach(anim => {
-                if (!anim) return;
-                anim.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            });
-            
-            // Optimize scroll performance
-            const scrollElements = $w('.scroll-container, .scrollContainer');
-            scrollElements.forEach(element => {
-                if (!element) return;
-                element.style.willChange = 'transform';
-                element.style.transform = 'translateZ(0)';
-            });
+        try {
+            if (state.isMobile) {
+                const animations = $w('[data-animation]');
+                animations.forEach(anim => {
+                    if (!anim) return;
+                    anim.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                });
+                
+                const scrollElements = $w('.scroll-container, .scrollContainer');
+                scrollElements.forEach(element => {
+                    if (!element) return;
+                    element.style.willChange = 'transform';
+                    element.style.transform = 'translateZ(0)';
+                });
+            }
+        } catch (error) {
+            console.warn('Mobile performance failed:', error);
         }
     }
     
-    // Initialize mobile optimizations after page load
-    setTimeout(() => {
-        initializeMobileOptimizations();
-    }, 100);
-};
+    // Start progressive loading
+    progressiveLoad();
+    
+    // Export functions for other pages to use
+    window.ultraFastSite = {
+        scrollTo: ultraFastScrollTo,
+        toggleMenu: toggleMobileMenu,
+        getElement: getElement,
+        state: state,
+        isReady: () => state.isLoaded,
+        waitForReady: (callback) => {
+            if (state.isLoaded) {
+                callback();
+            } else {
+                window.addEventListener('ultraFastSiteReady', callback);
+            }
+        }
+    };
 });
