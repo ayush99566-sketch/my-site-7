@@ -1,281 +1,226 @@
-// SIMPLIFIED ULTRA-SMOOTH MAIN PAGE
-// Optimized to prevent crashes and ensure smooth functioning
+// ULTRA-SMOOTH MAIN PAGE - Progressive Loading System
+// Prevents first-time loading crashes by loading features in phases
+// UPDATED: Compatible with new master page optimizations
 
 $w.onReady(function () {
-    console.log('🚀 Simplified Main Page Loading...');
+    console.log('🚀 Progressive Main Page Loading with Master Page Integration...');
     
-    // Simple state management
+    // Performance state management
     const state = {
-        isLoaded: false,
         isMobile: typeof window !== 'undefined' ? window.innerWidth < 768 : false,
-        isMenuOpen: false
+        isScrolling: false,
+        lastScrollY: 0,
+        scrollRAF: null,
+        performanceMode: 'progressive',
+        loadPhase: 0, // 0: critical, 1: essential, 2: enhanced, 3: full
+        // NEW: Integration with master page optimizations
+        masterPageReady: false,
+        optimizationLevel: 0
     };
     
-    // Element cache
-    const elements = new Map();
-    
-    function getElement(selector) {
-        if (!elements.has(selector)) {
-            try {
-                const element = $w(selector);
-                if (element) elements.set(selector, element);
-            } catch (error) {
-                console.warn('Element not found:', selector);
-            }
+    // Wait for master page to be ready
+    const waitForMasterPage = () => {
+        if (typeof window !== 'undefined' && window.ultraFastSite) {
+            state.masterPageReady = true;
+            console.log('✅ Master page ready - starting main page optimizations');
+            progressiveLoad();
+        } else {
+            setTimeout(waitForMasterPage, 50);
         }
-        return elements.get(selector);
+    };
+    
+    // Progressive loading system with master page integration
+    function progressiveLoad() {
+        console.log('📦 Starting progressive main page load with master page integration...');
+        
+        // Phase 0: Critical functionality only
+        loadCriticalElements();
+        
+        // Phase 1: Essential features (after 150ms)
+        setTimeout(() => loadEssentialFeatures(), 150);
+        
+        // Phase 2: Enhanced features (after 400ms)
+        setTimeout(() => loadEnhancedFeatures(), 400);
+        
+        // Phase 3: Full features (after 1000ms)
+        setTimeout(() => loadFullFeatures(), 1000);
     }
     
-    // CRASH PREVENTION - Disable all heavy animations
-    function preventCrashes() {
-        console.log('🛡️ Preventing crashes on Main page...');
+    function loadCriticalElements() {
+        console.log('🔧 Loading critical main elements...');
+        state.loadPhase = 0;
+        
+        // Basic error handling
+        setupErrorHandling();
+        
+        // Simple content visibility
+        setupBasicContentVisibility();
+        
+        // NEW: Integration with master page optimizations
+        if (state.masterPageReady) {
+            console.log('🔗 Integrating with master page optimizations');
+        }
+        
+        console.log('✅ Critical main elements loaded');
+    }
+    
+    function loadEssentialFeatures() {
+        console.log('⚡ Loading essential main features...');
+        state.loadPhase = 1;
+        
+        // Basic main section
+        setupBasicMainSection();
+        
+        // Basic navigation integration
+        setupBasicNavigation();
+        
+        // Basic responsive behavior
+        setupBasicResponsive();
+        
+        console.log('✅ Essential main features loaded');
+    }
+    
+    function loadEnhancedFeatures() {
+        console.log('🎨 Loading enhanced main features...');
+        state.loadPhase = 2;
+        
+        // Smooth scroll system (compatible with master page)
+        setupSmoothScroll();
+        
+        // Basic animations (lightweight)
+        setupBasicAnimations();
+        
+        // Image optimization
+        optimizeImages();
+        
+        console.log('✅ Enhanced main features loaded');
+    }
+    
+    function loadFullFeatures() {
+        console.log('🚀 Loading full main features...');
+        state.loadPhase = 3;
+        
+        // Enhanced animations (lightweight)
+        setupEnhancedAnimations();
+        
+        // Performance monitoring
+        startPerformanceMonitoring();
+        
+        // Mobile optimizations
+        initializeMobileOptimizations();
+        
+        // NEW: Final integration with master page
+        finalizeMasterPageIntegration();
+        
+        console.log('✅ Full main features loaded');
+    }
+    
+    // NEW: Finalize master page integration
+    function finalizeMasterPageIntegration() {
+        console.log('🔗 Finalizing master page integration...');
         
         try {
-            const allElements = $w('*');
-            if (allElements && allElements.length > 0) {
-                allElements.forEach(element => {
-                    if (element && element.style) {
-                        // Disable all animations and heavy effects
-                        element.style.animation = 'none !important';
-                        element.style.transition = 'none !important';
-                        element.style.transform = 'none !important';
-                        element.style.filter = 'none !important';
-                        element.style.backdropFilter = 'none !important';
-                        element.style.boxShadow = 'none !important';
-                        element.style.willChange = 'auto !important';
-                        element.style.backfaceVisibility = 'visible !important';
-                        element.style.perspective = 'none !important';
-                        
-                        // Ensure visibility
-                        element.style.visibility = 'visible !important';
-                        element.style.opacity = '1 !important';
-                        element.style.display = 'block !important';
-                    }
-                });
-            }
-            
-            console.log('✅ Crash prevention applied to Main page');
-            
-        } catch (error) {
-            console.warn('Crash prevention failed on Main page:', error);
-        }
-    }
-    
-    // ERROR HANDLING
-    function setupErrorHandling() {
-        if (typeof window !== 'undefined') {
-            window.addEventListener('error', (e) => {
-                console.warn('Error caught and handled on Main page:', e.error);
-                e.preventDefault();
-            });
-            
-            window.addEventListener('unhandledrejection', (e) => {
-                console.warn('Unhandled promise rejection caught on Main page:', e.reason);
-                e.preventDefault();
-            });
-        }
-    }
-    
-    // MAIN CONTENT SETUP
-    function setupMainContent() {
-        console.log('📄 Setting up main content...');
-        
-        try {
-            // Main content elements
-            const mainContent = getElement('#mainContent') || $w('main')[0];
-            const mainTitle = getElement('#mainTitle') || $w('title')[0];
-            const mainText = $w('text, paragraph, description');
-            const mainButtons = $w('button, .btn, .cta-button');
-            
-            if (mainContent) {
-                // Ensure main content is visible
-                mainContent.style.visibility = 'visible';
-                mainContent.style.opacity = '1';
-                mainContent.style.display = 'block';
-            }
-            
-            if (mainTitle) {
-                // Ensure title is visible
-                mainTitle.style.visibility = 'visible';
-                mainTitle.style.opacity = '1';
-            }
-            
-            // Setup main text elements
-            mainText.forEach(text => {
-                if (!text) return;
-                
-                // Ensure text is visible
-                text.style.visibility = 'visible';
-                text.style.opacity = '1';
-                text.style.display = 'block';
-            });
-            
-            // Setup main buttons
-            mainButtons.forEach(button => {
-                if (!button) return;
-                
-                // Ensure button is visible
-                button.style.visibility = 'visible';
-                button.style.opacity = '1';
-                button.style.display = 'block';
-                
-                // Add simple click feedback
-                button.onClick(() => {
-                    button.style.opacity = '0.8';
-                    setTimeout(() => {
-                        button.style.opacity = '1';
-                    }, 100);
-                });
-            });
-            
-            console.log('✅ Main content setup complete');
-            
-        } catch (error) {
-            console.warn('Main content setup failed:', error);
-        }
-    }
-    
-    // SECTIONS SETUP
-    function setupSections() {
-        console.log('📋 Setting up sections...');
-        
-        try {
-            // Section elements
-            const sections = $w('section, .section, [class*="section"]');
-            const cards = $w('.card, .feature-card, .content-card');
-            
-            // Setup sections
-            sections.forEach(section => {
-                if (!section) return;
-                
-                // Ensure section is visible
-                section.style.visibility = 'visible';
-                section.style.opacity = '1';
-                section.style.display = 'block';
-            });
-            
-            // Setup cards
-            cards.forEach((card, index) => {
-                if (!card) return;
-                
-                // Ensure card is visible
-                card.style.visibility = 'visible';
-                card.style.opacity = '1';
-                card.style.display = 'block';
-                
-                // Add simple hover effect
-                card.onMouseIn(() => {
-                    card.style.opacity = '0.9';
-                    card.style.transition = 'opacity 0.2s ease';
-                });
-                
-                card.onMouseOut(() => {
-                    card.style.opacity = '1';
-                });
-            });
-            
-            console.log('✅ Sections setup complete');
-            
-        } catch (error) {
-            console.warn('Sections setup failed:', error);
-        }
-    }
-    
-    // IMAGE OPTIMIZATION
-    function optimizeImages() {
-        try {
-            const images = $w('img');
-            images.forEach(img => {
-                if (img.loading !== 'lazy') {
-                    img.loading = 'lazy';
+            // Ensure compatibility with master page optimizations
+            if (typeof window !== 'undefined' && window.ultraFastSite) {
+                // Use master page's optimized functions
+                const masterPageState = window.ultraFastSite.state;
+                if (masterPageState) {
+                    state.optimizationLevel = masterPageState.perceivedPerformance ? 3 : 2;
                 }
                 
-                img.onError(() => {
-                    console.warn('Image failed to load:', img.src);
-                });
-            });
+                console.log('✅ Master page integration completed');
+            }
         } catch (error) {
-            console.warn('Image optimization failed:', error);
+            console.warn('Master page integration failed:', error);
         }
     }
     
-    // MOBILE OPTIMIZATIONS
-    function setupMobileOptimizations() {
-        console.log('📱 Setting up mobile optimizations for Main page...');
+    function setupBasicContentVisibility() {
+        console.log('👁️ Setting up basic content visibility...');
         
         try {
-            const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
-            const isTouchDevice = typeof window !== 'undefined' ? 'ontouchstart' in window : false;
+            // Use proper Wix selectors
+            const contentElements = $w('text, title, subtitle, description');
             
-            state.isMobile = isMobile;
-            
-            if (isTouchDevice) {
-                // Touch optimizations
-                const buttons = $w('.btn, .button, [data-testid*="button"]');
-                buttons.forEach(btn => {
-                    if (!btn) return;
-                    
-                    btn.onTouchStart(() => {
-                        btn.style.opacity = '0.8';
-                        btn.style.transition = 'opacity 0.15s ease';
-                    });
-                    
-                    btn.onTouchEnd(() => {
-                        setTimeout(() => {
-                            btn.style.opacity = '1';
-                        }, 150);
-                    });
-                });
-            }
-            
-            // Responsive behavior
-            let resizeTimeout;
-            if (typeof window !== 'undefined') {
-                window.addEventListener('resize', () => {
-                    if (resizeTimeout) clearTimeout(resizeTimeout);
-                    resizeTimeout = setTimeout(() => {
-                        const wasMobile = state.isMobile;
-                        state.isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
-                        
-                        // Adjust layout for mobile
-                        if (state.isMobile) {
-                            adjustForMobile();
-                        }
-                    }, 250);
-                });
-            }
-            
-            console.log('✅ Mobile optimizations complete for Main page');
+            contentElements.forEach(element => {
+                if (!element) return;
+                
+                // Ensure content is visible
+                element.style.visibility = 'visible';
+                element.style.opacity = '1';
+                element.style.display = 'block';
+            });
             
         } catch (error) {
-            console.warn('Mobile optimizations failed for Main page:', error);
+            console.warn('Basic content visibility failed:', error);
         }
     }
     
-    // ADJUST FOR MOBILE
+    function setupBasicMainSection() {
+        console.log('📄 Setting up basic main section...');
+        
+        try {
+            // Use proper Wix selectors
+            const mainElements = $w('mainContent, mainSection, content');
+            
+            mainElements.forEach(element => {
+                if (!element) return;
+                
+                // Basic main section setup
+                element.style.visibility = 'visible';
+                element.style.opacity = '1';
+                element.style.display = 'block';
+            });
+            
+        } catch (error) {
+            console.warn('Basic main section failed:', error);
+        }
+    }
+    
+    function setupBasicNavigation() {
+        console.log('🧭 Setting up basic navigation...');
+        
+        try {
+            // Use proper Wix selectors
+            const navElements = $w('nav, navigation, menu');
+            
+            navElements.forEach(element => {
+                if (!element) return;
+                
+                // Basic navigation setup
+                element.style.visibility = 'visible';
+                element.style.opacity = '1';
+                element.style.display = 'block';
+            });
+            
+        } catch (error) {
+            console.warn('Basic navigation failed:', error);
+        }
+    }
+    
+    function setupBasicResponsive() {
+        console.log('📱 Setting up basic responsive...');
+        
+        try {
+            if (state.isMobile) {
+                adjustForMobile();
+            }
+        } catch (error) {
+            console.warn('Basic responsive failed:', error);
+        }
+    }
+    
     function adjustForMobile() {
         try {
-            if (!state.isMobile) return;
+            // Mobile-specific adjustments
+            const mobileElements = $w('text, title, subtitle, button');
             
-            // Adjust main content for mobile
-            const mainContent = getElement('#mainContent') || $w('main')[0];
-            if (mainContent) {
-                mainContent.style.padding = '1rem';
-                mainContent.style.paddingTop = '70px';
-            }
-            
-            // Adjust buttons for mobile
-            const buttons = $w('.btn, .button');
-            buttons.forEach(btn => {
-                if (!btn) return;
+            mobileElements.forEach(element => {
+                if (!element) return;
                 
-                btn.style.width = '100%';
-                btn.style.maxWidth = '280px';
-                btn.style.minHeight = '48px';
-                btn.style.padding = '0.875rem 1.5rem';
-                btn.style.fontSize = '1rem';
-                btn.style.textAlign = 'center';
-                btn.style.touchAction = 'manipulation';
+                // Mobile optimizations
+                element.style.fontSize = 'clamp(14px, 4vw, 18px)';
+                element.style.lineHeight = '1.4';
             });
             
         } catch (error) {
@@ -283,59 +228,205 @@ $w.onReady(function () {
         }
     }
     
-    // ENABLE SMOOTH TRANSITIONS (after everything is loaded)
-    function enableSmoothTransitions() {
+    function setupSmoothScroll() {
+        console.log('🔄 Setting up smooth scroll...');
+        
         try {
-            const allElements = $w('*');
-            allElements.forEach(element => {
-                if (element && element.style) {
-                    // Enable smooth transitions
-                    element.style.transition = 'opacity 0.3s ease-in-out, transform 0.2s ease';
-                    
-                    // Ensure visibility
-                    element.style.visibility = 'visible';
-                    element.style.opacity = '1';
-                    element.style.display = 'block';
-                }
-            });
+            // Use master page's smooth scroll if available
+            if (typeof window !== 'undefined' && window.ultraFastSite && window.ultraFastSite.scrollTo) {
+                console.log('✅ Using master page smooth scroll');
+            } else {
+                // Fallback smooth scroll
+                setupFallbackSmoothScroll();
+            }
         } catch (error) {
-            console.warn('Enable smooth transitions failed:', error);
+            console.warn('Smooth scroll setup failed:', error);
         }
     }
     
-    // MAIN INITIALIZATION
-    function initialize() {
-        console.log('🚀 Starting simplified Main page initialization...');
-        
-        // Step 1: Prevent crashes immediately
-        preventCrashes();
-        
-        // Step 2: Setup error handling
-        setupErrorHandling();
-        
-        // Step 3: Setup main content
-        setupMainContent();
-        
-        // Step 4: Setup sections
-        setupSections();
-        
-        // Step 5: Optimize images
-        optimizeImages();
-        
-        // Step 6: Setup mobile optimizations
-        setupMobileOptimizations();
-        
-        // Step 7: Enable smooth transitions after a delay
-        setTimeout(() => {
-            enableSmoothTransitions();
-            state.isLoaded = true;
+    function setupFallbackSmoothScroll() {
+        try {
+            // Simple fallback smooth scroll
+            const scrollElements = $w('mainContent, mainSection');
             
-            console.log('✅ Simplified Main page initialization complete!');
-        }, 1000);
+            scrollElements.forEach(element => {
+                if (!element) return;
+                
+                // Basic scroll optimization
+                element.style.willChange = 'auto';
+                element.style.backfaceVisibility = 'visible';
+                element.style.perspective = 'none';
+            });
+            
+        } catch (error) {
+            console.warn('Fallback smooth scroll failed:', error);
+        }
     }
     
-    // Start initialization
-    initialize();
+    function setupBasicAnimations() {
+        console.log('🎬 Setting up basic animations...');
+        
+        try {
+            // Use lightweight animations only
+            const animatedElements = $w('text, title, subtitle, button');
+            
+            animatedElements.forEach((element, index) => {
+                if (!element) return;
+                
+                // Simple fade-in animation
+                element.style.opacity = '0';
+                element.style.transition = 'opacity 0.3s ease';
+                
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                }, index * 100);
+            });
+            
+        } catch (error) {
+            console.warn('Basic animations failed:', error);
+        }
+    }
     
-    console.log('✅ Simplified Main Page initialized!');
+    function optimizeImages() {
+        console.log('🖼️ Optimizing images...');
+        
+        try {
+            // Use proper Wix selectors
+            const images = $w('image');
+            
+            images.forEach(img => {
+                if (!img) return;
+                
+                // Basic image optimization
+                img.loading = 'lazy';
+                
+                // Simple error handling
+                img.onError = () => {
+                    console.warn('Image failed to load:', img.src);
+                };
+            });
+            
+        } catch (error) {
+            console.warn('Image optimization failed:', error);
+        }
+    }
+    
+    function setupEnhancedAnimations() {
+        console.log('✨ Setting up enhanced animations...');
+        
+        try {
+            // Use lightweight enhanced animations
+            const enhancedElements = $w('button, card, feature');
+            
+            enhancedElements.forEach(element => {
+                if (!element) return;
+                
+                // Simple hover effects
+                element.onMouseIn = () => {
+                    element.style.opacity = '0.9';
+                    element.style.transition = 'opacity 0.2s ease';
+                };
+                
+                element.onMouseOut = () => {
+                    element.style.opacity = '1';
+                };
+                
+                // Simple click effects
+                element.onClick = () => {
+                    element.style.opacity = '0.8';
+                    setTimeout(() => {
+                        element.style.opacity = '1';
+                    }, 100);
+                };
+            });
+            
+        } catch (error) {
+            console.warn('Enhanced animations failed:', error);
+        }
+    }
+    
+    function startPerformanceMonitoring() {
+        console.log('📊 Starting performance monitoring...');
+        
+        try {
+            // Simple performance monitoring
+            let frameCount = 0;
+            let lastTime = performance.now();
+            
+            function monitorPerformance() {
+                frameCount++;
+                const currentTime = performance.now();
+                
+                if (currentTime - lastTime >= 1000) {
+                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                    
+                    if (fps < 30) {
+                        console.warn(`⚠️ Low FPS detected: ${fps}`);
+                    }
+                    
+                    frameCount = 0;
+                    lastTime = currentTime;
+                }
+                
+                requestAnimationFrame(monitorPerformance);
+            }
+            
+            monitorPerformance();
+            
+        } catch (error) {
+            console.warn('Performance monitoring failed:', error);
+        }
+    }
+    
+    function initializeMobileOptimizations() {
+        console.log('📱 Initializing mobile optimizations...');
+        
+        try {
+            if (state.isMobile) {
+                // Mobile-specific optimizations
+                const mobileElements = $w('text, title, subtitle, button, image');
+                
+                mobileElements.forEach(element => {
+                    if (!element) return;
+                    
+                    // Mobile performance optimizations
+                    element.style.willChange = 'auto';
+                    element.style.backfaceVisibility = 'visible';
+                    element.style.perspective = 'none';
+                });
+            }
+            
+        } catch (error) {
+            console.warn('Mobile optimizations failed:', error);
+        }
+    }
+    
+    function setupErrorHandling() {
+        console.log('🛡️ Setting up error handling...');
+        
+        try {
+            // Basic error handling
+            if (typeof window !== 'undefined') {
+                window.addEventListener('error', (e) => {
+                    console.warn('Error caught and handled:', e.error);
+                    e.preventDefault();
+                });
+            }
+            
+        } catch (error) {
+            console.warn('Error handling setup failed:', error);
+        }
+    }
+    
+    // Start the main page loading process
+    waitForMasterPage();
+    
+    // Export main page functions for other scripts
+    if (typeof window !== 'undefined') {
+        window.mainPage = {
+            state: state,
+            isReady: () => state.loadPhase >= 3,
+            getOptimizationLevel: () => state.optimizationLevel
+        };
+    }
 }); 
