@@ -2830,6 +2830,9 @@ $w.onReady(function () {
     // Initialize Lightweight Animation Optimizer
     initializeLightweightAnimationOptimizer();
     
+    // Initialize DEDICATED TRBYS Project Section Optimizer
+    initializeTRBYSProjectSectionOptimizer();
+    
     // Export functions for other pages to use
     if (typeof window !== 'undefined') {
         window.ultraFastSite = {
@@ -3473,6 +3476,505 @@ $w.onReady(function () {
             
         } catch (error) {
             console.warn('Apply lightweight animations failed:', error);
+        }
+    }
+    
+    // DEDICATED TRBYS PROJECT SECTION OPTIMIZER
+    function initializeTRBYSProjectSectionOptimizer() {
+        console.log('🎯 Initializing DEDICATED TRBYS Project Section Optimizer...');
+        
+        // TRBYS optimization state
+        const trbysState = {
+            isOptimized: false,
+            isApproaching: false,
+            isVisible: false,
+            optimizationLevel: 0,
+            lastOptimization: 0,
+            hangPreventionActive: false,
+            emergencyMode: false
+        };
+        
+        // IMMEDIATE aggressive optimization for TRBYS section
+        applyAggressiveTRBYSOptimization();
+        
+        // Setup proximity detection
+        setupTRBYSProximityDetection();
+        
+        // Implement progressive loading for TRBYS section
+        implementTRBYSProgressiveLoading();
+        
+        // Setup emergency hang prevention
+        setupTRBYSHangPrevention();
+        
+        // Implement TRBYS-specific performance monitoring
+        setupTRBYSPerformanceMonitoring();
+        
+        // Create TRBYS section isolation
+        createTRBYSSectionIsolation();
+        
+        console.log('✅ DEDICATED TRBYS Project Section Optimizer initialized');
+    }
+    
+    // Apply aggressive optimization for TRBYS section
+    function applyAggressiveTRBYSOptimization() {
+        console.log('⚡ Applying AGGRESSIVE TRBYS optimization...');
+        
+        try {
+            // Target TRBYS section with multiple selectors
+            const trbysSelectors = [
+                '[class*="trbys"]',
+                '[id*="trbys"]',
+                '[class*="project"]',
+                '[id*="project"]',
+                '[class*="03"]',
+                '[id*="03"]',
+                '[class*="digital"]',
+                '[id*="digital"]',
+                '[class*="service"]',
+                '[id*="service"]',
+                '[class*="balloon"]',
+                '[id*="balloon"]',
+                '[class*="red"]',
+                '[style*="red"]'
+            ];
+            
+            trbysSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach((element, index) => {
+                        if (!element || !element.style) return;
+                        
+                        // AGGRESSIVE optimization for TRBYS elements
+                        element.style.animation = 'none !important';
+                        element.style.transition = 'none !important';
+                        element.style.transform = 'none !important';
+                        element.style.filter = 'none !important';
+                        element.style.backdropFilter = 'none !important';
+                        element.style.boxShadow = 'none !important';
+                        element.style.willChange = 'auto !important';
+                        element.style.backfaceVisibility = 'visible !important';
+                        element.style.perspective = 'none !important';
+                        element.style.opacity = '1 !important';
+                        
+                        // Disable all heavy CSS properties
+                        element.style.gradient = 'none !important';
+                        element.style.backgroundImage = 'none !important';
+                        element.style.backgroundGradient = 'none !important';
+                        
+                        // Remove any heavy CSS classes
+                        if (element.className) {
+                            element.className = element.className.replace(/animate|animation|transition|transform|scale|rotate|skew|translate|blur|brightness|contrast|hue-rotate|invert|saturate|sepia|gradient|shadow/g, '');
+                        }
+                        
+                        // Disable all event handlers that might cause issues
+                        element.onMouseIn = null;
+                        element.onMouseOut = null;
+                        element.onClick = null;
+                        element.onScroll = null;
+                        element.onLoad = null;
+                        
+                        console.log(`🎯 AGGRESSIVELY optimized TRBYS element: ${selector}-${index}`);
+                    });
+                }
+            });
+            
+            // NUCLEAR OPTION: Disable ALL animations in the entire page when TRBYS is detected
+            const allElements = $w('*');
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                // Disable ALL animations globally
+                element.style.animation = 'none !important';
+                element.style.transition = 'none !important';
+                element.style.transform = 'none !important';
+                element.style.filter = 'none !important';
+                element.style.backdropFilter = 'none !important';
+                element.style.boxShadow = 'none !important';
+                element.style.willChange = 'auto !important';
+                element.style.backfaceVisibility = 'visible !important';
+                element.style.perspective = 'none !important';
+            });
+            
+            console.log('✅ AGGRESSIVE TRBYS optimization applied');
+            
+        } catch (error) {
+            console.warn('Aggressive TRBYS optimization failed:', error);
+        }
+    }
+    
+    // Setup proximity detection for TRBYS section
+    function setupTRBYSProximityDetection() {
+        console.log('📍 Setting up TRBYS proximity detection...');
+        
+        try {
+            // Monitor scroll position to detect when approaching TRBYS section
+            let scrollTimeout;
+            
+            if (typeof window !== 'undefined') {
+                window.addEventListener('scroll', () => {
+                    // Clear previous timeout
+                    if (scrollTimeout) clearTimeout(scrollTimeout);
+                    
+                    // Check if approaching TRBYS section
+                    checkTRBYSProximity();
+                    
+                    // Debounce proximity checks
+                    scrollTimeout = setTimeout(() => {
+                        checkTRBYSProximity();
+                    }, 100);
+                }, { passive: true });
+            }
+            
+        } catch (error) {
+            console.warn('TRBYS proximity detection failed:', error);
+        }
+    }
+    
+    // Check if approaching TRBYS section
+    function checkTRBYSProximity() {
+        try {
+            const scrollY = typeof window !== 'undefined' ? window.scrollY : 0;
+            const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+            
+            // Look for TRBYS section elements
+            const trbysElements = $w('[class*="trbys"], [id*="trbys"], [class*="project"], [id*="project"]');
+            
+            if (trbysElements && trbysElements.length > 0) {
+                trbysElements.forEach(element => {
+                    if (!element) return;
+                    
+                    // Get element position (approximate)
+                    const elementTop = 0; // Approximate position
+                    const elementBottom = elementTop + 1000; // Approximate height
+                    
+                    // Check if approaching TRBYS section (within 500px)
+                    if (scrollY + windowHeight > elementTop - 500 && scrollY < elementBottom + 500) {
+                        console.log('⚠️ Approaching TRBYS section - applying emergency optimizations');
+                        applyEmergencyTRBYSOptimization();
+                    }
+                });
+            }
+            
+        } catch (error) {
+            console.warn('TRBYS proximity check failed:', error);
+        }
+    }
+    
+    // Apply emergency TRBYS optimization
+    function applyEmergencyTRBYSOptimization() {
+        console.log('🚨 Applying EMERGENCY TRBYS optimization...');
+        
+        try {
+            // Disable ALL animations immediately
+            const allElements = $w('*');
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                // Nuclear option - disable everything
+                element.style.animation = 'none !important';
+                element.style.transition = 'none !important';
+                element.style.transform = 'none !important';
+                element.style.filter = 'none !important';
+                element.style.backdropFilter = 'none !important';
+                element.style.boxShadow = 'none !important';
+                element.style.willChange = 'auto !important';
+                element.style.opacity = '1 !important';
+                element.style.visibility = 'visible !important';
+            });
+            
+            // Cancel ALL animation frames
+            if (state.scrollRAF) {
+                cancelAnimationFrame(state.scrollRAF);
+                state.scrollRAF = null;
+            }
+            
+            // Disable scroll effects temporarily
+            setTimeout(() => {
+                console.log('🚨 Emergency TRBYS optimization completed');
+            }, 100);
+            
+        } catch (error) {
+            console.warn('Emergency TRBYS optimization failed:', error);
+        }
+    }
+    
+    // Implement progressive loading for TRBYS section
+    function implementTRBYSProgressiveLoading() {
+        console.log('📦 Implementing TRBYS progressive loading...');
+        
+        try {
+            // Hide TRBYS section initially
+            const trbysElements = $w('[class*="trbys"], [id*="trbys"], [class*="project"], [id*="project"]');
+            
+            if (trbysElements && trbysElements.length > 0) {
+                trbysElements.forEach(element => {
+                    if (!element || !element.style) return;
+                    
+                    // Hide element initially
+                    element.style.visibility = 'hidden';
+                    element.style.opacity = '0';
+                    element.style.display = 'none';
+                });
+            }
+            
+            // Progressive reveal of TRBYS section
+            setTimeout(() => {
+                revealTRBYSSection();
+            }, 2000); // Delay TRBYS loading by 2 seconds
+            
+        } catch (error) {
+            console.warn('TRBYS progressive loading failed:', error);
+        }
+    }
+    
+    // Reveal TRBYS section gradually
+    function revealTRBYSSection() {
+        console.log('🎯 Gradually revealing TRBYS section...');
+        
+        try {
+            const trbysElements = $w('[class*="trbys"], [id*="trbys"], [class*="project"], [id*="project"]');
+            
+            if (trbysElements && trbysElements.length > 0) {
+                trbysElements.forEach((element, index) => {
+                    if (!element || !element.style) return;
+                    
+                    // Reveal element with delay
+                    setTimeout(() => {
+                        element.style.display = 'block';
+                        element.style.visibility = 'visible';
+                        element.style.opacity = '1';
+                        element.style.transition = 'opacity 0.1s ease';
+                        
+                        console.log(`🎯 Revealed TRBYS element ${index + 1}/${trbysElements.length}`);
+                    }, index * 100); // 100ms delay between each element
+                });
+            }
+            
+        } catch (error) {
+            console.warn('TRBYS section reveal failed:', error);
+        }
+    }
+    
+    // Setup emergency hang prevention
+    function setupTRBYSHangPrevention() {
+        console.log('🛡️ Setting up TRBYS hang prevention...');
+        
+        try {
+            // Monitor for hanging indicators
+            let lastFrameTime = performance.now();
+            let frameCount = 0;
+            let hangDetectionCount = 0;
+            
+            function detectHanging() {
+                const currentTime = performance.now();
+                const frameTime = currentTime - lastFrameTime;
+                
+                // Detect if frame time is too long (hanging)
+                if (frameTime > 100) { // More than 100ms per frame
+                    hangDetectionCount++;
+                    console.warn(`⚠️ Potential hanging detected: ${frameTime.toFixed(2)}ms frame time`);
+                    
+                    // Apply emergency optimization if hanging is detected multiple times
+                    if (hangDetectionCount >= 2) {
+                        console.log('🚨 Hanging detected - applying emergency optimization');
+                        applyEmergencyTRBYSOptimization();
+                        hangDetectionCount = 0;
+                    }
+                } else {
+                    hangDetectionCount = 0;
+                }
+                
+                lastFrameTime = currentTime;
+                frameCount++;
+                
+                // Continue monitoring
+                requestAnimationFrame(detectHanging);
+            }
+            
+            detectHanging();
+            
+        } catch (error) {
+            console.warn('TRBYS hang prevention failed:', error);
+        }
+    }
+    
+    // Setup TRBYS-specific performance monitoring
+    function setupTRBYSPerformanceMonitoring() {
+        console.log('📊 Setting up TRBYS performance monitoring...');
+        
+        try {
+            let trbysFrameCount = 0;
+            let trbysLastTime = performance.now();
+            let trbysLowFpsCount = 0;
+            
+            function monitorTRBYSPerformance() {
+                trbysFrameCount++;
+                const currentTime = performance.now();
+                
+                if (currentTime - trbysLastTime >= 1000) {
+                    const fps = Math.round((trbysFrameCount * 1000) / (currentTime - trbysLastTime));
+                    
+                    // Very aggressive threshold for TRBYS section
+                    const threshold = 20; // Must maintain 20fps minimum
+                    
+                    if (fps < threshold) {
+                        trbysLowFpsCount++;
+                        console.warn(`⚠️ Low FPS in TRBYS section: ${fps} (threshold: ${threshold})`);
+                        
+                        // Trigger emergency optimization immediately
+                        if (trbysLowFpsCount >= 1) {
+                            applyEmergencyTRBYSOptimization();
+                            trbysLowFpsCount = 0;
+                        }
+                    } else {
+                        trbysLowFpsCount = 0;
+                    }
+                    
+                    trbysFrameCount = 0;
+                    trbysLastTime = currentTime;
+                }
+                
+                requestAnimationFrame(monitorTRBYSPerformance);
+            }
+            
+            monitorTRBYSPerformance();
+            
+        } catch (error) {
+            console.warn('TRBYS performance monitoring failed:', error);
+        }
+    }
+    
+    // Create TRBYS section isolation
+    function createTRBYSSectionIsolation() {
+        console.log('🔒 Creating TRBYS section isolation...');
+        
+        try {
+            // Isolate TRBYS section from affecting other parts of the page
+            const trbysElements = $w('[class*="trbys"], [id*="trbys"], [class*="project"], [id*="project"]');
+            
+            if (trbysElements && trbysElements.length > 0) {
+                trbysElements.forEach(element => {
+                    if (!element || !element.style) return;
+                    
+                    // Create isolation layer
+                    element.style.isolation = 'isolate';
+                    element.style.contain = 'layout style paint';
+                    element.style.willChange = 'auto';
+                    element.style.backfaceVisibility = 'visible';
+                    element.style.perspective = 'none';
+                    
+                    // Prevent TRBYS from affecting other elements
+                    element.style.zIndex = '1';
+                    element.style.position = 'relative';
+                    element.style.overflow = 'hidden';
+                });
+            }
+            
+            // Isolate non-TRBYS elements from TRBYS effects
+            const nonTrbysElements = $w('*');
+            nonTrbysElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                // Check if element is not TRBYS-related
+                const className = element.className || '';
+                const id = element.id || '';
+                
+                if (!className.includes('trbys') && !id.includes('trbys') && 
+                    !className.includes('project') && !id.includes('project')) {
+                    
+                    // Isolate from TRBYS effects
+                    element.style.isolation = 'isolate';
+                    element.style.contain = 'layout style paint';
+                    element.style.willChange = 'auto';
+                }
+            });
+            
+        } catch (error) {
+            console.warn('TRBYS section isolation failed:', error);
+        }
+    }
+    
+    // TRBYS-specific lightweight animations
+    function createTRBYSLightweightAnimations() {
+        console.log('🎬 Creating TRBYS lightweight animations...');
+        
+        try {
+            // Create ultra-lightweight animations for TRBYS section
+            if (typeof window !== 'undefined' && window.document) {
+                const style = window.document.createElement('style');
+                style.textContent = `
+                    /* Ultra-lightweight TRBYS animations */
+                    @keyframes trbysFadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    
+                    @keyframes trbysSlideIn {
+                        from { 
+                            opacity: 0;
+                            transform: translateY(5px);
+                        }
+                        to { 
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                    
+                    /* Apply TRBYS animations */
+                    .trbys-fade-in {
+                        animation: trbysFadeIn 0.1s ease;
+                    }
+                    
+                    .trbys-slide-in {
+                        animation: trbysSlideIn 0.1s ease;
+                    }
+                    
+                    /* Disable all other animations in TRBYS context */
+                    [class*="trbys"] *,
+                    [id*="trbys"] *,
+                    [class*="project"] *,
+                    [id*="project"] * {
+                        animation: none !important;
+                        transition: none !important;
+                        transform: none !important;
+                        filter: none !important;
+                        backdrop-filter: none !important;
+                        box-shadow: none !important;
+                    }
+                `;
+                window.document.head.appendChild(style);
+            }
+            
+        } catch (error) {
+            console.warn('TRBYS lightweight animations failed:', error);
+        }
+    }
+    
+    // Apply TRBYS-specific optimizations
+    function applyTRBYSSpecificOptimizations() {
+        console.log('🎯 Applying TRBYS-specific optimizations...');
+        
+        try {
+            // Create lightweight animations
+            createTRBYSLightweightAnimations();
+            
+            // Apply optimizations to TRBYS elements
+            const trbysElements = $w('[class*="trbys"], [id*="trbys"], [class*="project"], [id*="project"]');
+            
+            if (trbysElements && trbysElements.length > 0) {
+                trbysElements.forEach((element, index) => {
+                    if (!element || !element.style) return;
+                    
+                    // Apply ultra-lightweight animations
+                    setTimeout(() => {
+                        element.style.animation = 'trbysFadeIn 0.1s ease';
+                        element.style.opacity = '1';
+                    }, index * 50); // Very short delay
+                });
+            }
+            
+        } catch (error) {
+            console.warn('TRBYS-specific optimizations failed:', error);
         }
     }
 }); 
