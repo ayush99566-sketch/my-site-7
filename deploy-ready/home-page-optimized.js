@@ -221,7 +221,7 @@ $w.onReady(function () {
     // Smooth scroll system (Phase 2)
     function setupSmoothScroll() {
         try {
-            if (scrollRAF) return;
+            if (state.scrollRAF) return;
             window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
         } catch (error) {
             console.warn('Smooth scroll setup failed:', error);
@@ -229,9 +229,9 @@ $w.onReady(function () {
     }
     
     function ultraSmoothScroll() {
-        if (scrollRAF) return;
+        if (state.scrollRAF) return;
         
-        scrollRAF = requestAnimationFrame(() => {
+        state.scrollRAF = requestAnimationFrame(() => {
             try {
                 const currentScrollY = window.scrollY;
                 
@@ -249,7 +249,7 @@ $w.onReady(function () {
                 console.warn('Smooth scroll failed:', error);
             }
             
-            scrollRAF = null;
+            state.scrollRAF = null;
         });
     }
     

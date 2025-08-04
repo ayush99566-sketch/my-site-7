@@ -9,7 +9,8 @@ $w.onReady(function () {
         isMobile: window.innerWidth < 768,
         isMenuOpen: false,
         isLoaded: false,
-        loadPhase: 0 // 0: critical, 1: essential, 2: enhanced, 3: full
+        loadPhase: 0, // 0: critical, 1: essential, 2: enhanced, 3: full
+        scrollRAF: null // Variable to hold the RAF ID for smooth scroll
     };
     
     // Element cache for fast access
@@ -171,18 +172,15 @@ $w.onReady(function () {
     }
     
     // Smooth scroll system (Phase 2)
-    let scrollRAF = null;
-    let lastScrollY = 0;
-    
     function setupSmoothScroll() {
-        if (scrollRAF) return;
+        if (state.scrollRAF) return;
         window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
     }
     
     function ultraSmoothScroll() {
-        if (scrollRAF) return;
+        if (state.scrollRAF) return;
         
-        scrollRAF = requestAnimationFrame(() => {
+        state.scrollRAF = requestAnimationFrame(() => {
             try {
                 const currentScrollY = window.scrollY;
                 const nav = getElement('#navigation');
@@ -206,7 +204,7 @@ $w.onReady(function () {
                 console.warn('Smooth scroll failed:', error);
             }
             
-            scrollRAF = null;
+            state.scrollRAF = null;
         });
     }
     
