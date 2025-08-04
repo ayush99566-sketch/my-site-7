@@ -1093,6 +1093,219 @@ $w.onReady(function () {
     // Initialize the service optimizer
     initializeServiceOptimizer();
     
+    // DEDICATED "03" SECTION OPTIMIZER - Runs immediately and continuously
+    function initialize03SectionOptimizer() {
+        console.log('🎯 Initializing DEDICATED "03" Section Optimizer...');
+        
+        // Continuous optimization state
+        const section03State = {
+            isOptimized: false,
+            optimizationInterval: null,
+            lastOptimization: 0,
+            optimizationCount: 0
+        };
+        
+        // IMMEDIATE "03" section optimization
+        function optimize03SectionImmediately() {
+            console.log('⚡ IMMEDIATE "03" section optimization...');
+            
+            try {
+                // Target ALL possible "03" selectors
+                const selectors03 = [
+                    '[class*="03"]',
+                    '[id*="03"]',
+                    '[data-id*="03"]',
+                    '[data-testid*="03"]',
+                    '[class*="service"]',
+                    '[id*="service"]',
+                    '[class*="digital"]',
+                    '[id*="digital"]',
+                    '[class*="balloon"]',
+                    '[id*="balloon"]',
+                    '[class*="red"]',
+                    '[style*="red"]',
+                    '.service-card',
+                    '.service-item',
+                    '.digital-service',
+                    '#services',
+                    '.services'
+                ];
+                
+                selectors03.forEach(selector => {
+                    const elements = $w(selector);
+                    if (elements && elements.length > 0) {
+                        elements.forEach((element, index) => {
+                            if (element && element.style) {
+                                // AGGRESSIVE optimization for "03" section
+                                element.style.animation = 'none !important';
+                                element.style.transition = 'none !important';
+                                element.style.transform = 'none !important';
+                                element.style.filter = 'none !important';
+                                element.style.backdropFilter = 'none !important';
+                                element.style.boxShadow = 'none !important';
+                                element.style.willChange = 'auto !important';
+                                element.style.backfaceVisibility = 'visible !important';
+                                element.style.perspective = 'none !important';
+                                element.style.opacity = '1 !important';
+                                
+                                // Remove any heavy CSS classes
+                                if (element.className) {
+                                    element.className = element.className.replace(/animate|animation|transition|transform|scale|rotate|skew|translate/g, '');
+                                }
+                                
+                                // Disable any hover effects
+                                element.onMouseIn = null;
+                                element.onMouseOut = null;
+                                element.onClick = null;
+                                
+                                console.log(`🎯 IMMEDIATELY optimized "03" element: ${selector}-${index}`);
+                            }
+                        });
+                    }
+                });
+                
+                section03State.optimizationCount++;
+                section03State.lastOptimization = Date.now();
+                
+            } catch (error) {
+                console.warn('Immediate "03" optimization failed:', error);
+            }
+        }
+        
+        // CONTINUOUS "03" section monitoring and optimization
+        function startContinuous03Optimization() {
+            console.log('🔄 Starting CONTINUOUS "03" section optimization...');
+            
+            // Run optimization every 100ms for the first 5 seconds
+            let intervalCount = 0;
+            const maxIntervals = 50; // 5 seconds at 100ms intervals
+            
+            section03State.optimizationInterval = setInterval(() => {
+                optimize03SectionImmediately();
+                intervalCount++;
+                
+                if (intervalCount >= maxIntervals) {
+                    // Switch to less frequent optimization
+                    clearInterval(section03State.optimizationInterval);
+                    section03State.optimizationInterval = setInterval(() => {
+                        optimize03SectionImmediately();
+                    }, 1000); // Every second
+                    
+                    console.log('✅ Switched to continuous "03" optimization (1s intervals)');
+                }
+            }, 100);
+        }
+        
+        // EMERGENCY "03" section optimization
+        function emergency03Optimization() {
+            console.log('🚨 EMERGENCY "03" section optimization triggered!');
+            
+            try {
+                // Disable ALL elements that might be related to "03"
+                const allElements = $w('*');
+                if (allElements && allElements.length > 0) {
+                    allElements.forEach(element => {
+                        if (element && element.style) {
+                            // Nuclear option - disable everything
+                            element.style.animation = 'none !important';
+                            element.style.transition = 'none !important';
+                            element.style.transform = 'none !important';
+                            element.style.filter = 'none !important';
+                            element.style.backdropFilter = 'none !important';
+                            element.style.boxShadow = 'none !important';
+                            element.style.willChange = 'auto !important';
+                            element.style.opacity = '1 !important';
+                        }
+                    });
+                }
+                
+                // Cancel ALL animation frames
+                if (state.scrollRAF) {
+                    cancelAnimationFrame(state.scrollRAF);
+                    state.scrollRAF = null;
+                }
+                
+                console.log('🚨 EMERGENCY "03" optimization applied - ALL animations disabled');
+                
+            } catch (error) {
+                console.warn('Emergency "03" optimization failed:', error);
+            }
+        }
+        
+        // Performance monitoring specifically for "03" section
+        function monitor03SectionPerformance() {
+            let frameCount = 0;
+            let lastTime = performance.now();
+            let lowFpsCount = 0;
+            
+            function check03Performance() {
+                frameCount++;
+                const currentTime = performance.now();
+                
+                if (currentTime - lastTime >= 1000) {
+                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                    
+                    // Very aggressive threshold for "03" section
+                    const threshold = 50; // Must maintain 50fps
+                    
+                    if (fps < threshold) {
+                        lowFpsCount++;
+                        console.warn(`⚠️ Low FPS in "03" section: ${fps} (threshold: ${threshold})`);
+                        
+                        // Trigger emergency optimization immediately
+                        if (lowFpsCount >= 1) {
+                            emergency03Optimization();
+                            lowFpsCount = 0;
+                        }
+                    } else {
+                        lowFpsCount = 0;
+                    }
+                    
+                    frameCount = 0;
+                    lastTime = currentTime;
+                }
+                
+                requestAnimationFrame(check03Performance);
+            }
+            
+            check03Performance();
+        }
+        
+        // Start the dedicated "03" optimizer
+        console.log('🚀 Starting DEDICATED "03" Section Optimizer...');
+        
+        // Step 1: Immediate optimization (0ms)
+        optimize03SectionImmediately();
+        
+        // Step 2: Start continuous optimization (50ms)
+        setTimeout(() => {
+            startContinuous03Optimization();
+        }, 50);
+        
+        // Step 3: Start performance monitoring (100ms)
+        setTimeout(() => {
+            monitor03SectionPerformance();
+        }, 100);
+        
+        // Step 4: Additional optimization every 500ms
+        setInterval(() => {
+            optimize03SectionImmediately();
+        }, 500);
+        
+        section03State.isOptimized = true;
+        console.log('✅ DEDICATED "03" Section Optimizer initialized');
+        
+        // Export for manual triggering
+        window.section03Optimizer = {
+            optimize: optimize03SectionImmediately,
+            emergency: emergency03Optimization,
+            getState: () => section03State
+        };
+    }
+    
+    // Initialize the dedicated "03" optimizer
+    initialize03SectionOptimizer();
+    
     // Start progressive loading
     progressiveLoad();
     
