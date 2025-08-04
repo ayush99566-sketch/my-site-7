@@ -1,279 +1,187 @@
-// ULTRA-SMOOTH TEST PAGE 1 - Progressive Loading System
-// Prevents first-time loading crashes by loading features in phases
+// SIMPLIFIED ULTRA-SMOOTH TEST PAGE
+// Optimized to prevent crashes and ensure smooth functioning
 
 $w.onReady(function () {
-    console.log('🚀 Progressive Test Page 1 Loading...');
+    console.log('🚀 Simplified Test Page Loading...');
     
-    // Performance state management
+    // Simple state management
     const state = {
-        isMobile: window.innerWidth < 768,
-        isScrolling: false,
-        lastScrollY: 0,
-        scrollRAF: null,
-        performanceMode: 'progressive',
-        loadPhase: 0 // 0: critical, 1: essential, 2: enhanced, 3: full
+        isLoaded: false,
+        isMobile: typeof window !== 'undefined' ? window.innerWidth < 768 : false,
+        isMenuOpen: false
     };
     
-    // Wait for master page to be ready
-    const waitForMasterPage = () => {
-        if (window.ultraFastSite) {
-            progressiveLoad();
-        } else {
-            setTimeout(waitForMasterPage, 50);
-        }
-    };
+    // Element cache
+    const elements = new Map();
     
-    // Progressive loading system
-    function progressiveLoad() {
-        console.log('📦 Starting progressive test page 1 load...');
-        
-        // Phase 0: Critical functionality only
-        loadCriticalElements();
-        
-        // Phase 1: Essential features (after 150ms)
-        setTimeout(() => loadEssentialFeatures(), 150);
-        
-        // Phase 2: Enhanced features (after 400ms)
-        setTimeout(() => loadEnhancedFeatures(), 400);
-        
-        // Phase 3: Full features (after 1000ms)
-        setTimeout(() => loadFullFeatures(), 1000);
-    }
-    
-    function loadCriticalElements() {
-        console.log('🔧 Loading critical test page 1 elements...');
-        state.loadPhase = 0;
-        
-        // Basic error handling
-        setupErrorHandling();
-        
-        // Simple content visibility
-        setupBasicContentVisibility();
-        
-        console.log('✅ Critical test page 1 elements loaded');
-    }
-    
-    function loadEssentialFeatures() {
-        console.log('⚡ Loading essential test page 1 features...');
-        state.loadPhase = 1;
-        
-        // Basic test section
-        setupBasicTestSection();
-        
-        // Basic navigation integration
-        setupBasicNavigation();
-        
-        // Basic responsive behavior
-        setupBasicResponsive();
-        
-        console.log('✅ Essential test page 1 features loaded');
-    }
-    
-    function loadEnhancedFeatures() {
-        console.log('🎨 Loading enhanced test page 1 features...');
-        state.loadPhase = 2;
-        
-        // Smooth scroll system
-        setupSmoothScroll();
-        
-        // Basic animations
-        setupBasicAnimations();
-        
-        // Image optimization
-        optimizeImages();
-        
-        console.log('✅ Enhanced test page 1 features loaded');
-    }
-    
-    function loadFullFeatures() {
-        console.log('🚀 Loading full test page 1 features...');
-        state.loadPhase = 3;
-        
-        // Enhanced animations
-        setupEnhancedAnimations();
-        
-        // Performance monitoring
-        startPerformanceMonitoring();
-        
-        // Mobile optimizations
-        initializeMobileOptimizations();
-        
-        console.log('✅ Full test page 1 loaded successfully!');
-    }
-    
-    // Basic content visibility (Phase 0)
-    function setupBasicContentVisibility() {
-        try {
-            const mainContent = $w('#mainContent') || $w('main') || $w('.main-content');
-            if (mainContent) {
-                mainContent.style.opacity = '1';
-                mainContent.style.visibility = 'visible';
+    function getElement(selector) {
+        if (!elements.has(selector)) {
+            try {
+                const element = $w(selector);
+                if (element) elements.set(selector, element);
+            } catch (error) {
+                console.warn('Element not found:', selector);
             }
-        } catch (error) {
-            console.warn('Basic content visibility failed:', error);
         }
+        return elements.get(selector);
     }
     
-    // Basic test section (Phase 1)
-    function setupBasicTestSection() {
+    // CRASH PREVENTION - Disable all heavy animations
+    function preventCrashes() {
+        console.log('🛡️ Preventing crashes on Test page...');
+        
         try {
-            const testSection = $w('#testSection') || $w('.test') || $w('[data-testid="test"]');
-            if (!testSection) return;
-            
-            // Simple fade in
-            testSection.style.opacity = '0';
-            testSection.style.transition = 'opacity 0.5s ease';
-            
-            setTimeout(() => {
-                testSection.style.opacity = '1';
-            }, 100);
-            
-            // Basic test elements
-            const testElements = $w('#testTitle, #testSubtitle, #testDescription, .test-cta');
-            testElements.forEach((element, index) => {
-                if (!element) return;
-                
-                element.style.opacity = '0';
-                element.style.transition = `opacity 0.5s ease ${0.3 + (index * 0.1)}s`;
-                
-                setTimeout(() => {
-                    element.style.opacity = '1';
-                }, 300 + (index * 100));
-            });
-        } catch (error) {
-            console.warn('Basic test section failed:', error);
-        }
-    }
-    
-    // Basic navigation integration (Phase 1)
-    function setupBasicNavigation() {
-        try {
-            // Use master page scroll function if available
-            if (window.ultraFastSite && window.ultraFastSite.scrollTo) {
-                const ctaButtons = $w('.cta-button, .btn-primary, [data-testid*="cta"]');
-                ctaButtons.forEach(button => {
-                    if (!button) return;
-                    
-                    button.onClick((e) => {
-                        e.preventDefault();
-                        const target = button.getAttribute('data-target') || button.getAttribute('href');
-                        if (target && target.startsWith('#')) {
-                            window.ultraFastSite.scrollTo(target);
-                        }
-                    });
+            const allElements = $w('*');
+            if (allElements && allElements.length > 0) {
+                allElements.forEach(element => {
+                    if (element && element.style) {
+                        // Disable all animations and heavy effects
+                        element.style.animation = 'none !important';
+                        element.style.transition = 'none !important';
+                        element.style.transform = 'none !important';
+                        element.style.filter = 'none !important';
+                        element.style.backdropFilter = 'none !important';
+                        element.style.boxShadow = 'none !important';
+                        element.style.willChange = 'auto !important';
+                        element.style.backfaceVisibility = 'visible !important';
+                        element.style.perspective = 'none !important';
+                        
+                        // Ensure visibility
+                        element.style.visibility = 'visible !important';
+                        element.style.opacity = '1 !important';
+                        element.style.display = 'block !important';
+                    }
                 });
             }
+            
+            console.log('✅ Crash prevention applied to Test page');
+            
         } catch (error) {
-            console.warn('Basic navigation failed:', error);
+            console.warn('Crash prevention failed on Test page:', error);
         }
     }
     
-    // Basic responsive (Phase 1)
-    function setupBasicResponsive() {
-        try {
-            let resizeTimeout;
-            window.addEventListener('resize', () => {
-                if (resizeTimeout) clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    const wasMobile = state.isMobile;
-                    state.isMobile = window.innerWidth < 768;
-                    
-                    // Basic mobile adjustments
-                    if (state.isMobile) {
-                        adjustForMobile();
-                    }
-                }, 250);
+    // ERROR HANDLING
+    function setupErrorHandling() {
+        if (typeof window !== 'undefined') {
+            window.addEventListener('error', (e) => {
+                console.warn('Error caught and handled on Test page:', e.error);
+                e.preventDefault();
             });
             
-            // Initial mobile check
-            if (state.isMobile) {
-                adjustForMobile();
-            }
-        } catch (error) {
-            console.warn('Basic responsive failed:', error);
-        }
-    }
-    
-    function adjustForMobile() {
-        try {
-            const testSection = $w('#testSection') || $w('.test');
-            if (testSection) {
-                testSection.style.minHeight = '100vh';
-                testSection.style.padding = '1rem';
-                testSection.style.paddingTop = '70px';
-            }
-            
-            const buttons = $w('.btn, .button, .cta-button');
-            buttons.forEach(btn => {
-                if (!btn) return;
-                btn.style.width = '100%';
-                btn.style.maxWidth = '280px';
-                btn.style.minHeight = '48px';
-                btn.style.padding = '0.875rem 1.5rem';
-                btn.style.fontSize = '1rem';
-                btn.style.textAlign = 'center';
+            window.addEventListener('unhandledrejection', (e) => {
+                console.warn('Unhandled promise rejection caught on Test page:', e.reason);
+                e.preventDefault();
             });
-        } catch (error) {
-            console.warn('Mobile adjustment failed:', error);
         }
     }
     
-    // Smooth scroll system (Phase 2)
-    function setupSmoothScroll() {
-        try {
-            if (state.scrollRAF) return;
-            window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
-        } catch (error) {
-            console.warn('Smooth scroll setup failed:', error);
-        }
-    }
-    
-    function ultraSmoothScroll() {
-        if (state.scrollRAF) return;
+    // TEST CONTENT SETUP
+    function setupTestContent() {
+        console.log('🧪 Setting up test content...');
         
-        state.scrollRAF = requestAnimationFrame(() => {
-            try {
-                const currentScrollY = window.scrollY;
-                
-                // Update state
-                state.lastScrollY = currentScrollY;
-                
-                // Basic scroll effects
-                const testSection = $w('#testSection') || $w('.test');
-                if (testSection) {
-                    const opacity = Math.max(0.3, 1 - (currentScrollY / 500));
-                    testSection.style.opacity = opacity;
-                }
-                
-            } catch (error) {
-                console.warn('Smooth scroll failed:', error);
+        try {
+            // Test content elements
+            const testContent = getElement('#testContent') || $w('main')[0];
+            const testTitle = getElement('#testTitle') || $w('title')[0];
+            const testText = $w('text, paragraph, description');
+            const testButtons = $w('button, .btn, .cta-button');
+            
+            if (testContent) {
+                // Ensure test content is visible
+                testContent.style.visibility = 'visible';
+                testContent.style.opacity = '1';
+                testContent.style.display = 'block';
             }
             
-            state.scrollRAF = null;
-        });
-    }
-    
-    // Basic animations (Phase 2)
-    function setupBasicAnimations() {
-        try {
-            // Simple fade in for test content
-            const testContent = $w('.test-content, .test-item, .card');
-            testContent.forEach((item, index) => {
-                if (!item) return;
+            if (testTitle) {
+                // Ensure title is visible
+                testTitle.style.visibility = 'visible';
+                testTitle.style.opacity = '1';
+            }
+            
+            // Setup test text elements
+            testText.forEach(text => {
+                if (!text) return;
                 
-                item.style.opacity = '0';
-                item.style.transition = `opacity 0.5s ease ${index * 0.1}s`;
-                
-                setTimeout(() => {
-                    item.style.opacity = '1';
-                }, 200 + (index * 100));
+                // Ensure text is visible
+                text.style.visibility = 'visible';
+                text.style.opacity = '1';
+                text.style.display = 'block';
             });
+            
+            // Setup test buttons
+            testButtons.forEach(button => {
+                if (!button) return;
+                
+                // Ensure button is visible
+                button.style.visibility = 'visible';
+                button.style.opacity = '1';
+                button.style.display = 'block';
+                
+                // Add simple click feedback
+                button.onClick(() => {
+                    button.style.opacity = '0.8';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                    }, 100);
+                });
+            });
+            
+            console.log('✅ Test content setup complete');
+            
         } catch (error) {
-            console.warn('Basic animations failed:', error);
+            console.warn('Test content setup failed:', error);
         }
     }
     
-    // Image optimization (Phase 2)
+    // TEST SECTIONS SETUP
+    function setupTestSections() {
+        console.log('📋 Setting up test sections...');
+        
+        try {
+            // Test section elements
+            const testSections = $w('section, .section, [class*="section"]');
+            const testCards = $w('.card, .test-card, .content-card');
+            
+            // Setup test sections
+            testSections.forEach(section => {
+                if (!section) return;
+                
+                // Ensure section is visible
+                section.style.visibility = 'visible';
+                section.style.opacity = '1';
+                section.style.display = 'block';
+            });
+            
+            // Setup test cards
+            testCards.forEach((card, index) => {
+                if (!card) return;
+                
+                // Ensure card is visible
+                card.style.visibility = 'visible';
+                card.style.opacity = '1';
+                card.style.display = 'block';
+                
+                // Add simple hover effect
+                card.onMouseIn(() => {
+                    card.style.opacity = '0.9';
+                    card.style.transition = 'opacity 0.2s ease';
+                });
+                
+                card.onMouseOut(() => {
+                    card.style.opacity = '1';
+                });
+            });
+            
+            console.log('✅ Test sections setup complete');
+            
+        } catch (error) {
+            console.warn('Test sections setup failed:', error);
+        }
+    }
+    
+    // IMAGE OPTIMIZATION
     function optimizeImages() {
         try {
             const images = $w('img');
@@ -291,1368 +199,143 @@ $w.onReady(function () {
         }
     }
     
-    // Enhanced animations (Phase 3)
-    function setupEnhancedAnimations() {
-        try {
-            // Enhanced button interactions
-            const buttons = $w('button, .btn, .cta-button');
-            buttons.forEach(button => {
-                if (!button) return;
-                
-                button.onMouseIn(() => {
-                    button.scale = 1.02;
-                    button.style.transition = 'transform 0.1s ease';
-                });
-                
-                button.onMouseOut(() => {
-                    button.scale = 1;
-                });
-                
-                button.onClick(() => {
-                    button.scale = 0.98;
-                    setTimeout(() => {
-                        button.scale = 1;
-                    }, 100);
-                });
-            });
-            
-            // Enhanced test section interactions
-            const testSection = $w('#testSection') || $w('.test');
-            if (testSection) {
-                let isHovering = false;
-                
-                testSection.onMouseEnter(() => {
-                    isHovering = true;
-                });
-                
-                testSection.onMouseLeave(() => {
-                    isHovering = false;
-                    testSection.style.transform = '';
-                });
-                
-                testSection.onMouseMove((event) => {
-                    if (!isHovering) return;
-                    
-                    try {
-                        const rect = testSection.getBoundingClientRect();
-                        const x = (event.clientX - rect.left) / rect.width;
-                        const y = (event.clientY - rect.top) / rect.height;
-                        
-                        const rotateX = (y - 0.5) * 2;
-                        const rotateY = (x - 0.5) * 2;
-                        
-                        testSection.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
-                        testSection.style.transition = 'transform 0.1s ease';
-                    } catch (error) {
-                        console.warn('Test section interaction failed:', error);
-                    }
-                });
-            }
-        } catch (error) {
-            console.warn('Enhanced animations failed:', error);
-        }
-    }
-    
-    // Performance monitoring (Phase 3)
-    function startPerformanceMonitoring() {
-        try {
-            let scrollCount = 0;
-            let lastScrollCheck = Date.now();
-            
-            const scrollObserver = () => {
-                scrollCount++;
-                const now = Date.now();
-                
-                if (now - lastScrollCheck > 1000) {
-                    const scrollsPerSecond = scrollCount;
-                    if (scrollsPerSecond > 30) {
-                        console.warn('High scroll frequency detected on test page 1, optimizing...');
-                    }
-                    scrollCount = 0;
-                    lastScrollCheck = now;
-                }
-            };
-            
-            window.addEventListener('scroll', scrollObserver, { passive: true });
-        } catch (error) {
-            console.warn('Performance monitoring failed:', error);
-        }
-    }
-    
-    // Mobile optimizations (Phase 3)
-    function initializeMobileOptimizations() {
-        console.log('📱 Initializing Mobile Test Page 1 Optimizations...');
+    // MOBILE OPTIMIZATIONS
+    function setupMobileOptimizations() {
+        console.log('📱 Setting up mobile optimizations for Test page...');
         
         try {
-            const isMobile = window.innerWidth < 768;
-            const isTouchDevice = 'ontouchstart' in window;
+            const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+            const isTouchDevice = typeof window !== 'undefined' ? 'ontouchstart' in window : false;
             
             state.isMobile = isMobile;
-            state.isTouchDevice = isTouchDevice;
             
             if (isTouchDevice) {
-                initializeTouchOptimizations();
+                // Touch optimizations
+                const buttons = $w('.btn, .button, [data-testid*="button"]');
+                buttons.forEach(btn => {
+                    if (!btn) return;
+                    
+                    btn.onTouchStart(() => {
+                        btn.style.opacity = '0.8';
+                        btn.style.transition = 'opacity 0.15s ease';
+                    });
+                    
+                    btn.onTouchEnd(() => {
+                        setTimeout(() => {
+                            btn.style.opacity = '1';
+                        }, 150);
+                    });
+                });
             }
             
-            injectMobileCSS();
+            // Responsive behavior
+            let resizeTimeout;
+            if (typeof window !== 'undefined') {
+                window.addEventListener('resize', () => {
+                    if (resizeTimeout) clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        const wasMobile = state.isMobile;
+                        state.isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+                        
+                        // Adjust layout for mobile
+                        if (state.isMobile) {
+                            adjustForMobile();
+                        }
+                    }, 250);
+                });
+            }
             
-            console.log('✅ Mobile test page 1 optimizations initialized!');
+            console.log('✅ Mobile optimizations complete for Test page');
+            
         } catch (error) {
-            console.warn('Mobile optimizations failed:', error);
+            console.warn('Mobile optimizations failed for Test page:', error);
         }
     }
     
-    function initializeTouchOptimizations() {
+    // ADJUST FOR MOBILE
+    function adjustForMobile() {
         try {
-            // Enhanced touch feedback for buttons
-            const buttons = $w('.btn, .button, .cta-button, [data-testid*="button"]');
+            if (!state.isMobile) return;
+            
+            // Adjust test content for mobile
+            const testContent = getElement('#testContent') || $w('main')[0];
+            if (testContent) {
+                testContent.style.padding = '1rem';
+                testContent.style.paddingTop = '70px';
+            }
+            
+            // Adjust buttons for mobile
+            const buttons = $w('.btn, .button');
             buttons.forEach(btn => {
                 if (!btn) return;
                 
-                btn.onTouchStart(() => {
-                    btn.style.transform = 'scale(0.95)';
-                    btn.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
-                });
-                
-                btn.onTouchEnd(() => {
-                    setTimeout(() => {
-                        btn.style.transform = '';
-                        btn.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                    }, 150);
-                });
+                btn.style.width = '100%';
+                btn.style.maxWidth = '280px';
+                btn.style.minHeight = '48px';
+                btn.style.padding = '0.875rem 1.5rem';
+                btn.style.fontSize = '1rem';
+                btn.style.textAlign = 'center';
+                btn.style.touchAction = 'manipulation';
             });
             
-            // Enhanced touch feedback for test items
-            const testItems = $w('.test-item, .test-content, .card');
-            testItems.forEach(item => {
-                if (!item) return;
-                
-                item.onTouchStart(() => {
-                    item.style.transform = 'scale(0.98)';
-                    item.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
-                });
-                
-                item.onTouchEnd(() => {
-                    setTimeout(() => {
-                        item.style.transform = '';
-                        item.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                    }, 150);
-                });
-            });
-            
-            // Prevent zoom on double tap
-            let lastTouchEnd = 0;
-            document.addEventListener('touchend', (event) => {
-                const now = (new Date()).getTime();
-                if (now - lastTouchEnd <= 300) {
-                    event.preventDefault();
-                }
-                lastTouchEnd = now;
-            }, false);
         } catch (error) {
-            console.warn('Touch optimizations failed:', error);
+            console.warn('Mobile adjustment failed:', error);
         }
     }
     
-    function injectMobileCSS() {
-        const mobileCSS = `
-            @media (max-width: 768px) {
-                .test, .testSection {
-                    min-height: 100vh !important;
-                    padding: 1rem !important;
-                    padding-top: 70px !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
+    // ENABLE SMOOTH TRANSITIONS (after everything is loaded)
+    function enableSmoothTransitions() {
+        try {
+            const allElements = $w('*');
+            allElements.forEach(element => {
+                if (element && element.style) {
+                    // Enable smooth transitions
+                    element.style.transition = 'opacity 0.3s ease-in-out, transform 0.2s ease';
+                    
+                    // Ensure visibility
+                    element.style.visibility = 'visible';
+                    element.style.opacity = '1';
+                    element.style.display = 'block';
                 }
-                
-                .test-content, .testContent {
-                    width: 100% !important;
-                    max-width: 100% !important;
-                    padding: 0 1rem !important;
-                }
-                
-                .test-title, .testTitle {
-                    font-size: clamp(1.75rem, 6vw, 2.5rem) !important;
-                    line-height: 1.2 !important;
-                    margin-bottom: 0.75rem !important;
-                }
-                
-                .test-subtitle, .testSubtitle {
-                    font-size: clamp(0.875rem, 4vw, 1.125rem) !important;
-                    margin-bottom: 1.5rem !important;
-                }
-                
-                .btn-container, .buttonContainer {
-                    flex-direction: column !important;
-                    align-items: center !important;
-                    width: 100% !important;
-                    gap: 0.75rem !important;
-                }
-                
-                .btn, .button, .cta-button {
-                    width: 100% !important;
-                    max-width: 280px !important;
-                    min-height: 48px !important;
-                    padding: 0.875rem 1.5rem !important;
-                    font-size: 1rem !important;
-                    text-align: center !important;
-                    touch-action: manipulation !important;
-                }
-                
-                .test-content, .test-item {
-                    padding: 2rem 1rem !important;
-                }
-                
-                .test-content h2, .testTitle {
-                    font-size: clamp(1.5rem, 5vw, 2rem) !important;
-                    margin-bottom: 2rem !important;
-                }
-                
-                .test-grid, .testGrid {
-                    grid-template-columns: 1fr !important;
-                    gap: 1.25rem !important;
-                    padding: 0 0.5rem !important;
-                }
-                
-                .test-item, .card {
-                    padding: 1.25rem !important;
-                    margin: 0 !important;
-                }
-                
-                .test-item h3, .card h3 {
-                    font-size: 1.125rem !important;
-                    margin-bottom: 0.75rem !important;
-                }
-                
-                .test-item p, .card p {
-                    font-size: 0.875rem !important;
-                    line-height: 1.5 !important;
-                }
-            }
-            
-            @media (max-width: 375px) {
-                .test, .testSection {
-                    padding: 0.75rem !important;
-                    padding-top: 60px !important;
-                }
-                
-                .test-title, .testTitle {
-                    font-size: clamp(1.5rem, 7vw, 2rem) !important;
-                }
-                
-                .test-subtitle, .testSubtitle {
-                    font-size: clamp(0.75rem, 4.5vw, 1rem) !important;
-                }
-                
-                .btn, .button, .cta-button {
-                    max-width: 260px !important;
-                    padding: 0.75rem 1.25rem !important;
-                    font-size: 0.875rem !important;
-                }
-                
-                .test-content, .test-item {
-                    padding: 1.5rem 0.75rem !important;
-                }
-                
-                .test-grid, .testGrid {
-                    gap: 1rem !important;
-                    padding: 0 0.25rem !important;
-                }
-                
-                .test-item, .card {
-                    padding: 1rem !important;
-                }
-            }
-            
-            @media (max-width: 768px) and (orientation: landscape) {
-                .test, .testSection {
-                    min-height: 85vh !important;
-                    padding-top: 60px !important;
-                }
-                
-                .test-title, .testTitle {
-                    font-size: clamp(1.5rem, 5vw, 2rem) !important;
-                    margin-bottom: 0.5rem !important;
-                }
-                
-                .test-subtitle, .testSubtitle {
-                    font-size: clamp(0.75rem, 3.5vw, 1rem) !important;
-                    margin-bottom: 1rem !important;
-                }
-                
-                .btn-container, .buttonContainer {
-                    flex-direction: row !important;
-                    justify-content: center !important;
-                    gap: 1rem !important;
-                }
-                
-                .btn, .button, .cta-button {
-                    width: auto !important;
-                    max-width: 200px !important;
-                    min-width: 160px !important;
-                }
-            }
-            
-            @media (hover: none) and (pointer: coarse) {
-                .btn:hover, .button:hover, .cta-button:hover {
-                    transform: none !important;
-                    box-shadow: none !important;
-                }
-                
-                .test-item:hover, .card:hover {
-                    transform: none !important;
-                }
-                
-                .btn, .button, .cta-button {
-                    min-height: 44px !important;
-                    min-width: 44px !important;
-                }
-            }
-            
-            body {
-                overflow-x: hidden !important;
-                width: 100% !important;
-            }
-            
-            .test-content, .testContent,
-            .test-grid, .testGrid {
-                width: 100% !important;
-                max-width: 100% !important;
-                box-sizing: border-box !important;
-            }
-        `;
-        
-        const style = document.createElement('style');
-        style.textContent = mobileCSS;
-        document.head.appendChild(style);
+            });
+        } catch (error) {
+            console.warn('Enable smooth transitions failed:', error);
+        }
     }
     
-    // Error handling & crash prevention
-    function setupErrorHandling() {
-        window.addEventListener('error', (e) => {
-            console.warn('Test page 1 error caught and handled:', e.error);
-            e.preventDefault();
-        });
+    // MAIN INITIALIZATION
+    function initialize() {
+        console.log('🚀 Starting simplified Test page initialization...');
         
-        window.addEventListener('unhandledrejection', (e) => {
-            console.warn('Test page 1 unhandled promise rejection caught:', e.reason);
-            e.preventDefault();
-        });
-    }
-    
-    // Initialize service section optimizer
-    function initializeServiceOptimizer() {
-        console.log('🎯 Initializing Service Section Optimizer...');
+        // Step 1: Prevent crashes immediately
+        preventCrashes();
         
-        // Performance state for service sections
-        const serviceState = {
-            isServiceSectionVisible: false,
-            serviceSectionRAF: null,
-            lastServiceScrollY: 0,
-            serviceElements: new Map(),
-            animationFrame: null,
-            isOptimized: false,
-            isFirstLoad: true,
-            optimizationLevel: 0
-        };
+        // Step 2: Setup error handling
+        setupErrorHandling();
         
-        // IMMEDIATE optimization for first-time load
-        function immediateOptimization() {
-            console.log('⚡ Applying immediate optimizations for first-time load...');
-            
-            try {
-                // Disable ALL animations immediately
-                const allElements = $w('*');
-                if (allElements && allElements.length > 0) {
-                    allElements.forEach(element => {
-                        if (element && element.style) {
-                            // Disable all heavy animations
-                            element.style.animation = 'none';
-                            element.style.transition = 'none';
-                            element.style.transform = 'none';
-                            element.style.filter = 'none';
-                            element.style.backdropFilter = 'none';
-                            element.style.boxShadow = 'none';
-                            
-                            // Optimize for performance
-                            element.style.willChange = 'auto';
-                            element.style.backfaceVisibility = 'visible';
-                            element.style.perspective = 'none';
-                        }
-                    });
-                }
-                
-                // Disable scroll effects temporarily
-                if (state.scrollRAF) {
-                    cancelAnimationFrame(state.scrollRAF);
-                    state.scrollRAF = null;
-                }
-                
-                console.log('✅ Immediate optimizations applied');
-                
-            } catch (error) {
-                console.warn('Immediate optimization failed:', error);
-            }
-        }
+        // Step 3: Setup test content
+        setupTestContent();
         
-        // Detect service sections (including "03 digital service")
-        function detectServiceSections() {
-            try {
-                // Look for various service section selectors
-                const serviceSelectors = [
-                    '#services',
-                    '.services',
-                    '[data-service]',
-                    '.service-section',
-                    '.digital-service',
-                    '.service-card',
-                    '.service-item',
-                    '[class*="service"]',
-                    '[id*="service"]',
-                    '[class*="03"]',
-                    '[id*="03"]',
-                    '[class*="balloon"]',
-                    '[id*="balloon"]',
-                    '[class*="red"]',
-                    '[style*="red"]'
-                ];
-                
-                serviceSelectors.forEach(selector => {
-                    const elements = $w(selector);
-                    if (elements && elements.length > 0) {
-                        elements.forEach((element, index) => {
-                            serviceState.serviceElements.set(`${selector}-${index}`, element);
-                            console.log(`🎯 Found service section: ${selector}-${index}`);
-                            
-                            // IMMEDIATE optimization for each found element
-                            if (element && element.style) {
-                                // Disable all animations immediately
-                                element.style.animation = 'none';
-                                element.style.transition = 'none';
-                                element.style.transform = 'none';
-                                element.style.filter = 'none';
-                                element.style.backdropFilter = 'none';
-                                element.style.boxShadow = 'none';
-                                
-                                // Set basic opacity for smooth reveal
-                                element.style.opacity = '0.9';
-                                
-                                // Optimize for performance
-                                element.style.willChange = 'auto';
-                                element.style.backfaceVisibility = 'visible';
-                                element.style.perspective = 'none';
-                                
-                                console.log(`⚡ Immediately optimized: ${selector}-${index}`);
-                            }
-                        });
-                    }
-                });
-                
-            } catch (error) {
-                console.warn('Service section detection failed:', error);
-            }
-        }
+        // Step 4: Setup test sections
+        setupTestSections();
         
-        // Special optimization for "03 digital service" red balloon
-        function optimizeRedBalloonSection() {
-            try {
-                // Look for red balloon elements with more specific selectors
-                const balloonSelectors = [
-                    '[class*="balloon"]',
-                    '[id*="balloon"]',
-                    '[class*="red"]',
-                    '[style*="red"]',
-                    '[class*="03"]',
-                    '[id*="03"]',
-                    '[class*="digital"]',
-                    '[id*="digital"]',
-                    '[class*="service"]',
-                    '[id*="service"]'
-                ];
-                
-                balloonSelectors.forEach(selector => {
-                    const elements = $w(selector);
-                    if (elements && elements.length > 0) {
-                        elements.forEach((element, index) => {
-                            // AGGRESSIVE optimization for red balloon
-                            element.style.animation = 'none';
-                            element.style.transition = 'none';
-                            element.style.transform = 'none';
-                            element.style.filter = 'none';
-                            element.style.backdropFilter = 'none';
-                            element.style.boxShadow = 'none';
-                            
-                            // Set basic opacity
-                            element.style.opacity = '0.95';
-                            
-                            // Optimize for performance
-                            element.style.willChange = 'auto';
-                            element.style.backfaceVisibility = 'visible';
-                            element.style.perspective = 'none';
-                            
-                            // Remove any heavy CSS classes
-                            if (element.className) {
-                                element.className = element.className.replace(/animate|animation|transition|transform/g, '');
-                            }
-                            
-                            console.log(`🎈 Aggressively optimized red balloon: ${selector}-${index}`);
-                        });
-                    }
-                });
-                
-            } catch (error) {
-                console.warn('Red balloon optimization failed:', error);
-            }
-        }
+        // Step 5: Optimize images
+        optimizeImages();
         
-        // Emergency optimization for performance issues
-        function emergencyOptimization() {
-            try {
-                console.log('🚨 Emergency optimization triggered');
-                
-                // Disable ALL animations across the entire page
-                const allElements = $w('*');
-                if (allElements && allElements.length > 0) {
-                    allElements.forEach(element => {
-                        if (element && element.style) {
-                            element.style.animation = 'none';
-                            element.style.transition = 'none';
-                            element.style.transform = 'none';
-                            element.style.filter = 'none';
-                            element.style.backdropFilter = 'none';
-                            element.style.boxShadow = 'none';
-                            element.style.willChange = 'auto';
-                        }
-                    });
-                }
-                
-                // Cancel all animation frames
-                if (state.scrollRAF) {
-                    cancelAnimationFrame(state.scrollRAF);
-                    state.scrollRAF = null;
-                }
-                
-                if (serviceState.animationFrame) {
-                    cancelAnimationFrame(serviceState.animationFrame);
-                    serviceState.animationFrame = null;
-                }
-                
-                console.log('🚨 Emergency optimization applied - all animations disabled');
-                
-            } catch (error) {
-                console.warn('Emergency optimization failed:', error);
-            }
-        }
+        // Step 6: Setup mobile optimizations
+        setupMobileOptimizations();
         
-        // Start aggressive optimization sequence
-        console.log('🚀 Starting aggressive optimization sequence...');
-        
-        // Step 1: Immediate optimization (0ms)
-        immediateOptimization();
-        
-        // Step 2: Detect and optimize service sections (50ms)
+        // Step 7: Enable smooth transitions after a delay
         setTimeout(() => {
-            detectServiceSections();
-            optimizeRedBalloonSection();
-        }, 50);
-        
-        // Step 3: Start performance monitoring (500ms)
-        setTimeout(() => {
-            // Monitor performance and apply emergency optimization if needed
-            let frameCount = 0;
-            let lastTime = performance.now();
-            let lowFpsCount = 0;
+            enableSmoothTransitions();
+            state.isLoaded = true;
             
-            function checkPerformance() {
-                frameCount++;
-                const currentTime = performance.now();
-                
-                if (currentTime - lastTime >= 1000) {
-                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
-                    
-                    // More aggressive threshold for first load
-                    const threshold = serviceState.isFirstLoad ? 45 : 30;
-                    
-                    if (fps < threshold) {
-                        lowFpsCount++;
-                        console.warn(`⚠️ Low FPS detected: ${fps} (threshold: ${threshold})`);
-                        
-                        // Trigger emergency optimization after 2 consecutive low FPS readings
-                        if (lowFpsCount >= 2) {
-                            emergencyOptimization();
-                            lowFpsCount = 0;
-                        }
-                    } else {
-                        lowFpsCount = 0;
-                    }
-                    
-                    frameCount = 0;
-                    lastTime = currentTime;
-                }
-                
-                requestAnimationFrame(checkPerformance);
-            }
-            
-            checkPerformance();
-        }, 500);
-        
-        console.log('✅ Aggressive Service Section Optimizer initialized');
-    }
-    
-    // Initialize the service optimizer
-    initializeServiceOptimizer();
-    
-    // DEDICATED "03" SECTION OPTIMIZER - Runs immediately and continuously
-    function initialize03SectionOptimizer() {
-        console.log('🎯 Initializing DEDICATED "03" Section Optimizer...');
-        
-        // Continuous optimization state
-        const section03State = {
-            isOptimized: false,
-            optimizationInterval: null,
-            lastOptimization: 0,
-            optimizationCount: 0
-        };
-        
-        // IMMEDIATE "03" section optimization
-        function optimize03SectionImmediately() {
-            console.log('⚡ IMMEDIATE "03" section optimization...');
-            
-            try {
-                // Target ALL possible "03" selectors
-                const selectors03 = [
-                    '[class*="03"]',
-                    '[id*="03"]',
-                    '[data-id*="03"]',
-                    '[data-testid*="03"]',
-                    '[class*="service"]',
-                    '[id*="service"]',
-                    '[class*="digital"]',
-                    '[id*="digital"]',
-                    '[class*="balloon"]',
-                    '[id*="balloon"]',
-                    '[class*="red"]',
-                    '[style*="red"]',
-                    '.service-card',
-                    '.service-item',
-                    '.digital-service',
-                    '#services',
-                    '.services'
-                ];
-                
-                selectors03.forEach(selector => {
-                    const elements = $w(selector);
-                    if (elements && elements.length > 0) {
-                        elements.forEach((element, index) => {
-                            if (element && element.style) {
-                                // AGGRESSIVE optimization for "03" section
-                                element.style.animation = 'none !important';
-                                element.style.transition = 'none !important';
-                                element.style.transform = 'none !important';
-                                element.style.filter = 'none !important';
-                                element.style.backdropFilter = 'none !important';
-                                element.style.boxShadow = 'none !important';
-                                element.style.willChange = 'auto !important';
-                                element.style.backfaceVisibility = 'visible !important';
-                                element.style.perspective = 'none !important';
-                                element.style.opacity = '1 !important';
-                                
-                                // Remove any heavy CSS classes
-                                if (element.className) {
-                                    element.className = element.className.replace(/animate|animation|transition|transform|scale|rotate|skew|translate/g, '');
-                                }
-                                
-                                // Disable any hover effects
-                                element.onMouseIn = null;
-                                element.onMouseOut = null;
-                                element.onClick = null;
-                                
-                                console.log(`🎯 IMMEDIATELY optimized "03" element: ${selector}-${index}`);
-                            }
-                        });
-                    }
-                });
-                
-                section03State.optimizationCount++;
-                section03State.lastOptimization = Date.now();
-                
-            } catch (error) {
-                console.warn('Immediate "03" optimization failed:', error);
-            }
-        }
-        
-        // CONTINUOUS "03" section monitoring and optimization
-        function startContinuous03Optimization() {
-            console.log('🔄 Starting CONTINUOUS "03" section optimization...');
-            
-            // Run optimization every 100ms for the first 5 seconds
-            let intervalCount = 0;
-            const maxIntervals = 50; // 5 seconds at 100ms intervals
-            
-            section03State.optimizationInterval = setInterval(() => {
-                optimize03SectionImmediately();
-                intervalCount++;
-                
-                if (intervalCount >= maxIntervals) {
-                    // Switch to less frequent optimization
-                    clearInterval(section03State.optimizationInterval);
-                    section03State.optimizationInterval = setInterval(() => {
-                        optimize03SectionImmediately();
-                    }, 1000); // Every second
-                    
-                    console.log('✅ Switched to continuous "03" optimization (1s intervals)');
-                }
-            }, 100);
-        }
-        
-        // EMERGENCY "03" section optimization
-        function emergency03Optimization() {
-            console.log('🚨 EMERGENCY "03" section optimization triggered!');
-            
-            try {
-                // Disable ALL elements that might be related to "03"
-                const allElements = $w('*');
-                if (allElements && allElements.length > 0) {
-                    allElements.forEach(element => {
-                        if (element && element.style) {
-                            // Nuclear option - disable everything
-                            element.style.animation = 'none !important';
-                            element.style.transition = 'none !important';
-                            element.style.transform = 'none !important';
-                            element.style.filter = 'none !important';
-                            element.style.backdropFilter = 'none !important';
-                            element.style.boxShadow = 'none !important';
-                            element.style.willChange = 'auto !important';
-                            element.style.opacity = '1 !important';
-                        }
-                    });
-                }
-                
-                // Cancel ALL animation frames
-                if (state.scrollRAF) {
-                    cancelAnimationFrame(state.scrollRAF);
-                    state.scrollRAF = null;
-                }
-                
-                console.log('🚨 EMERGENCY "03" optimization applied - ALL animations disabled');
-                
-            } catch (error) {
-                console.warn('Emergency "03" optimization failed:', error);
-            }
-        }
-        
-        // Performance monitoring specifically for "03" section
-        function monitor03SectionPerformance() {
-            let frameCount = 0;
-            let lastTime = performance.now();
-            let lowFpsCount = 0;
-            
-            function check03Performance() {
-                frameCount++;
-                const currentTime = performance.now();
-                
-                if (currentTime - lastTime >= 1000) {
-                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
-                    
-                    // Very aggressive threshold for "03" section
-                    const threshold = 50; // Must maintain 50fps
-                    
-                    if (fps < threshold) {
-                        lowFpsCount++;
-                        console.warn(`⚠️ Low FPS in "03" section: ${fps} (threshold: ${threshold})`);
-                        
-                        // Trigger emergency optimization immediately
-                        if (lowFpsCount >= 1) {
-                            emergency03Optimization();
-                            lowFpsCount = 0;
-                        }
-                    } else {
-                        lowFpsCount = 0;
-                    }
-                    
-                    frameCount = 0;
-                    lastTime = currentTime;
-                }
-                
-                requestAnimationFrame(check03Performance);
-            }
-            
-            check03Performance();
-        }
-        
-        // Start the dedicated "03" optimizer
-        console.log('🚀 Starting DEDICATED "03" Section Optimizer...');
-        
-        // Step 1: Immediate optimization (0ms)
-        optimize03SectionImmediately();
-        
-        // Step 2: Start continuous optimization (50ms)
-        setTimeout(() => {
-            startContinuous03Optimization();
-        }, 50);
-        
-        // Step 3: Start performance monitoring (100ms)
-        setTimeout(() => {
-            monitor03SectionPerformance();
-        }, 100);
-        
-        // Step 4: Additional optimization every 500ms
-        setInterval(() => {
-            optimize03SectionImmediately();
-        }, 500);
-        
-        section03State.isOptimized = true;
-        console.log('✅ DEDICATED "03" Section Optimizer initialized');
-        
-        // Export for manual triggering
-        window.section03Optimizer = {
-            optimize: optimize03SectionImmediately,
-            emergency: emergency03Optimization,
-            getState: () => section03State
-        };
-    }
-    
-    // Initialize the dedicated "03" optimizer
-    initialize03SectionOptimizer();
-    
-    // SPECIFIC FIX FOR "03" BALLOON BLACK SCREEN ISSUE
-    function initialize03BalloonFix() {
-        console.log('🎈 Initializing "03" Balloon Black Screen Fix...');
-        
-        // State for balloon fix
-        const balloonFixState = {
-            isFixed: false,
-            backgroundPreserved: false,
-            lastCheck: 0
-        };
-        
-        // IMMEDIATE "03" balloon optimization to prevent black screen
-        function fix03BalloonImmediately() {
-            console.log('🎈 IMMEDIATE "03" balloon fix...');
-            
-            try {
-                // Target "03" balloon specifically
-                const balloonSelectors = [
-                    '[class*="03"]',
-                    '[id*="03"]',
-                    '[class*="balloon"]',
-                    '[id*="balloon"]',
-                    '[class*="red"]',
-                    '[style*="red"]',
-                    '[class*="gradient"]',
-                    '[style*="gradient"]'
-                ];
-                
-                balloonSelectors.forEach(selector => {
-                    const elements = $w(selector);
-                    if (elements && elements.length > 0) {
-                        elements.forEach((element, index) => {
-                            if (element && element.style) {
-                                // PREVENT BLACK SCREEN - Disable heavy effects
-                                element.style.animation = 'none !important';
-                                element.style.transition = 'none !important';
-                                element.style.transform = 'none !important';
-                                element.style.filter = 'none !important';
-                                element.style.backdropFilter = 'none !important';
-                                element.style.boxShadow = 'none !important';
-                                element.style.willChange = 'auto !important';
-                                element.style.backfaceVisibility = 'visible !important';
-                                element.style.perspective = 'none !important';
-                                
-                                // PRESERVE VISIBILITY
-                                element.style.opacity = '1 !important';
-                                element.style.visibility = 'visible !important';
-                                element.style.display = 'block !important';
-                                
-                                // Remove any heavy CSS classes that might cause crashes
-                                if (element.className) {
-                                    element.className = element.className.replace(/animate|animation|transition|transform|scale|rotate|skew|translate|blur|brightness|contrast|hue-rotate|invert|saturate|sepia/g, '');
-                                }
-                                
-                                // Disable any event handlers that might cause issues
-                                element.onMouseIn = null;
-                                element.onMouseOut = null;
-                                element.onClick = null;
-                                
-                                console.log(`🎈 Fixed "03" balloon element: ${selector}-${index}`);
-                            }
-                        });
-                    }
-                });
-                
-                // PRESERVE BACKGROUND ELEMENTS
-                preserveBackgroundElements();
-                
-                balloonFixState.isFixed = true;
-                
-            } catch (error) {
-                console.warn('"03" balloon fix failed:', error);
-            }
-        }
-        
-        // PRESERVE BACKGROUND ELEMENTS
-        function preserveBackgroundElements() {
-            console.log('🎨 Preserving background elements...');
-            
-            try {
-                // Target background elements
-                const backgroundSelectors = [
-                    'body',
-                    'html',
-                    '[class*="background"]',
-                    '[id*="background"]',
-                    '[class*="bg"]',
-                    '[id*="bg"]',
-                    '[class*="gradient"]',
-                    '[style*="gradient"]',
-                    '[class*="red"]',
-                    '[style*="red"]'
-                ];
-                
-                backgroundSelectors.forEach(selector => {
-                    const elements = $w(selector);
-                    if (elements && elements.length > 0) {
-                        elements.forEach((element, index) => {
-                            if (element && element.style) {
-                                // PRESERVE BACKGROUND STYLES
-                                element.style.visibility = 'visible !important';
-                                element.style.opacity = '1 !important';
-                                element.style.display = 'block !important';
-                                
-                                // Ensure background is not hidden
-                                if (element.style.background || element.style.backgroundColor) {
-                                    element.style.background = element.style.background || 'inherit';
-                                    element.style.backgroundColor = element.style.backgroundColor || 'inherit';
-                                }
-                                
-                                console.log(`🎨 Preserved background element: ${selector}-${index}`);
-                            }
-                        });
-                    }
-                });
-                
-                balloonFixState.backgroundPreserved = true;
-                
-            } catch (error) {
-                console.warn('Background preservation failed:', error);
-            }
-        }
-        
-        // EMERGENCY RECOVERY for black screen
-        function emergencyRecovery() {
-            console.log('🚨 EMERGENCY RECOVERY - Black screen detected!');
-            
-            try {
-                // Force all elements to be visible
-                const allElements = $w('*');
-                if (allElements && allElements.length > 0) {
-                    allElements.forEach(element => {
-                        if (element && element.style) {
-                            // Force visibility
-                            element.style.visibility = 'visible !important';
-                            element.style.opacity = '1 !important';
-                            element.style.display = 'block !important';
-                            
-                            // Disable all animations
-                            element.style.animation = 'none !important';
-                            element.style.transition = 'none !important';
-                            element.style.transform = 'none !important';
-                        }
-                    });
-                }
-                
-                // Restore background
-                preserveBackgroundElements();
-                
-                console.log('🚨 Emergency recovery completed');
-                
-            } catch (error) {
-                console.warn('Emergency recovery failed:', error);
-            }
-        }
-        
-        // Start the balloon fix
-        console.log('🎈 Starting "03" Balloon Black Screen Fix...');
-        
-        // Step 1: Immediate fix (0ms)
-        fix03BalloonImmediately();
-        
-        // Step 2: Additional fix every 200ms
-        setInterval(() => {
-            fix03BalloonImmediately();
-        }, 200);
-        
-        // Step 3: Emergency recovery trigger
-        setTimeout(() => {
-            emergencyRecovery();
+            console.log('✅ Simplified Test page initialization complete!');
         }, 1000);
-        
-        console.log('✅ "03" Balloon Black Screen Fix initialized');
-        
-        // Export for manual triggering
-        window.balloonFix = {
-            fix: fix03BalloonImmediately,
-            preserve: preserveBackgroundElements,
-            emergency: emergencyRecovery,
-            getState: () => balloonFixState
-        };
     }
     
-    // Initialize the balloon fix
-    initialize03BalloonFix();
+    // Start initialization
+    initialize();
     
-    // COMPREHENSIVE PROGRESSIVE LOADING SYSTEM
-    function initializeProgressiveLoadingSystem() {
-        console.log('🚀 Initializing Comprehensive Progressive Loading System...');
-        
-        // Progressive loading state
-        const progressiveState = {
-            phase: 0,
-            isLoaded: false,
-            isVisible: false,
-            loadStartTime: Date.now(),
-            elementsLoaded: 0,
-            totalElements: 0
-        };
-        
-        // PHASE 1: Hide everything and prepare
-        function phase1HideAndPrepare() {
-            console.log('📦 Phase 1: Hiding everything and preparing...');
-            
-            try {
-                // Hide ALL elements initially
-                const allElements = $w('*');
-                if (allElements && allElements.length > 0) {
-                    progressiveState.totalElements = allElements.length;
-                    
-                    allElements.forEach((element, index) => {
-                        if (element && element.style) {
-                            // Hide element completely
-                            element.style.visibility = 'hidden !important';
-                            element.style.opacity = '0 !important';
-                            element.style.display = 'none !important';
-                            
-                            // Disable all animations and effects
-                            element.style.animation = 'none !important';
-                            element.style.transition = 'none !important';
-                            element.style.transform = 'none !important';
-                            element.style.filter = 'none !important';
-                            element.style.backdropFilter = 'none !important';
-                            element.style.boxShadow = 'none !important';
-                            element.style.willChange = 'auto !important';
-                            element.style.backfaceVisibility = 'visible !important';
-                            element.style.perspective = 'none !important';
-                        }
-                    });
-                }
-                
-                // Show only essential elements (body, html)
-                const essentialElements = $w('body, html');
-                if (essentialElements && essentialElements.length > 0) {
-                    essentialElements.forEach(element => {
-                        if (element && element.style) {
-                            element.style.visibility = 'visible !important';
-                            element.style.opacity = '1 !important';
-                            element.style.display = 'block !important';
-                        }
-                    });
-                }
-                
-                progressiveState.phase = 1;
-                console.log('✅ Phase 1 completed: All elements hidden');
-                
-            } catch (error) {
-                console.warn('Phase 1 failed:', error);
-            }
-        }
-        
-        // PHASE 2: Load critical elements
-        function phase2LoadCritical() {
-            console.log('🔧 Phase 2: Loading critical elements...');
-            
-            try {
-                // Load critical elements first
-                const criticalSelectors = [
-                    'body', 'html', '[class*="background"]', '[id*="background"]',
-                    '[class*="bg"]', '[id*="bg"]', '[class*="gradient"]', '[style*="gradient"]'
-                ];
-                
-                criticalSelectors.forEach(selector => {
-                    const elements = $w(selector);
-                    if (elements && elements.length > 0) {
-                        elements.forEach(element => {
-                            if (element && element.style) {
-                                // Show element
-                                element.style.visibility = 'visible !important';
-                                element.style.opacity = '1 !important';
-                                element.style.display = 'block !important';
-                                
-                                progressiveState.elementsLoaded++;
-                            }
-                        });
-                    }
-                });
-                
-                progressiveState.phase = 2;
-                console.log('✅ Phase 2 completed: Critical elements loaded');
-                
-            } catch (error) {
-                console.warn('Phase 2 failed:', error);
-            }
-        }
-        
-        // PHASE 3: Load essential content
-        function phase3LoadEssential() {
-            console.log('📄 Phase 3: Loading essential content...');
-            
-            try {
-                // Load essential content elements
-                const essentialSelectors = [
-                    '[class*="header"]', '[id*="header"]', '[class*="nav"]', '[id*="nav"]',
-                    '[class*="main"]', '[id*="main"]', '[class*="content"]', '[id*="content"]',
-                    '[class*="section"]', '[id*="section"]'
-                ];
-                
-                essentialSelectors.forEach(selector => {
-                    const elements = $w(selector);
-                    if (elements && elements.length > 0) {
-                        elements.forEach(element => {
-                            if (element && element.style) {
-                                // Show element
-                                element.style.visibility = 'visible !important';
-                                element.style.opacity = '1 !important';
-                                element.style.display = 'block !important';
-                                
-                                progressiveState.elementsLoaded++;
-                            }
-                        });
-                    }
-                });
-                
-                progressiveState.phase = 3;
-                console.log('✅ Phase 3 completed: Essential content loaded');
-                
-            } catch (error) {
-                console.warn('Phase 3 failed:', error);
-            }
-        }
-        
-        // PHASE 4: Load enhanced elements
-        function phase4LoadEnhanced() {
-            console.log('✨ Phase 4: Loading enhanced elements...');
-            
-            try {
-                // Load enhanced elements (excluding problematic ones)
-                const enhancedSelectors = [
-                    '[class*="text"]', '[id*="text"]', '[class*="title"]', '[id*="title"]',
-                    '[class*="subtitle"]', '[id*="subtitle"]', '[class*="description"]', '[id*="description"]',
-                    '[class*="button"]', '[id*="button"]', '[class*="cta"]', '[id*="cta"]'
-                ];
-                
-                enhancedSelectors.forEach(selector => {
-                    const elements = $w(selector);
-                    if (elements && elements.length > 0) {
-                        elements.forEach(element => {
-                            if (element && element.style) {
-                                // Show element
-                                element.style.visibility = 'visible !important';
-                                element.style.opacity = '1 !important';
-                                element.style.display = 'block !important';
-                                
-                                progressiveState.elementsLoaded++;
-                            }
-                        });
-                    }
-                });
-                
-                progressiveState.phase = 4;
-                console.log('✅ Phase 4 completed: Enhanced elements loaded');
-                
-            } catch (error) {
-                console.warn('Phase 4 failed:', error);
-            }
-        }
-        
-        // PHASE 5: Load remaining elements (excluding problematic ones)
-        function phase5LoadRemaining() {
-            console.log('🎯 Phase 5: Loading remaining elements...');
-            
-            try {
-                // Load all remaining elements except problematic ones
-                const allElements = $w('*');
-                if (allElements && allElements.length > 0) {
-                    allElements.forEach(element => {
-                        if (element && element.style) {
-                            // Skip problematic elements for now
-                            const className = element.className || '';
-                            const id = element.id || '';
-                            
-                            // Skip "03" and heavy animation elements
-                            if (className.includes('03') || id.includes('03') || 
-                                className.includes('balloon') || id.includes('balloon') ||
-                                className.includes('animate') || className.includes('animation')) {
-                                return; // Skip these for now
-                            }
-                            
-                            // Show element
-                            element.style.visibility = 'visible !important';
-                            element.style.opacity = '1 !important';
-                            element.style.display = 'block !important';
-                            
-                            progressiveState.elementsLoaded++;
-                        }
-                    });
-                }
-                
-                progressiveState.phase = 5;
-                console.log('✅ Phase 5 completed: Remaining elements loaded');
-                
-            } catch (error) {
-                console.warn('Phase 5 failed:', error);
-            }
-        }
-        
-        // PHASE 6: Load problematic elements with special handling
-        function phase6LoadProblematic() {
-            console.log('🎈 Phase 6: Loading problematic elements with special handling...');
-            
-            try {
-                // Load "03" and balloon elements with special handling
-                const problematicSelectors = [
-                    '[class*="03"]', '[id*="03"]', '[class*="balloon"]', '[id*="balloon"]',
-                    '[class*="red"]', '[style*="red"]', '[class*="gradient"]', '[style*="gradient"]'
-                ];
-                
-                problematicSelectors.forEach(selector => {
-                    const elements = $w(selector);
-                    if (elements && elements.length > 0) {
-                        elements.forEach(element => {
-                            if (element && element.style) {
-                                // Show element but keep animations disabled
-                                element.style.visibility = 'visible !important';
-                                element.style.opacity = '1 !important';
-                                element.style.display = 'block !important';
-                                
-                                // Keep heavy effects disabled
-                                element.style.animation = 'none !important';
-                                element.style.transition = 'none !important';
-                                element.style.transform = 'none !important';
-                                element.style.filter = 'none !important';
-                                element.style.backdropFilter = 'none !important';
-                                element.style.boxShadow = 'none !important';
-                                
-                                progressiveState.elementsLoaded++;
-                            }
-                        });
-                    }
-                });
-                
-                progressiveState.phase = 6;
-                console.log('✅ Phase 6 completed: Problematic elements loaded with special handling');
-                
-            } catch (error) {
-                console.warn('Phase 6 failed:', error);
-            }
-        }
-        
-        // PHASE 7: Final smooth reveal
-        function phase7SmoothReveal() {
-            console.log('🌟 Phase 7: Final smooth reveal...');
-            
-            try {
-                // Enable smooth transitions for all elements
-                const allElements = $w('*');
-                if (allElements && allElements.length > 0) {
-                    allElements.forEach(element => {
-                        if (element && element.style) {
-                            // Enable smooth transitions
-                            element.style.transition = 'opacity 0.3s ease-in-out !important';
-                            
-                            // Ensure visibility
-                            element.style.visibility = 'visible !important';
-                            element.style.opacity = '1 !important';
-                            element.style.display = 'block !important';
-                        }
-                    });
-                }
-                
-                progressiveState.isLoaded = true;
-                progressiveState.isVisible = true;
-                
-                const loadTime = Date.now() - progressiveState.loadStartTime;
-                console.log(`✅ Phase 7 completed: Everything revealed smoothly in ${loadTime}ms`);
-                console.log(`📊 Loaded ${progressiveState.elementsLoaded}/${progressiveState.totalElements} elements`);
-                
-            } catch (error) {
-                console.warn('Phase 7 failed:', error);
-            }
-        }
-        
-        // Start progressive loading sequence
-        console.log('🚀 Starting comprehensive progressive loading sequence...');
-        
-        // Phase 1: Hide everything (0ms)
-        phase1HideAndPrepare();
-        
-        // Phase 2: Load critical elements (100ms)
-        setTimeout(() => {
-            phase2LoadCritical();
-        }, 100);
-        
-        // Phase 3: Load essential content (300ms)
-        setTimeout(() => {
-            phase3LoadEssential();
-        }, 300);
-        
-        // Phase 4: Load enhanced elements (500ms)
-        setTimeout(() => {
-            phase4LoadEnhanced();
-        }, 500);
-        
-        // Phase 5: Load remaining elements (800ms)
-        setTimeout(() => {
-            phase5LoadRemaining();
-        }, 800);
-        
-        // Phase 6: Load problematic elements (1200ms)
-        setTimeout(() => {
-            phase6LoadProblematic();
-        }, 1200);
-        
-        // Phase 7: Final smooth reveal (1500ms)
-        setTimeout(() => {
-            phase7SmoothReveal();
-        }, 1500);
-        
-        console.log('✅ Comprehensive Progressive Loading System initialized');
-        
-        // Export for manual control
-        window.progressiveLoader = {
-            getState: () => progressiveState,
-            forceReveal: phase7SmoothReveal,
-            reload: () => {
-                progressiveState.phase = 0;
-                progressiveState.isLoaded = false;
-                progressiveState.isVisible = false;
-                progressiveState.elementsLoaded = 0;
-                progressiveState.loadStartTime = Date.now();
-                
-                // Restart sequence
-                phase1HideAndPrepare();
-                setTimeout(() => phase2LoadCritical(), 100);
-                setTimeout(() => phase3LoadEssential(), 300);
-                setTimeout(() => phase4LoadEnhanced(), 500);
-                setTimeout(() => phase5LoadRemaining(), 800);
-                setTimeout(() => phase6LoadProblematic(), 1200);
-                setTimeout(() => phase7SmoothReveal(), 1500);
-            }
-        };
-    }
-    
-    // Initialize the progressive loading system
-    initializeProgressiveLoadingSystem();
-    
-    // Start waiting for master page
-    waitForMasterPage();
+    console.log('✅ Simplified Test Page initialized!');
 }); 

@@ -1,226 +1,275 @@
-// ULTRA-SMOOTH HOME PAGE - Progressive Loading System
-// Prevents first-time loading crashes by loading features in phases
-// UPDATED: Compatible with new master page optimizations
+// SIMPLIFIED ULTRA-SMOOTH HOME PAGE
+// Optimized to prevent crashes and ensure smooth functioning
 
 $w.onReady(function () {
-    console.log('🚀 Progressive Home Page Loading with Master Page Integration...');
+    console.log('🚀 Simplified Home Page Loading...');
     
-    // Performance state management
+    // Simple state management
     const state = {
+        isLoaded: false,
         isMobile: typeof window !== 'undefined' ? window.innerWidth < 768 : false,
-        isScrolling: false,
-        lastScrollY: 0,
-        scrollRAF: null,
-        performanceMode: 'progressive',
-        loadPhase: 0, // 0: critical, 1: essential, 2: enhanced, 3: full
-        // NEW: Integration with master page optimizations
-        masterPageReady: false,
-        optimizationLevel: 0
+        isMenuOpen: false
     };
     
-    // Wait for master page to be ready
-    const waitForMasterPage = () => {
-        if (typeof window !== 'undefined' && window.ultraFastSite) {
-            state.masterPageReady = true;
-            console.log('✅ Master page ready - starting home page optimizations');
-            progressiveLoad();
-        } else {
-            setTimeout(waitForMasterPage, 50);
+    // Element cache
+    const elements = new Map();
+    
+    function getElement(selector) {
+        if (!elements.has(selector)) {
+            try {
+                const element = $w(selector);
+                if (element) elements.set(selector, element);
+            } catch (error) {
+                console.warn('Element not found:', selector);
+            }
         }
-    };
-    
-    // Progressive loading system with master page integration
-    function progressiveLoad() {
-        console.log('📦 Starting progressive home page load with master page integration...');
-        
-        // Phase 0: Critical functionality only
-        loadCriticalElements();
-        
-        // Phase 1: Essential features (after 150ms)
-        setTimeout(() => loadEssentialFeatures(), 150);
-        
-        // Phase 2: Enhanced features (after 400ms)
-        setTimeout(() => loadEnhancedFeatures(), 400);
-        
-        // Phase 3: Full features (after 1000ms)
-        setTimeout(() => loadFullFeatures(), 1000);
+        return elements.get(selector);
     }
     
-    function loadCriticalElements() {
-        console.log('🔧 Loading critical home elements...');
-        state.loadPhase = 0;
-        
-        // Basic error handling
-        setupErrorHandling();
-        
-        // Simple content visibility
-        setupBasicContentVisibility();
-        
-        // NEW: Integration with master page optimizations
-        if (state.masterPageReady) {
-            console.log('🔗 Integrating with master page optimizations');
-        }
-        
-        console.log('✅ Critical home elements loaded');
-    }
-    
-    function loadEssentialFeatures() {
-        console.log('⚡ Loading essential home features...');
-        state.loadPhase = 1;
-        
-        // Basic hero section
-        setupBasicHeroSection();
-        
-        // Basic navigation integration
-        setupBasicNavigation();
-        
-        // Basic responsive behavior
-        setupBasicResponsive();
-        
-        console.log('✅ Essential home features loaded');
-    }
-    
-    function loadEnhancedFeatures() {
-        console.log('🎨 Loading enhanced home features...');
-        state.loadPhase = 2;
-        
-        // Smooth scroll system (compatible with master page)
-        setupSmoothScroll();
-        
-        // Basic animations (lightweight)
-        setupBasicAnimations();
-        
-        // Image optimization
-        optimizeImages();
-        
-        console.log('✅ Enhanced home features loaded');
-    }
-    
-    function loadFullFeatures() {
-        console.log('🚀 Loading full home features...');
-        state.loadPhase = 3;
-        
-        // Enhanced animations (lightweight)
-        setupEnhancedAnimations();
-        
-        // Performance monitoring
-        startPerformanceMonitoring();
-        
-        // Mobile optimizations
-        initializeMobileOptimizations();
-        
-        // NEW: Final integration with master page
-        finalizeMasterPageIntegration();
-        
-        console.log('✅ Full home features loaded');
-    }
-    
-    // NEW: Finalize master page integration
-    function finalizeMasterPageIntegration() {
-        console.log('🔗 Finalizing master page integration...');
+    // CRASH PREVENTION - Disable all heavy animations
+    function preventCrashes() {
+        console.log('🛡️ Preventing crashes on Home page...');
         
         try {
-            // Ensure compatibility with master page optimizations
-            if (typeof window !== 'undefined' && window.ultraFastSite) {
-                // Use master page's optimized functions
-                const masterPageState = window.ultraFastSite.state;
-                if (masterPageState) {
-                    state.optimizationLevel = masterPageState.perceivedPerformance ? 3 : 2;
+            const allElements = $w('*');
+            if (allElements && allElements.length > 0) {
+                allElements.forEach(element => {
+                    if (element && element.style) {
+                        // Disable all animations and heavy effects
+                        element.style.animation = 'none !important';
+                        element.style.transition = 'none !important';
+                        element.style.transform = 'none !important';
+                        element.style.filter = 'none !important';
+                        element.style.backdropFilter = 'none !important';
+                        element.style.boxShadow = 'none !important';
+                        element.style.willChange = 'auto !important';
+                        element.style.backfaceVisibility = 'visible !important';
+                        element.style.perspective = 'none !important';
+                        
+                        // Ensure visibility
+                        element.style.visibility = 'visible !important';
+                        element.style.opacity = '1 !important';
+                        element.style.display = 'block !important';
+                    }
+                });
+            }
+            
+            console.log('✅ Crash prevention applied to Home page');
+            
+        } catch (error) {
+            console.warn('Crash prevention failed on Home page:', error);
+        }
+    }
+    
+    // ERROR HANDLING
+    function setupErrorHandling() {
+        if (typeof window !== 'undefined') {
+            window.addEventListener('error', (e) => {
+                console.warn('Error caught and handled on Home page:', e.error);
+                e.preventDefault();
+            });
+            
+            window.addEventListener('unhandledrejection', (e) => {
+                console.warn('Unhandled promise rejection caught on Home page:', e.reason);
+                e.preventDefault();
+            });
+        }
+    }
+    
+    // HERO SECTION SETUP
+    function setupHeroSection() {
+        console.log('🏠 Setting up hero section...');
+        
+        try {
+            // Hero section elements
+            const heroSection = getElement('#heroSection') || $w('.hero')[0];
+            const heroTitle = getElement('#heroTitle') || $w('.hero-title')[0];
+            const heroSubtitle = getElement('#heroSubtitle') || $w('.hero-subtitle')[0];
+            const heroButtons = $w('.hero-button, .cta-button, .btn');
+            
+            if (heroSection) {
+                // Ensure hero section is visible
+                heroSection.style.visibility = 'visible';
+                heroSection.style.opacity = '1';
+                heroSection.style.display = 'block';
+            }
+            
+            if (heroTitle) {
+                // Ensure title is visible
+                heroTitle.style.visibility = 'visible';
+                heroTitle.style.opacity = '1';
+            }
+            
+            if (heroSubtitle) {
+                // Ensure subtitle is visible
+                heroSubtitle.style.visibility = 'visible';
+                heroSubtitle.style.opacity = '1';
+            }
+            
+            // Setup hero buttons
+            heroButtons.forEach(button => {
+                if (!button) return;
+                
+                // Ensure button is visible
+                button.style.visibility = 'visible';
+                button.style.opacity = '1';
+                button.style.display = 'block';
+                
+                // Add simple click feedback
+                button.onClick(() => {
+                    button.style.opacity = '0.8';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                    }, 100);
+                });
+            });
+            
+            console.log('✅ Hero section setup complete');
+            
+        } catch (error) {
+            console.warn('Hero section setup failed:', error);
+        }
+    }
+    
+    // FEATURES SECTION SETUP
+    function setupFeaturesSection() {
+        console.log('✨ Setting up features section...');
+        
+        try {
+            // Features section elements
+            const featuresSection = getElement('#featuresSection') || $w('.features')[0];
+            const featureCards = $w('.feature-card, .featureCard, .card');
+            
+            if (featuresSection) {
+                // Ensure features section is visible
+                featuresSection.style.visibility = 'visible';
+                featuresSection.style.opacity = '1';
+                featuresSection.style.display = 'block';
+            }
+            
+            // Setup feature cards
+            featureCards.forEach((card, index) => {
+                if (!card) return;
+                
+                // Ensure card is visible
+                card.style.visibility = 'visible';
+                card.style.opacity = '1';
+                card.style.display = 'block';
+                
+                // Add simple hover effect
+                card.onMouseIn(() => {
+                    card.style.opacity = '0.9';
+                    card.style.transition = 'opacity 0.2s ease';
+                });
+                
+                card.onMouseOut(() => {
+                    card.style.opacity = '1';
+                });
+            });
+            
+            console.log('✅ Features section setup complete');
+            
+        } catch (error) {
+            console.warn('Features section setup failed:', error);
+        }
+    }
+    
+    // IMAGE OPTIMIZATION
+    function optimizeImages() {
+        try {
+            const images = $w('img');
+            images.forEach(img => {
+                if (img.loading !== 'lazy') {
+                    img.loading = 'lazy';
                 }
                 
-                console.log('✅ Master page integration completed');
+                img.onError(() => {
+                    console.warn('Image failed to load:', img.src);
+                });
+            });
+        } catch (error) {
+            console.warn('Image optimization failed:', error);
+        }
+    }
+    
+    // MOBILE OPTIMIZATIONS
+    function setupMobileOptimizations() {
+        console.log('📱 Setting up mobile optimizations for Home page...');
+        
+        try {
+            const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+            const isTouchDevice = typeof window !== 'undefined' ? 'ontouchstart' in window : false;
+            
+            state.isMobile = isMobile;
+            
+            if (isTouchDevice) {
+                // Touch optimizations
+                const buttons = $w('.btn, .button, [data-testid*="button"]');
+                buttons.forEach(btn => {
+                    if (!btn) return;
+                    
+                    btn.onTouchStart(() => {
+                        btn.style.opacity = '0.8';
+                        btn.style.transition = 'opacity 0.15s ease';
+                    });
+                    
+                    btn.onTouchEnd(() => {
+                        setTimeout(() => {
+                            btn.style.opacity = '1';
+                        }, 150);
+                    });
+                });
             }
-        } catch (error) {
-            console.warn('Master page integration failed:', error);
-        }
-    }
-    
-    function setupBasicContentVisibility() {
-        console.log('👁️ Setting up basic content visibility...');
-        
-        try {
-            // Use proper Wix selectors
-            const contentElements = $w('text, title, subtitle, description');
             
-            contentElements.forEach(element => {
-                if (!element) return;
-                
-                // Ensure content is visible
-                element.style.visibility = 'visible';
-                element.style.opacity = '1';
-                element.style.display = 'block';
-            });
-            
-        } catch (error) {
-            console.warn('Basic content visibility failed:', error);
-        }
-    }
-    
-    function setupBasicHeroSection() {
-        console.log('🏠 Setting up basic hero section...');
-        
-        try {
-            // Use proper Wix selectors
-            const heroElements = $w('hero, heroSection, mainContent');
-            
-            heroElements.forEach(element => {
-                if (!element) return;
-                
-                // Basic hero setup
-                element.style.visibility = 'visible';
-                element.style.opacity = '1';
-                element.style.display = 'block';
-            });
-            
-        } catch (error) {
-            console.warn('Basic hero section failed:', error);
-        }
-    }
-    
-    function setupBasicNavigation() {
-        console.log('🧭 Setting up basic navigation...');
-        
-        try {
-            // Use proper Wix selectors
-            const navElements = $w('nav, navigation, menu');
-            
-            navElements.forEach(element => {
-                if (!element) return;
-                
-                // Basic navigation setup
-                element.style.visibility = 'visible';
-                element.style.opacity = '1';
-                element.style.display = 'block';
-            });
-            
-        } catch (error) {
-            console.warn('Basic navigation failed:', error);
-        }
-    }
-    
-    function setupBasicResponsive() {
-        console.log('📱 Setting up basic responsive...');
-        
-        try {
-            if (state.isMobile) {
-                adjustForMobile();
+            // Responsive behavior
+            let resizeTimeout;
+            if (typeof window !== 'undefined') {
+                window.addEventListener('resize', () => {
+                    if (resizeTimeout) clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        const wasMobile = state.isMobile;
+                        state.isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+                        
+                        // Adjust layout for mobile
+                        if (state.isMobile) {
+                            adjustForMobile();
+                        }
+                    }, 250);
+                });
             }
+            
+            console.log('✅ Mobile optimizations complete for Home page');
+            
         } catch (error) {
-            console.warn('Basic responsive failed:', error);
+            console.warn('Mobile optimizations failed for Home page:', error);
         }
     }
     
+    // ADJUST FOR MOBILE
     function adjustForMobile() {
         try {
-            // Mobile-specific adjustments
-            const mobileElements = $w('text, title, subtitle, button');
+            if (!state.isMobile) return;
             
-            mobileElements.forEach(element => {
-                if (!element) return;
+            // Adjust hero section for mobile
+            const heroSection = getElement('#heroSection') || $w('.hero')[0];
+            if (heroSection) {
+                heroSection.style.minHeight = '100vh';
+                heroSection.style.padding = '1rem';
+                heroSection.style.paddingTop = '70px';
+            }
+            
+            // Adjust buttons for mobile
+            const buttons = $w('.btn, .button');
+            buttons.forEach(btn => {
+                if (!btn) return;
                 
-                // Mobile optimizations
-                element.style.fontSize = 'clamp(14px, 4vw, 18px)';
-                element.style.lineHeight = '1.4';
+                btn.style.width = '100%';
+                btn.style.maxWidth = '280px';
+                btn.style.minHeight = '48px';
+                btn.style.padding = '0.875rem 1.5rem';
+                btn.style.fontSize = '1rem';
+                btn.style.textAlign = 'center';
+                btn.style.touchAction = 'manipulation';
             });
             
         } catch (error) {
@@ -228,205 +277,59 @@ $w.onReady(function () {
         }
     }
     
-    function setupSmoothScroll() {
-        console.log('🔄 Setting up smooth scroll...');
-        
+    // ENABLE SMOOTH TRANSITIONS (after everything is loaded)
+    function enableSmoothTransitions() {
         try {
-            // Use master page's smooth scroll if available
-            if (typeof window !== 'undefined' && window.ultraFastSite && window.ultraFastSite.scrollTo) {
-                console.log('✅ Using master page smooth scroll');
-            } else {
-                // Fallback smooth scroll
-                setupFallbackSmoothScroll();
-            }
-        } catch (error) {
-            console.warn('Smooth scroll setup failed:', error);
-        }
-    }
-    
-    function setupFallbackSmoothScroll() {
-        try {
-            // Simple fallback smooth scroll
-            const scrollElements = $w('mainContent, heroSection');
-            
-            scrollElements.forEach(element => {
-                if (!element) return;
-                
-                // Basic scroll optimization
-                element.style.willChange = 'auto';
-                element.style.backfaceVisibility = 'visible';
-                element.style.perspective = 'none';
-            });
-            
-        } catch (error) {
-            console.warn('Fallback smooth scroll failed:', error);
-        }
-    }
-    
-    function setupBasicAnimations() {
-        console.log('🎬 Setting up basic animations...');
-        
-        try {
-            // Use lightweight animations only
-            const animatedElements = $w('text, title, subtitle, button');
-            
-            animatedElements.forEach((element, index) => {
-                if (!element) return;
-                
-                // Simple fade-in animation
-                element.style.opacity = '0';
-                element.style.transition = 'opacity 0.3s ease';
-                
-                setTimeout(() => {
-                    element.style.opacity = '1';
-                }, index * 100);
-            });
-            
-        } catch (error) {
-            console.warn('Basic animations failed:', error);
-        }
-    }
-    
-    function optimizeImages() {
-        console.log('🖼️ Optimizing images...');
-        
-        try {
-            // Use proper Wix selectors
-            const images = $w('image');
-            
-            images.forEach(img => {
-                if (!img) return;
-                
-                // Basic image optimization
-                img.loading = 'lazy';
-                
-                // Simple error handling
-                img.onError = () => {
-                    console.warn('Image failed to load:', img.src);
-                };
-            });
-            
-        } catch (error) {
-            console.warn('Image optimization failed:', error);
-        }
-    }
-    
-    function setupEnhancedAnimations() {
-        console.log('✨ Setting up enhanced animations...');
-        
-        try {
-            // Use lightweight enhanced animations
-            const enhancedElements = $w('button, card, feature');
-            
-            enhancedElements.forEach(element => {
-                if (!element) return;
-                
-                // Simple hover effects
-                element.onMouseIn = () => {
-                    element.style.opacity = '0.9';
-                    element.style.transition = 'opacity 0.2s ease';
-                };
-                
-                element.onMouseOut = () => {
-                    element.style.opacity = '1';
-                };
-                
-                // Simple click effects
-                element.onClick = () => {
-                    element.style.opacity = '0.8';
-                    setTimeout(() => {
-                        element.style.opacity = '1';
-                    }, 100);
-                };
-            });
-            
-        } catch (error) {
-            console.warn('Enhanced animations failed:', error);
-        }
-    }
-    
-    function startPerformanceMonitoring() {
-        console.log('📊 Starting performance monitoring...');
-        
-        try {
-            // Simple performance monitoring
-            let frameCount = 0;
-            let lastTime = performance.now();
-            
-            function monitorPerformance() {
-                frameCount++;
-                const currentTime = performance.now();
-                
-                if (currentTime - lastTime >= 1000) {
-                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+            const allElements = $w('*');
+            allElements.forEach(element => {
+                if (element && element.style) {
+                    // Enable smooth transitions
+                    element.style.transition = 'opacity 0.3s ease-in-out, transform 0.2s ease';
                     
-                    if (fps < 30) {
-                        console.warn(`⚠️ Low FPS detected: ${fps}`);
-                    }
-                    
-                    frameCount = 0;
-                    lastTime = currentTime;
+                    // Ensure visibility
+                    element.style.visibility = 'visible';
+                    element.style.opacity = '1';
+                    element.style.display = 'block';
                 }
-                
-                requestAnimationFrame(monitorPerformance);
-            }
-            
-            monitorPerformance();
-            
+            });
         } catch (error) {
-            console.warn('Performance monitoring failed:', error);
+            console.warn('Enable smooth transitions failed:', error);
         }
     }
     
-    function initializeMobileOptimizations() {
-        console.log('📱 Initializing mobile optimizations...');
+    // MAIN INITIALIZATION
+    function initialize() {
+        console.log('🚀 Starting simplified Home page initialization...');
         
-        try {
-            if (state.isMobile) {
-                // Mobile-specific optimizations
-                const mobileElements = $w('text, title, subtitle, button, image');
-                
-                mobileElements.forEach(element => {
-                    if (!element) return;
-                    
-                    // Mobile performance optimizations
-                    element.style.willChange = 'auto';
-                    element.style.backfaceVisibility = 'visible';
-                    element.style.perspective = 'none';
-                });
-            }
-            
-        } catch (error) {
-            console.warn('Mobile optimizations failed:', error);
-        }
-    }
-    
-    function setupErrorHandling() {
-        console.log('🛡️ Setting up error handling...');
+        // Step 1: Prevent crashes immediately
+        preventCrashes();
         
-        try {
-            // Basic error handling
-            if (typeof window !== 'undefined') {
-                window.addEventListener('error', (e) => {
-                    console.warn('Error caught and handled:', e.error);
-                    e.preventDefault();
-                });
-            }
+        // Step 2: Setup error handling
+        setupErrorHandling();
+        
+        // Step 3: Setup hero section
+        setupHeroSection();
+        
+        // Step 4: Setup features section
+        setupFeaturesSection();
+        
+        // Step 5: Optimize images
+        optimizeImages();
+        
+        // Step 6: Setup mobile optimizations
+        setupMobileOptimizations();
+        
+        // Step 7: Enable smooth transitions after a delay
+        setTimeout(() => {
+            enableSmoothTransitions();
+            state.isLoaded = true;
             
-        } catch (error) {
-            console.warn('Error handling setup failed:', error);
-        }
+            console.log('✅ Simplified Home page initialization complete!');
+        }, 1000);
     }
     
-    // Start the home page loading process
-    waitForMasterPage();
+    // Start initialization
+    initialize();
     
-    // Export home page functions for other scripts
-    if (typeof window !== 'undefined') {
-        window.homePage = {
-            state: state,
-            isReady: () => state.loadPhase >= 3,
-            getOptimizationLevel: () => state.optimizationLevel
-        };
-    }
+    console.log('✅ Simplified Home Page initialized!');
 }); 
