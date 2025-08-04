@@ -641,6 +641,268 @@ $w.onReady(function () {
         });
     }
     
+    // Initialize service section optimizer
+    function initializeServiceOptimizer() {
+        console.log('🎯 Initializing Service Section Optimizer...');
+        
+        // Performance state for service sections
+        const serviceState = {
+            isServiceSectionVisible: false,
+            serviceSectionRAF: null,
+            lastServiceScrollY: 0,
+            serviceElements: new Map(),
+            animationFrame: null,
+            isOptimized: false,
+            isFirstLoad: true,
+            optimizationLevel: 0
+        };
+        
+        // IMMEDIATE optimization for first-time load
+        function immediateOptimization() {
+            console.log('⚡ Applying immediate optimizations for first-time load...');
+            
+            try {
+                // Disable ALL animations immediately
+                const allElements = $w('*');
+                if (allElements && allElements.length > 0) {
+                    allElements.forEach(element => {
+                        if (element && element.style) {
+                            // Disable all heavy animations
+                            element.style.animation = 'none';
+                            element.style.transition = 'none';
+                            element.style.transform = 'none';
+                            element.style.filter = 'none';
+                            element.style.backdropFilter = 'none';
+                            element.style.boxShadow = 'none';
+                            
+                            // Optimize for performance
+                            element.style.willChange = 'auto';
+                            element.style.backfaceVisibility = 'visible';
+                            element.style.perspective = 'none';
+                        }
+                    });
+                }
+                
+                // Disable scroll effects temporarily
+                if (state.scrollRAF) {
+                    cancelAnimationFrame(state.scrollRAF);
+                    state.scrollRAF = null;
+                }
+                
+                console.log('✅ Immediate optimizations applied');
+                
+            } catch (error) {
+                console.warn('Immediate optimization failed:', error);
+            }
+        }
+        
+        // Detect service sections (including "03 digital service")
+        function detectServiceSections() {
+            try {
+                // Look for various service section selectors
+                const serviceSelectors = [
+                    '#services',
+                    '.services',
+                    '[data-service]',
+                    '.service-section',
+                    '.digital-service',
+                    '.service-card',
+                    '.service-item',
+                    '[class*="service"]',
+                    '[id*="service"]',
+                    '[class*="03"]',
+                    '[id*="03"]',
+                    '[class*="balloon"]',
+                    '[id*="balloon"]',
+                    '[class*="red"]',
+                    '[style*="red"]'
+                ];
+                
+                serviceSelectors.forEach(selector => {
+                    const elements = $w(selector);
+                    if (elements && elements.length > 0) {
+                        elements.forEach((element, index) => {
+                            serviceState.serviceElements.set(`${selector}-${index}`, element);
+                            console.log(`🎯 Found service section: ${selector}-${index}`);
+                            
+                            // IMMEDIATE optimization for each found element
+                            if (element && element.style) {
+                                // Disable all animations immediately
+                                element.style.animation = 'none';
+                                element.style.transition = 'none';
+                                element.style.transform = 'none';
+                                element.style.filter = 'none';
+                                element.style.backdropFilter = 'none';
+                                element.style.boxShadow = 'none';
+                                
+                                // Set basic opacity for smooth reveal
+                                element.style.opacity = '0.9';
+                                
+                                // Optimize for performance
+                                element.style.willChange = 'auto';
+                                element.style.backfaceVisibility = 'visible';
+                                element.style.perspective = 'none';
+                                
+                                console.log(`⚡ Immediately optimized: ${selector}-${index}`);
+                            }
+                        });
+                    }
+                });
+                
+            } catch (error) {
+                console.warn('Service section detection failed:', error);
+            }
+        }
+        
+        // Special optimization for "03 digital service" red balloon
+        function optimizeRedBalloonSection() {
+            try {
+                // Look for red balloon elements with more specific selectors
+                const balloonSelectors = [
+                    '[class*="balloon"]',
+                    '[id*="balloon"]',
+                    '[class*="red"]',
+                    '[style*="red"]',
+                    '[class*="03"]',
+                    '[id*="03"]',
+                    '[class*="digital"]',
+                    '[id*="digital"]',
+                    '[class*="service"]',
+                    '[id*="service"]'
+                ];
+                
+                balloonSelectors.forEach(selector => {
+                    const elements = $w(selector);
+                    if (elements && elements.length > 0) {
+                        elements.forEach((element, index) => {
+                            // AGGRESSIVE optimization for red balloon
+                            element.style.animation = 'none';
+                            element.style.transition = 'none';
+                            element.style.transform = 'none';
+                            element.style.filter = 'none';
+                            element.style.backdropFilter = 'none';
+                            element.style.boxShadow = 'none';
+                            
+                            // Set basic opacity
+                            element.style.opacity = '0.95';
+                            
+                            // Optimize for performance
+                            element.style.willChange = 'auto';
+                            element.style.backfaceVisibility = 'visible';
+                            element.style.perspective = 'none';
+                            
+                            // Remove any heavy CSS classes
+                            if (element.className) {
+                                element.className = element.className.replace(/animate|animation|transition|transform/g, '');
+                            }
+                            
+                            console.log(`🎈 Aggressively optimized red balloon: ${selector}-${index}`);
+                        });
+                    }
+                });
+                
+            } catch (error) {
+                console.warn('Red balloon optimization failed:', error);
+            }
+        }
+        
+        // Emergency optimization for performance issues
+        function emergencyOptimization() {
+            try {
+                console.log('🚨 Emergency optimization triggered');
+                
+                // Disable ALL animations across the entire page
+                const allElements = $w('*');
+                if (allElements && allElements.length > 0) {
+                    allElements.forEach(element => {
+                        if (element && element.style) {
+                            element.style.animation = 'none';
+                            element.style.transition = 'none';
+                            element.style.transform = 'none';
+                            element.style.filter = 'none';
+                            element.style.backdropFilter = 'none';
+                            element.style.boxShadow = 'none';
+                            element.style.willChange = 'auto';
+                        }
+                    });
+                }
+                
+                // Cancel all animation frames
+                if (state.scrollRAF) {
+                    cancelAnimationFrame(state.scrollRAF);
+                    state.scrollRAF = null;
+                }
+                
+                if (serviceState.animationFrame) {
+                    cancelAnimationFrame(serviceState.animationFrame);
+                    serviceState.animationFrame = null;
+                }
+                
+                console.log('🚨 Emergency optimization applied - all animations disabled');
+                
+            } catch (error) {
+                console.warn('Emergency optimization failed:', error);
+            }
+        }
+        
+        // Start aggressive optimization sequence
+        console.log('🚀 Starting aggressive optimization sequence...');
+        
+        // Step 1: Immediate optimization (0ms)
+        immediateOptimization();
+        
+        // Step 2: Detect and optimize service sections (50ms)
+        setTimeout(() => {
+            detectServiceSections();
+            optimizeRedBalloonSection();
+        }, 50);
+        
+        // Step 3: Start performance monitoring (500ms)
+        setTimeout(() => {
+            // Monitor performance and apply emergency optimization if needed
+            let frameCount = 0;
+            let lastTime = performance.now();
+            let lowFpsCount = 0;
+            
+            function checkPerformance() {
+                frameCount++;
+                const currentTime = performance.now();
+                
+                if (currentTime - lastTime >= 1000) {
+                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                    
+                    // More aggressive threshold for first load
+                    const threshold = serviceState.isFirstLoad ? 45 : 30;
+                    
+                    if (fps < threshold) {
+                        lowFpsCount++;
+                        console.warn(`⚠️ Low FPS detected: ${fps} (threshold: ${threshold})`);
+                        
+                        // Trigger emergency optimization after 2 consecutive low FPS readings
+                        if (lowFpsCount >= 2) {
+                            emergencyOptimization();
+                            lowFpsCount = 0;
+                        }
+                    } else {
+                        lowFpsCount = 0;
+                    }
+                    
+                    frameCount = 0;
+                    lastTime = currentTime;
+                }
+                
+                requestAnimationFrame(checkPerformance);
+            }
+            
+            checkPerformance();
+        }, 500);
+        
+        console.log('✅ Aggressive Service Section Optimizer initialized');
+    }
+    
+    // Initialize the service optimizer
+    initializeServiceOptimizer();
+    
     // Start waiting for master page
     waitForMasterPage();
 }); 

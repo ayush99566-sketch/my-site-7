@@ -750,8 +750,49 @@ $w.onReady(function () {
             lastServiceScrollY: 0,
             serviceElements: new Map(),
             animationFrame: null,
-            isOptimized: false
+            isOptimized: false,
+            isFirstLoad: true,
+            optimizationLevel: 0
         };
+        
+        // IMMEDIATE optimization for first-time load
+        function immediateOptimization() {
+            console.log('⚡ Applying immediate optimizations for first-time load...');
+            
+            try {
+                // Disable ALL animations immediately
+                const allElements = $w('*');
+                if (allElements && allElements.length > 0) {
+                    allElements.forEach(element => {
+                        if (element && element.style) {
+                            // Disable all heavy animations
+                            element.style.animation = 'none';
+                            element.style.transition = 'none';
+                            element.style.transform = 'none';
+                            element.style.filter = 'none';
+                            element.style.backdropFilter = 'none';
+                            element.style.boxShadow = 'none';
+                            
+                            // Optimize for performance
+                            element.style.willChange = 'auto';
+                            element.style.backfaceVisibility = 'visible';
+                            element.style.perspective = 'none';
+                        }
+                    });
+                }
+                
+                // Disable scroll effects temporarily
+                if (state.scrollRAF) {
+                    cancelAnimationFrame(state.scrollRAF);
+                    state.scrollRAF = null;
+                }
+                
+                console.log('✅ Immediate optimizations applied');
+                
+            } catch (error) {
+                console.warn('Immediate optimization failed:', error);
+            }
+        }
         
         // Detect service sections (including "03 digital service")
         function detectServiceSections() {
@@ -764,7 +805,15 @@ $w.onReady(function () {
                     '.service-section',
                     '.digital-service',
                     '.service-card',
-                    '.service-item'
+                    '.service-item',
+                    '[class*="service"]',
+                    '[id*="service"]',
+                    '[class*="03"]',
+                    '[id*="03"]',
+                    '[class*="balloon"]',
+                    '[id*="balloon"]',
+                    '[class*="red"]',
+                    '[style*="red"]'
                 ];
                 
                 serviceSelectors.forEach(selector => {
@@ -773,18 +822,30 @@ $w.onReady(function () {
                         elements.forEach((element, index) => {
                             serviceState.serviceElements.set(`${selector}-${index}`, element);
                             console.log(`🎯 Found service section: ${selector}-${index}`);
+                            
+                            // IMMEDIATE optimization for each found element
+                            if (element && element.style) {
+                                // Disable all animations immediately
+                                element.style.animation = 'none';
+                                element.style.transition = 'none';
+                                element.style.transform = 'none';
+                                element.style.filter = 'none';
+                                element.style.backdropFilter = 'none';
+                                element.style.boxShadow = 'none';
+                                
+                                // Set basic opacity for smooth reveal
+                                element.style.opacity = '0.9';
+                                
+                                // Optimize for performance
+                                element.style.willChange = 'auto';
+                                element.style.backfaceVisibility = 'visible';
+                                element.style.perspective = 'none';
+                                
+                                console.log(`⚡ Immediately optimized: ${selector}-${index}`);
+                            }
                         });
                     }
                 });
-                
-                // Look specifically for "03" or numbered services
-                const numberedServices = $w('[class*="03"], [id*="03"], [class*="service"], [id*="service"]');
-                if (numberedServices && numberedServices.length > 0) {
-                    numberedServices.forEach((element, index) => {
-                        serviceState.serviceElements.set(`numbered-service-${index}`, element);
-                        console.log(`🎯 Found numbered service: numbered-service-${index}`);
-                    });
-                }
                 
             } catch (error) {
                 console.warn('Service section detection failed:', error);
@@ -794,39 +855,46 @@ $w.onReady(function () {
         // Special optimization for "03 digital service" red balloon
         function optimizeRedBalloonSection() {
             try {
-                // Look for red balloon elements
+                // Look for red balloon elements with more specific selectors
                 const balloonSelectors = [
                     '[class*="balloon"]',
                     '[id*="balloon"]',
                     '[class*="red"]',
                     '[style*="red"]',
                     '[class*="03"]',
-                    '[id*="03"]'
+                    '[id*="03"]',
+                    '[class*="digital"]',
+                    '[id*="digital"]',
+                    '[class*="service"]',
+                    '[id*="service"]'
                 ];
                 
                 balloonSelectors.forEach(selector => {
                     const elements = $w(selector);
                     if (elements && elements.length > 0) {
                         elements.forEach((element, index) => {
-                            // Disable heavy animations
+                            // AGGRESSIVE optimization for red balloon
                             element.style.animation = 'none';
-                            element.style.transition = 'transform 0.2s ease, opacity 0.3s ease';
+                            element.style.transition = 'none';
+                            element.style.transform = 'none';
+                            element.style.filter = 'none';
+                            element.style.backdropFilter = 'none';
+                            element.style.boxShadow = 'none';
+                            
+                            // Set basic opacity
+                            element.style.opacity = '0.95';
                             
                             // Optimize for performance
-                            element.style.willChange = 'transform';
-                            element.style.backfaceVisibility = 'hidden';
-                            element.style.transform = 'translateZ(0)';
+                            element.style.willChange = 'auto';
+                            element.style.backfaceVisibility = 'visible';
+                            element.style.perspective = 'none';
                             
-                            // Lightweight hover effect
-                            element.onMouseIn(() => {
-                                element.style.transform = 'translateZ(0) scale(1.05)';
-                            });
+                            // Remove any heavy CSS classes
+                            if (element.className) {
+                                element.className = element.className.replace(/animate|animation|transition|transform/g, '');
+                            }
                             
-                            element.onMouseOut(() => {
-                                element.style.transform = 'translateZ(0) scale(1)';
-                            });
-                            
-                            console.log(`🎈 Optimized red balloon element: ${selector}-${index}`);
+                            console.log(`🎈 Aggressively optimized red balloon: ${selector}-${index}`);
                         });
                     }
                 });
@@ -836,71 +904,190 @@ $w.onReady(function () {
             }
         }
         
-        // Setup lightweight animations for service sections
-        function setupLightweightAnimations() {
+        // Setup ultra-lightweight animations for service sections
+        function setupUltraLightweightAnimations() {
             try {
                 serviceState.serviceElements.forEach((element, key) => {
                     if (!element) return;
                     
-                    // Disable heavy animations initially
-                    element.style.transition = 'none';
+                    // Keep animations disabled for first load
                     element.style.animation = 'none';
+                    element.style.transition = 'opacity 0.5s ease';
                     
-                    // Add lightweight opacity transition
-                    element.style.opacity = '0.8';
-                    element.style.transition = 'opacity 0.3s ease';
-                    
-                    // Smooth reveal on scroll
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                entry.target.style.opacity = '1';
-                                serviceState.isServiceSectionVisible = true;
-                            }
-                        });
-                    }, {
-                        threshold: 0.1,
-                        rootMargin: '50px'
-                    });
-                    
-                    observer.observe(element);
+                    // Simple fade in effect
+                    setTimeout(() => {
+                        element.style.opacity = '1';
+                    }, 200);
                     
                 });
                 
             } catch (error) {
-                console.warn('Lightweight animations setup failed:', error);
+                console.warn('Ultra-lightweight animations setup failed:', error);
             }
+        }
+        
+        // Progressive re-enabling of features
+        function progressiveReEnable() {
+            console.log('🔄 Progressive re-enabling of features...');
+            
+            // Phase 1: Basic interactions (after 2 seconds)
+            setTimeout(() => {
+                serviceState.serviceElements.forEach((element, key) => {
+                    if (!element) return;
+                    
+                    // Enable basic hover effects
+                    element.onMouseIn(() => {
+                        element.style.opacity = '0.95';
+                    });
+                    
+                    element.onMouseOut(() => {
+                        element.style.opacity = '1';
+                    });
+                });
+                
+                console.log('✅ Phase 1: Basic interactions enabled');
+                
+            }, 2000);
+            
+            // Phase 2: Light animations (after 4 seconds)
+            setTimeout(() => {
+                serviceState.serviceElements.forEach((element, key) => {
+                    if (!element) return;
+                    
+                    // Enable light transitions
+                    element.style.transition = 'opacity 0.3s ease, transform 0.2s ease';
+                });
+                
+                console.log('✅ Phase 2: Light animations enabled');
+                
+            }, 4000);
+            
+            // Phase 3: Full features (after 6 seconds)
+            setTimeout(() => {
+                serviceState.serviceElements.forEach((element, key) => {
+                    if (!element) return;
+                    
+                    // Enable full features
+                    element.style.willChange = 'transform, opacity';
+                    element.style.backfaceVisibility = 'hidden';
+                });
+                
+                serviceState.isOptimized = true;
+                serviceState.isFirstLoad = false;
+                console.log('✅ Phase 3: Full features enabled');
+                
+            }, 6000);
         }
         
         // Emergency optimization for performance issues
         function emergencyOptimization() {
             try {
-                serviceState.serviceElements.forEach((element, key) => {
-                    if (!element) return;
-                    
-                    // Disable all animations
-                    element.style.animation = 'none';
-                    element.style.transition = 'none';
-                    element.style.transform = 'none';
-                    
-                    // Reduce visual effects
-                    element.style.filter = 'none';
-                    element.style.backdropFilter = 'none';
-                    
-                    console.log('🚨 Emergency optimization applied to service section');
-                });
+                console.log('🚨 Emergency optimization triggered');
+                
+                // Disable ALL animations across the entire page
+                const allElements = $w('*');
+                if (allElements && allElements.length > 0) {
+                    allElements.forEach(element => {
+                        if (element && element.style) {
+                            element.style.animation = 'none';
+                            element.style.transition = 'none';
+                            element.style.transform = 'none';
+                            element.style.filter = 'none';
+                            element.style.backdropFilter = 'none';
+                            element.style.boxShadow = 'none';
+                            element.style.willChange = 'auto';
+                        }
+                    });
+                }
+                
+                // Cancel all animation frames
+                if (state.scrollRAF) {
+                    cancelAnimationFrame(state.scrollRAF);
+                    state.scrollRAF = null;
+                }
+                
+                if (serviceState.animationFrame) {
+                    cancelAnimationFrame(serviceState.animationFrame);
+                    serviceState.animationFrame = null;
+                }
+                
+                console.log('🚨 Emergency optimization applied - all animations disabled');
                 
             } catch (error) {
                 console.warn('Emergency optimization failed:', error);
             }
         }
         
-        // Start progressive optimization
-        setTimeout(() => detectServiceSections(), 100);
-        setTimeout(() => setupLightweightAnimations(), 300);
-        setTimeout(() => optimizeRedBalloonSection(), 500);
+        // Performance monitoring with aggressive thresholds
+        function monitorPerformanceAggressively() {
+            try {
+                let frameCount = 0;
+                let lastTime = performance.now();
+                let lowFpsCount = 0;
+                
+                function checkPerformance() {
+                    frameCount++;
+                    const currentTime = performance.now();
+                    
+                    if (currentTime - lastTime >= 1000) {
+                        const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                        
+                        // More aggressive threshold for first load
+                        const threshold = serviceState.isFirstLoad ? 45 : 30;
+                        
+                        if (fps < threshold) {
+                            lowFpsCount++;
+                            console.warn(`⚠️ Low FPS detected: ${fps} (threshold: ${threshold})`);
+                            
+                            // Trigger emergency optimization after 2 consecutive low FPS readings
+                            if (lowFpsCount >= 2) {
+                                emergencyOptimization();
+                                lowFpsCount = 0;
+                            }
+                        } else {
+                            lowFpsCount = 0;
+                        }
+                        
+                        frameCount = 0;
+                        lastTime = currentTime;
+                    }
+                    
+                    requestAnimationFrame(checkPerformance);
+                }
+                
+                checkPerformance();
+                
+            } catch (error) {
+                console.warn('Performance monitoring failed:', error);
+            }
+        }
         
-        console.log('✅ Service Section Optimizer initialized');
+        // Start aggressive optimization sequence
+        console.log('🚀 Starting aggressive optimization sequence...');
+        
+        // Step 1: Immediate optimization (0ms)
+        immediateOptimization();
+        
+        // Step 2: Detect and optimize service sections (50ms)
+        setTimeout(() => {
+            detectServiceSections();
+            optimizeRedBalloonSection();
+        }, 50);
+        
+        // Step 3: Setup ultra-lightweight animations (200ms)
+        setTimeout(() => {
+            setupUltraLightweightAnimations();
+        }, 200);
+        
+        // Step 4: Start performance monitoring (500ms)
+        setTimeout(() => {
+            monitorPerformanceAggressively();
+        }, 500);
+        
+        // Step 5: Progressive re-enabling (2-6 seconds)
+        progressiveReEnable();
+        
+        console.log('✅ Aggressive Service Section Optimizer initialized');
     }
     
     // Initialize the service optimizer
