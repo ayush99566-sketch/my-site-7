@@ -1543,6 +1543,357 @@ $w.onReady(function () {
     // Initialize the balloon fix
     initialize03BalloonFix();
     
+    // COMPREHENSIVE PROGRESSIVE LOADING SYSTEM
+    function initializeProgressiveLoadingSystem() {
+        console.log('🚀 Initializing Comprehensive Progressive Loading System...');
+        
+        // Progressive loading state
+        const progressiveState = {
+            phase: 0,
+            isLoaded: false,
+            isVisible: false,
+            loadStartTime: Date.now(),
+            elementsLoaded: 0,
+            totalElements: 0
+        };
+        
+        // PHASE 1: Hide everything and prepare
+        function phase1HideAndPrepare() {
+            console.log('📦 Phase 1: Hiding everything and preparing...');
+            
+            try {
+                // Hide ALL elements initially
+                const allElements = $w('*');
+                if (allElements && allElements.length > 0) {
+                    progressiveState.totalElements = allElements.length;
+                    
+                    allElements.forEach((element, index) => {
+                        if (element && element.style) {
+                            // Hide element completely
+                            element.style.visibility = 'hidden !important';
+                            element.style.opacity = '0 !important';
+                            element.style.display = 'none !important';
+                            
+                            // Disable all animations and effects
+                            element.style.animation = 'none !important';
+                            element.style.transition = 'none !important';
+                            element.style.transform = 'none !important';
+                            element.style.filter = 'none !important';
+                            element.style.backdropFilter = 'none !important';
+                            element.style.boxShadow = 'none !important';
+                            element.style.willChange = 'auto !important';
+                            element.style.backfaceVisibility = 'visible !important';
+                            element.style.perspective = 'none !important';
+                        }
+                    });
+                }
+                
+                // Show only essential elements (body, html)
+                const essentialElements = $w('body, html');
+                if (essentialElements && essentialElements.length > 0) {
+                    essentialElements.forEach(element => {
+                        if (element && element.style) {
+                            element.style.visibility = 'visible !important';
+                            element.style.opacity = '1 !important';
+                            element.style.display = 'block !important';
+                        }
+                    });
+                }
+                
+                progressiveState.phase = 1;
+                console.log('✅ Phase 1 completed: All elements hidden');
+                
+            } catch (error) {
+                console.warn('Phase 1 failed:', error);
+            }
+        }
+        
+        // PHASE 2: Load critical elements
+        function phase2LoadCritical() {
+            console.log('🔧 Phase 2: Loading critical elements...');
+            
+            try {
+                // Load critical elements first
+                const criticalSelectors = [
+                    'body', 'html', '[class*="background"]', '[id*="background"]',
+                    '[class*="bg"]', '[id*="bg"]', '[class*="gradient"]', '[style*="gradient"]'
+                ];
+                
+                criticalSelectors.forEach(selector => {
+                    const elements = $w(selector);
+                    if (elements && elements.length > 0) {
+                        elements.forEach(element => {
+                            if (element && element.style) {
+                                // Show element
+                                element.style.visibility = 'visible !important';
+                                element.style.opacity = '1 !important';
+                                element.style.display = 'block !important';
+                                
+                                progressiveState.elementsLoaded++;
+                            }
+                        });
+                    }
+                });
+                
+                progressiveState.phase = 2;
+                console.log('✅ Phase 2 completed: Critical elements loaded');
+                
+            } catch (error) {
+                console.warn('Phase 2 failed:', error);
+            }
+        }
+        
+        // PHASE 3: Load essential content
+        function phase3LoadEssential() {
+            console.log('📄 Phase 3: Loading essential content...');
+            
+            try {
+                // Load essential content elements
+                const essentialSelectors = [
+                    '[class*="header"]', '[id*="header"]', '[class*="nav"]', '[id*="nav"]',
+                    '[class*="main"]', '[id*="main"]', '[class*="content"]', '[id*="content"]',
+                    '[class*="section"]', '[id*="section"]'
+                ];
+                
+                essentialSelectors.forEach(selector => {
+                    const elements = $w(selector);
+                    if (elements && elements.length > 0) {
+                        elements.forEach(element => {
+                            if (element && element.style) {
+                                // Show element
+                                element.style.visibility = 'visible !important';
+                                element.style.opacity = '1 !important';
+                                element.style.display = 'block !important';
+                                
+                                progressiveState.elementsLoaded++;
+                            }
+                        });
+                    }
+                });
+                
+                progressiveState.phase = 3;
+                console.log('✅ Phase 3 completed: Essential content loaded');
+                
+            } catch (error) {
+                console.warn('Phase 3 failed:', error);
+            }
+        }
+        
+        // PHASE 4: Load enhanced elements
+        function phase4LoadEnhanced() {
+            console.log('✨ Phase 4: Loading enhanced elements...');
+            
+            try {
+                // Load enhanced elements (excluding problematic ones)
+                const enhancedSelectors = [
+                    '[class*="text"]', '[id*="text"]', '[class*="title"]', '[id*="title"]',
+                    '[class*="subtitle"]', '[id*="subtitle"]', '[class*="description"]', '[id*="description"]',
+                    '[class*="button"]', '[id*="button"]', '[class*="cta"]', '[id*="cta"]'
+                ];
+                
+                enhancedSelectors.forEach(selector => {
+                    const elements = $w(selector);
+                    if (elements && elements.length > 0) {
+                        elements.forEach(element => {
+                            if (element && element.style) {
+                                // Show element
+                                element.style.visibility = 'visible !important';
+                                element.style.opacity = '1 !important';
+                                element.style.display = 'block !important';
+                                
+                                progressiveState.elementsLoaded++;
+                            }
+                        });
+                    }
+                });
+                
+                progressiveState.phase = 4;
+                console.log('✅ Phase 4 completed: Enhanced elements loaded');
+                
+            } catch (error) {
+                console.warn('Phase 4 failed:', error);
+            }
+        }
+        
+        // PHASE 5: Load remaining elements (excluding problematic ones)
+        function phase5LoadRemaining() {
+            console.log('🎯 Phase 5: Loading remaining elements...');
+            
+            try {
+                // Load all remaining elements except problematic ones
+                const allElements = $w('*');
+                if (allElements && allElements.length > 0) {
+                    allElements.forEach(element => {
+                        if (element && element.style) {
+                            // Skip problematic elements for now
+                            const className = element.className || '';
+                            const id = element.id || '';
+                            
+                            // Skip "03" and heavy animation elements
+                            if (className.includes('03') || id.includes('03') || 
+                                className.includes('balloon') || id.includes('balloon') ||
+                                className.includes('animate') || className.includes('animation')) {
+                                return; // Skip these for now
+                            }
+                            
+                            // Show element
+                            element.style.visibility = 'visible !important';
+                            element.style.opacity = '1 !important';
+                            element.style.display = 'block !important';
+                            
+                            progressiveState.elementsLoaded++;
+                        }
+                    });
+                }
+                
+                progressiveState.phase = 5;
+                console.log('✅ Phase 5 completed: Remaining elements loaded');
+                
+            } catch (error) {
+                console.warn('Phase 5 failed:', error);
+            }
+        }
+        
+        // PHASE 6: Load problematic elements with special handling
+        function phase6LoadProblematic() {
+            console.log('🎈 Phase 6: Loading problematic elements with special handling...');
+            
+            try {
+                // Load "03" and balloon elements with special handling
+                const problematicSelectors = [
+                    '[class*="03"]', '[id*="03"]', '[class*="balloon"]', '[id*="balloon"]',
+                    '[class*="red"]', '[style*="red"]', '[class*="gradient"]', '[style*="gradient"]'
+                ];
+                
+                problematicSelectors.forEach(selector => {
+                    const elements = $w(selector);
+                    if (elements && elements.length > 0) {
+                        elements.forEach(element => {
+                            if (element && element.style) {
+                                // Show element but keep animations disabled
+                                element.style.visibility = 'visible !important';
+                                element.style.opacity = '1 !important';
+                                element.style.display = 'block !important';
+                                
+                                // Keep heavy effects disabled
+                                element.style.animation = 'none !important';
+                                element.style.transition = 'none !important';
+                                element.style.transform = 'none !important';
+                                element.style.filter = 'none !important';
+                                element.style.backdropFilter = 'none !important';
+                                element.style.boxShadow = 'none !important';
+                                
+                                progressiveState.elementsLoaded++;
+                            }
+                        });
+                    }
+                });
+                
+                progressiveState.phase = 6;
+                console.log('✅ Phase 6 completed: Problematic elements loaded with special handling');
+                
+            } catch (error) {
+                console.warn('Phase 6 failed:', error);
+            }
+        }
+        
+        // PHASE 7: Final smooth reveal
+        function phase7SmoothReveal() {
+            console.log('🌟 Phase 7: Final smooth reveal...');
+            
+            try {
+                // Enable smooth transitions for all elements
+                const allElements = $w('*');
+                if (allElements && allElements.length > 0) {
+                    allElements.forEach(element => {
+                        if (element && element.style) {
+                            // Enable smooth transitions
+                            element.style.transition = 'opacity 0.3s ease-in-out !important';
+                            
+                            // Ensure visibility
+                            element.style.visibility = 'visible !important';
+                            element.style.opacity = '1 !important';
+                            element.style.display = 'block !important';
+                        }
+                    });
+                }
+                
+                progressiveState.isLoaded = true;
+                progressiveState.isVisible = true;
+                
+                const loadTime = Date.now() - progressiveState.loadStartTime;
+                console.log(`✅ Phase 7 completed: Everything revealed smoothly in ${loadTime}ms`);
+                console.log(`📊 Loaded ${progressiveState.elementsLoaded}/${progressiveState.totalElements} elements`);
+                
+            } catch (error) {
+                console.warn('Phase 7 failed:', error);
+            }
+        }
+        
+        // Start progressive loading sequence
+        console.log('🚀 Starting comprehensive progressive loading sequence...');
+        
+        // Phase 1: Hide everything (0ms)
+        phase1HideAndPrepare();
+        
+        // Phase 2: Load critical elements (100ms)
+        setTimeout(() => {
+            phase2LoadCritical();
+        }, 100);
+        
+        // Phase 3: Load essential content (300ms)
+        setTimeout(() => {
+            phase3LoadEssential();
+        }, 300);
+        
+        // Phase 4: Load enhanced elements (500ms)
+        setTimeout(() => {
+            phase4LoadEnhanced();
+        }, 500);
+        
+        // Phase 5: Load remaining elements (800ms)
+        setTimeout(() => {
+            phase5LoadRemaining();
+        }, 800);
+        
+        // Phase 6: Load problematic elements (1200ms)
+        setTimeout(() => {
+            phase6LoadProblematic();
+        }, 1200);
+        
+        // Phase 7: Final smooth reveal (1500ms)
+        setTimeout(() => {
+            phase7SmoothReveal();
+        }, 1500);
+        
+        console.log('✅ Comprehensive Progressive Loading System initialized');
+        
+        // Export for manual control
+        window.progressiveLoader = {
+            getState: () => progressiveState,
+            forceReveal: phase7SmoothReveal,
+            reload: () => {
+                progressiveState.phase = 0;
+                progressiveState.isLoaded = false;
+                progressiveState.isVisible = false;
+                progressiveState.elementsLoaded = 0;
+                progressiveState.loadStartTime = Date.now();
+                
+                // Restart sequence
+                phase1HideAndPrepare();
+                setTimeout(() => phase2LoadCritical(), 100);
+                setTimeout(() => phase3LoadEssential(), 300);
+                setTimeout(() => phase4LoadEnhanced(), 500);
+                setTimeout(() => phase5LoadRemaining(), 800);
+                setTimeout(() => phase6LoadProblematic(), 1200);
+                setTimeout(() => phase7SmoothReveal(), 1500);
+            }
+        };
+    }
+    
+    // Initialize the progressive loading system
+    initializeProgressiveLoadingSystem();
+    
     // Start progressive loading
     progressiveLoad();
     
