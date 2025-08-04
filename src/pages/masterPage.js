@@ -2827,6 +2827,9 @@ $w.onReady(function () {
     // Initialize Fast Perceived Performance System
     initializeFastPerceivedPerformance();
     
+    // Initialize Lightweight Animation Optimizer
+    initializeLightweightAnimationOptimizer();
+    
     // Export functions for other pages to use
     if (typeof window !== 'undefined') {
         window.ultraFastSite = {
@@ -2845,5 +2848,631 @@ $w.onReady(function () {
                 }
             }
         };
+    }
+    
+    // NEW: LIGHTWEIGHT ANIMATION OPTIMIZATION SYSTEM
+    function initializeLightweightAnimationOptimizer() {
+        console.log('🎬 Initializing Lightweight Animation Optimizer...');
+        
+        // Animation optimization state
+        const animationState = {
+            isOptimized: false,
+            heavyAnimationsDisabled: false,
+            gpuUsageReduced: false,
+            frameRateOptimized: false,
+            animationCount: 0,
+            lastOptimization: 0
+        };
+        
+        // Replace heavy animations with lightweight alternatives
+        replaceHeavyAnimations();
+        
+        // Optimize GPU usage
+        optimizeGPUUsage();
+        
+        // Implement frame rate optimization
+        implementFrameRateOptimization();
+        
+        // Setup performance monitoring
+        setupAnimationPerformanceMonitoring();
+        
+        // Implement adaptive animation quality
+        implementAdaptiveAnimationQuality();
+        
+        console.log('✅ Lightweight Animation Optimizer initialized');
+    }
+    
+    // Replace heavy animations with lightweight alternatives
+    function replaceHeavyAnimations() {
+        console.log('🔄 Replacing heavy animations with lightweight alternatives...');
+        
+        try {
+            // Replace transform animations with opacity-only animations
+            replaceTransformAnimations();
+            
+            // Replace complex CSS animations with simple transitions
+            replaceComplexCSSAnimations();
+            
+            // Replace box-shadow animations with border animations
+            replaceBoxShadowAnimations();
+            
+            // Replace filter animations with simple opacity
+            replaceFilterAnimations();
+            
+            // Replace backdrop-filter animations
+            replaceBackdropFilterAnimations();
+            
+        } catch (error) {
+            console.warn('Animation replacement failed:', error);
+        }
+    }
+    
+    // Replace transform animations with opacity-only animations
+    function replaceTransformAnimations() {
+        try {
+            const allElements = $w('*');
+            
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                // Check if element has heavy transform animations
+                const currentTransform = element.style.transform || '';
+                const currentTransition = element.style.transition || '';
+                
+                // Replace scale transforms with opacity
+                if (currentTransform.includes('scale') || currentTransition.includes('transform')) {
+                    // Replace with lightweight opacity animation
+                    element.style.transition = 'opacity 0.2s ease';
+                    element.style.transform = 'none';
+                    
+                    // Update hover effects
+                    element.onMouseIn = () => {
+                        element.style.opacity = '0.9';
+                    };
+                    
+                    element.onMouseOut = () => {
+                        element.style.opacity = '1';
+                    };
+                    
+                    // Update click effects
+                    element.onClick = () => {
+                        element.style.opacity = '0.8';
+                        setTimeout(() => {
+                            element.style.opacity = '1';
+                        }, 100);
+                    };
+                    
+                    console.log('✅ Replaced transform animation with opacity');
+                }
+                
+                // Replace translateY animations
+                if (currentTransform.includes('translateY') || currentTransition.includes('translateY')) {
+                    element.style.transition = 'opacity 0.15s ease';
+                    element.style.transform = 'none';
+                    
+                    element.onMouseIn = () => {
+                        element.style.opacity = '0.95';
+                    };
+                    
+                    element.onMouseOut = () => {
+                        element.style.opacity = '1';
+                    };
+                    
+                    console.log('✅ Replaced translateY animation with opacity');
+                }
+            });
+            
+        } catch (error) {
+            console.warn('Transform animation replacement failed:', error);
+        }
+    }
+    
+    // Replace complex CSS animations with simple transitions
+    function replaceComplexCSSAnimations() {
+        try {
+            const allElements = $w('*');
+            
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                // Check for complex animations
+                const currentAnimation = element.style.animation || '';
+                const currentTransition = element.style.transition || '';
+                
+                // Replace complex animations with simple transitions
+                if (currentAnimation.includes('fadeIn') || currentAnimation.includes('slideIn') || 
+                    currentAnimation.includes('bounce') || currentAnimation.includes('pulse')) {
+                    
+                    // Replace with simple fade-in
+                    element.style.animation = 'none';
+                    element.style.transition = 'opacity 0.3s ease';
+                    element.style.opacity = '0';
+                    
+                    // Trigger fade-in after a short delay
+                    setTimeout(() => {
+                        element.style.opacity = '1';
+                    }, 50);
+                    
+                    console.log('✅ Replaced complex animation with simple fade-in');
+                }
+                
+                // Replace skeleton loading animations
+                if (currentAnimation.includes('skeleton') || currentAnimation.includes('loading')) {
+                    element.style.animation = 'none';
+                    element.style.transition = 'opacity 0.2s ease';
+                    element.style.opacity = '0.7';
+                    
+                    setTimeout(() => {
+                        element.style.opacity = '1';
+                    }, 200);
+                    
+                    console.log('✅ Replaced skeleton animation with simple opacity');
+                }
+            });
+            
+        } catch (error) {
+            console.warn('Complex CSS animation replacement failed:', error);
+        }
+    }
+    
+    // Replace box-shadow animations with border animations
+    function replaceBoxShadowAnimations() {
+        try {
+            const allElements = $w('*');
+            
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                const currentBoxShadow = element.style.boxShadow || '';
+                const currentTransition = element.style.transition || '';
+                
+                // Replace box-shadow animations with border animations
+                if (currentBoxShadow.includes('rgba') || currentTransition.includes('box-shadow')) {
+                    // Remove box-shadow
+                    element.style.boxShadow = 'none';
+                    
+                    // Add lightweight border animation
+                    element.style.border = '1px solid transparent';
+                    element.style.transition = 'border-color 0.2s ease, opacity 0.2s ease';
+                    
+                    // Update hover effects
+                    element.onMouseIn = () => {
+                        element.style.borderColor = 'rgba(0,0,0,0.1)';
+                        element.style.opacity = '0.95';
+                    };
+                    
+                    element.onMouseOut = () => {
+                        element.style.borderColor = 'transparent';
+                        element.style.opacity = '1';
+                    };
+                    
+                    console.log('✅ Replaced box-shadow animation with border animation');
+                }
+            });
+            
+        } catch (error) {
+            console.warn('Box-shadow animation replacement failed:', error);
+        }
+    }
+    
+    // Replace filter animations with simple opacity
+    function replaceFilterAnimations() {
+        try {
+            const allElements = $w('*');
+            
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                const currentFilter = element.style.filter || '';
+                const currentTransition = element.style.transition || '';
+                
+                // Replace filter animations with opacity
+                if (currentFilter.includes('blur') || currentFilter.includes('brightness') || 
+                    currentFilter.includes('contrast') || currentTransition.includes('filter')) {
+                    
+                    // Remove heavy filters
+                    element.style.filter = 'none';
+                    element.style.transition = 'opacity 0.2s ease';
+                    
+                    // Update hover effects
+                    element.onMouseIn = () => {
+                        element.style.opacity = '0.9';
+                    };
+                    
+                    element.onMouseOut = () => {
+                        element.style.opacity = '1';
+                    };
+                    
+                    console.log('✅ Replaced filter animation with opacity');
+                }
+            });
+            
+        } catch (error) {
+            console.warn('Filter animation replacement failed:', error);
+        }
+    }
+    
+    // Replace backdrop-filter animations
+    function replaceBackdropFilterAnimations() {
+        try {
+            const allElements = $w('*');
+            
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                const currentBackdropFilter = element.style.backdropFilter || '';
+                const currentTransition = element.style.transition || '';
+                
+                // Replace backdrop-filter animations
+                if (currentBackdropFilter.includes('blur') || currentTransition.includes('backdrop-filter')) {
+                    // Remove backdrop-filter
+                    element.style.backdropFilter = 'none';
+                    element.style.transition = 'opacity 0.2s ease';
+                    
+                    // Use simple background opacity instead
+                    element.style.backgroundColor = 'rgba(255,255,255,0.9)';
+                    
+                    console.log('✅ Replaced backdrop-filter animation with background opacity');
+                }
+            });
+            
+        } catch (error) {
+            console.warn('Backdrop-filter animation replacement failed:', error);
+        }
+    }
+    
+    // Optimize GPU usage
+    function optimizeGPUUsage() {
+        console.log('🎮 Optimizing GPU usage...');
+        
+        try {
+            const allElements = $w('*');
+            
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                // Disable hardware acceleration for non-critical elements
+                element.style.willChange = 'auto';
+                element.style.backfaceVisibility = 'visible';
+                element.style.perspective = 'none';
+                element.style.transformStyle = 'flat';
+                
+                // Use transform3d only when absolutely necessary
+                if (element.style.transform && element.style.transform.includes('translateZ')) {
+                    element.style.transform = element.style.transform.replace('translateZ(0)', '');
+                }
+                
+                // Reduce layer creation
+                element.style.isolation = 'auto';
+                element.style.mixBlendMode = 'normal';
+                
+            });
+            
+            console.log('✅ GPU usage optimized');
+            
+        } catch (error) {
+            console.warn('GPU optimization failed:', error);
+        }
+    }
+    
+    // Implement frame rate optimization
+    function implementFrameRateOptimization() {
+        console.log('📊 Implementing frame rate optimization...');
+        
+        try {
+            // Reduce animation frame rate for better performance
+            let lastFrameTime = 0;
+            const targetFrameRate = 30; // Target 30fps instead of 60fps
+            const frameInterval = 1000 / targetFrameRate;
+            
+            // Throttle animation updates
+            function throttledAnimationUpdate(callback) {
+                const currentTime = performance.now();
+                
+                if (currentTime - lastFrameTime >= frameInterval) {
+                    callback();
+                    lastFrameTime = currentTime;
+                }
+            }
+            
+            // Apply throttling to scroll animations
+            const scrollElements = $w('*');
+            scrollElements.forEach(element => {
+                if (!element) return;
+                
+                const originalOnScroll = element.onScroll;
+                if (originalOnScroll) {
+                    element.onScroll = (event) => {
+                        throttledAnimationUpdate(() => {
+                            originalOnScroll(event);
+                        });
+                    };
+                }
+            });
+            
+            // Reduce transition durations for faster feel
+            const allElements = $w('*');
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                const currentTransition = element.style.transition || '';
+                
+                // Reduce transition durations
+                if (currentTransition.includes('0.3s') || currentTransition.includes('300ms')) {
+                    element.style.transition = currentTransition.replace(/0\.3s|300ms/g, '0.15s');
+                }
+                
+                if (currentTransition.includes('0.5s') || currentTransition.includes('500ms')) {
+                    element.style.transition = currentTransition.replace(/0\.5s|500ms/g, '0.2s');
+                }
+                
+                if (currentTransition.includes('0.8s') || currentTransition.includes('800ms')) {
+                    element.style.transition = currentTransition.replace(/0\.8s|800ms/g, '0.3s');
+                }
+            });
+            
+            console.log('✅ Frame rate optimized to 30fps');
+            
+        } catch (error) {
+            console.warn('Frame rate optimization failed:', error);
+        }
+    }
+    
+    // Setup animation performance monitoring
+    function setupAnimationPerformanceMonitoring() {
+        console.log('📈 Setting up animation performance monitoring...');
+        
+        try {
+            let frameCount = 0;
+            let lastTime = performance.now();
+            let lowFrameRateCount = 0;
+            
+            function monitorFrameRate() {
+                frameCount++;
+                const currentTime = performance.now();
+                
+                if (currentTime - lastTime >= 1000) {
+                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                    
+                    // Check if frame rate is too low
+                    if (fps < 25) {
+                        lowFrameRateCount++;
+                        console.warn(`⚠️ Low frame rate detected: ${fps}fps`);
+                        
+                        // Apply emergency optimization if frame rate is consistently low
+                        if (lowFrameRateCount >= 3) {
+                            applyEmergencyAnimationOptimization();
+                            lowFrameRateCount = 0;
+                        }
+                    } else {
+                        lowFrameRateCount = 0;
+                    }
+                    
+                    frameCount = 0;
+                    lastTime = currentTime;
+                }
+                
+                requestAnimationFrame(monitorFrameRate);
+            }
+            
+            monitorFrameRate();
+            
+            console.log('✅ Animation performance monitoring active');
+            
+        } catch (error) {
+            console.warn('Animation performance monitoring failed:', error);
+        }
+    }
+    
+    // Apply emergency animation optimization
+    function applyEmergencyAnimationOptimization() {
+        console.log('🚨 Applying emergency animation optimization...');
+        
+        try {
+            const allElements = $w('*');
+            
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                // Disable ALL animations
+                element.style.animation = 'none';
+                element.style.transition = 'none';
+                element.style.transform = 'none';
+                element.style.filter = 'none';
+                element.style.backdropFilter = 'none';
+                element.style.boxShadow = 'none';
+                
+                // Optimize for performance
+                element.style.willChange = 'auto';
+                element.style.backfaceVisibility = 'visible';
+                element.style.perspective = 'none';
+                
+                // Remove all event handlers that might cause animations
+                element.onMouseIn = null;
+                element.onMouseOut = null;
+                element.onClick = null;
+                element.onScroll = null;
+            });
+            
+            console.log('🚨 Emergency animation optimization applied');
+            
+        } catch (error) {
+            console.warn('Emergency animation optimization failed:', error);
+        }
+    }
+    
+    // Implement adaptive animation quality
+    function implementAdaptiveAnimationQuality() {
+        console.log('🎯 Implementing adaptive animation quality...');
+        
+        try {
+            // Detect device capabilities
+            const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+            const isLowEndDevice = detectLowEndDevice();
+            
+            // Adjust animation quality based on device
+            if (isMobile || isLowEndDevice) {
+                applyLowQualityAnimations();
+            } else {
+                applyMediumQualityAnimations();
+            }
+            
+            console.log('✅ Adaptive animation quality applied');
+            
+        } catch (error) {
+            console.warn('Adaptive animation quality failed:', error);
+        }
+    }
+    
+    // Detect low-end device
+    function detectLowEndDevice() {
+        try {
+            // Simple detection based on available memory and CPU cores
+            if (typeof navigator !== 'undefined') {
+                const memory = navigator.deviceMemory || 4; // Default to 4GB if not available
+                const cores = navigator.hardwareConcurrency || 4; // Default to 4 cores if not available
+                
+                return memory < 4 || cores < 4;
+            }
+            
+            return false;
+        } catch (error) {
+            return false;
+        }
+    }
+    
+    // Apply low quality animations
+    function applyLowQualityAnimations() {
+        try {
+            const allElements = $w('*');
+            
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                // Use only opacity animations
+                element.style.transition = 'opacity 0.1s ease';
+                element.style.animation = 'none';
+                element.style.transform = 'none';
+                element.style.filter = 'none';
+                element.style.backdropFilter = 'none';
+                element.style.boxShadow = 'none';
+                
+                // Simple hover effect
+                element.onMouseIn = () => {
+                    element.style.opacity = '0.8';
+                };
+                
+                element.onMouseOut = () => {
+                    element.style.opacity = '1';
+                };
+            });
+            
+            console.log('✅ Low quality animations applied');
+            
+        } catch (error) {
+            console.warn('Low quality animations failed:', error);
+        }
+    }
+    
+    // Apply medium quality animations
+    function applyMediumQualityAnimations() {
+        try {
+            const allElements = $w('*');
+            
+            allElements.forEach(element => {
+                if (!element || !element.style) return;
+                
+                // Use simple transitions
+                element.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+                
+                // Simple hover effects
+                element.onMouseIn = () => {
+                    element.style.opacity = '0.9';
+                    element.style.transform = 'scale(1.01)';
+                };
+                
+                element.onMouseOut = () => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'scale(1)';
+                };
+            });
+            
+            console.log('✅ Medium quality animations applied');
+            
+        } catch (error) {
+            console.warn('Medium quality animations failed:', error);
+        }
+    }
+    
+    // Create lightweight CSS animations
+    function createLightweightCSSAnimations() {
+        try {
+            // Add lightweight CSS animations to document head
+            if (typeof window !== 'undefined' && window.document) {
+                const style = window.document.createElement('style');
+                style.textContent = `
+                    /* Lightweight fade-in animation */
+                    @keyframes lightweightFadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    
+                    /* Lightweight slide-in animation */
+                    @keyframes lightweightSlideIn {
+                        from { 
+                            opacity: 0;
+                            transform: translateY(10px);
+                        }
+                        to { 
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                    
+                    /* Lightweight pulse animation */
+                    @keyframes lightweightPulse {
+                        0%, 100% { opacity: 1; }
+                        50% { opacity: 0.8; }
+                    }
+                    
+                    /* Apply lightweight animations */
+                    .lightweight-fade-in {
+                        animation: lightweightFadeIn 0.3s ease;
+                    }
+                    
+                    .lightweight-slide-in {
+                        animation: lightweightSlideIn 0.3s ease;
+                    }
+                    
+                    .lightweight-pulse {
+                        animation: lightweightPulse 1s ease-in-out infinite;
+                    }
+                `;
+                window.document.head.appendChild(style);
+            }
+            
+        } catch (error) {
+            console.warn('Lightweight CSS animations failed:', error);
+        }
+    }
+    
+    // Apply lightweight animations to elements
+    function applyLightweightAnimations() {
+        try {
+            const allElements = $w('*');
+            
+            allElements.forEach((element, index) => {
+                if (!element || !element.style) return;
+                
+                // Apply staggered lightweight animations
+                setTimeout(() => {
+                    element.style.animation = 'lightweightFadeIn 0.3s ease';
+                    element.style.opacity = '1';
+                }, index * 50); // Stagger by 50ms
+            });
+            
+        } catch (error) {
+            console.warn('Apply lightweight animations failed:', error);
+        }
     }
 }); 
