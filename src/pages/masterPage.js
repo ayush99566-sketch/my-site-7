@@ -841,15 +841,10 @@ $w.onReady(function () {
                     autoRefreshState.hasRefreshed = true;
                     console.log('🔄 Performing controlled auto-refresh...');
                     
-                    // Use Wix's navigation to refresh
+                    // Use standard refresh method
                     try {
-                        // This will refresh the page in a controlled way
-                        if (typeof wix !== 'undefined' && wix.location) {
-                            wix.location.reload();
-                        } else {
-                            // Fallback to standard refresh
-                            location.reload();
-                        }
+                        // Standard page refresh
+                        location.reload();
                     } catch (error) {
                         console.warn('Auto-refresh failed:', error);
                     }
