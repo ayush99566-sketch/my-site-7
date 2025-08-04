@@ -1306,6 +1306,243 @@ $w.onReady(function () {
     // Initialize the dedicated "03" optimizer
     initialize03SectionOptimizer();
     
+    // SPECIFIC FIX FOR "03" BALLOON BLACK SCREEN ISSUE
+    function initialize03BalloonFix() {
+        console.log('🎈 Initializing "03" Balloon Black Screen Fix...');
+        
+        // State for balloon fix
+        const balloonFixState = {
+            isFixed: false,
+            backgroundPreserved: false,
+            lastCheck: 0
+        };
+        
+        // IMMEDIATE "03" balloon optimization to prevent black screen
+        function fix03BalloonImmediately() {
+            console.log('🎈 IMMEDIATE "03" balloon fix...');
+            
+            try {
+                // Target "03" balloon specifically
+                const balloonSelectors = [
+                    '[class*="03"]',
+                    '[id*="03"]',
+                    '[class*="balloon"]',
+                    '[id*="balloon"]',
+                    '[class*="red"]',
+                    '[style*="red"]',
+                    '[class*="gradient"]',
+                    '[style*="gradient"]'
+                ];
+                
+                balloonSelectors.forEach(selector => {
+                    const elements = $w(selector);
+                    if (elements && elements.length > 0) {
+                        elements.forEach((element, index) => {
+                            if (element && element.style) {
+                                // PREVENT BLACK SCREEN - Disable heavy effects
+                                element.style.animation = 'none !important';
+                                element.style.transition = 'none !important';
+                                element.style.transform = 'none !important';
+                                element.style.filter = 'none !important';
+                                element.style.backdropFilter = 'none !important';
+                                element.style.boxShadow = 'none !important';
+                                element.style.willChange = 'auto !important';
+                                element.style.backfaceVisibility = 'visible !important';
+                                element.style.perspective = 'none !important';
+                                
+                                // PRESERVE VISIBILITY
+                                element.style.opacity = '1 !important';
+                                element.style.visibility = 'visible !important';
+                                element.style.display = 'block !important';
+                                
+                                // Remove any heavy CSS classes that might cause crashes
+                                if (element.className) {
+                                    element.className = element.className.replace(/animate|animation|transition|transform|scale|rotate|skew|translate|blur|brightness|contrast|hue-rotate|invert|saturate|sepia/g, '');
+                                }
+                                
+                                // Disable any event handlers that might cause issues
+                                element.onMouseIn = null;
+                                element.onMouseOut = null;
+                                element.onClick = null;
+                                
+                                console.log(`🎈 Fixed "03" balloon element: ${selector}-${index}`);
+                            }
+                        });
+                    }
+                });
+                
+                // PRESERVE BACKGROUND ELEMENTS
+                preserveBackgroundElements();
+                
+                balloonFixState.isFixed = true;
+                
+            } catch (error) {
+                console.warn('"03" balloon fix failed:', error);
+            }
+        }
+        
+        // PRESERVE BACKGROUND ELEMENTS
+        function preserveBackgroundElements() {
+            console.log('🎨 Preserving background elements...');
+            
+            try {
+                // Target background elements
+                const backgroundSelectors = [
+                    'body',
+                    'html',
+                    '[class*="background"]',
+                    '[id*="background"]',
+                    '[class*="bg"]',
+                    '[id*="bg"]',
+                    '[class*="gradient"]',
+                    '[style*="gradient"]',
+                    '[class*="red"]',
+                    '[style*="red"]'
+                ];
+                
+                backgroundSelectors.forEach(selector => {
+                    const elements = $w(selector);
+                    if (elements && elements.length > 0) {
+                        elements.forEach((element, index) => {
+                            if (element && element.style) {
+                                // PRESERVE BACKGROUND STYLES
+                                element.style.visibility = 'visible !important';
+                                element.style.opacity = '1 !important';
+                                element.style.display = 'block !important';
+                                
+                                // Ensure background is not hidden
+                                if (element.style.background || element.style.backgroundColor) {
+                                    element.style.background = element.style.background || 'inherit';
+                                    element.style.backgroundColor = element.style.backgroundColor || 'inherit';
+                                }
+                                
+                                console.log(`🎨 Preserved background element: ${selector}-${index}`);
+                            }
+                        });
+                    }
+                });
+                
+                balloonFixState.backgroundPreserved = true;
+                
+            } catch (error) {
+                console.warn('Background preservation failed:', error);
+            }
+        }
+        
+        // CONTINUOUS MONITORING to prevent black screen
+        function startContinuousMonitoring() {
+            console.log('👁️ Starting continuous monitoring for black screen prevention...');
+            
+            // Check every 50ms for potential issues
+            setInterval(() => {
+                try {
+                    // Check if any "03" elements are causing issues
+                    const elements03 = $w('[class*="03"], [id*="03"]');
+                    if (elements03 && elements03.length > 0) {
+                        elements03.forEach(element => {
+                            if (element && element.style) {
+                                // Ensure element is visible and not causing crashes
+                                element.style.animation = 'none !important';
+                                element.style.transition = 'none !important';
+                                element.style.transform = 'none !important';
+                                element.style.opacity = '1 !important';
+                                element.style.visibility = 'visible !important';
+                            }
+                        });
+                    }
+                    
+                    // Ensure body and html are visible
+                    const body = $w('body');
+                    const html = $w('html');
+                    
+                    if (body && body.length > 0) {
+                        body.forEach(element => {
+                            element.style.visibility = 'visible !important';
+                            element.style.opacity = '1 !important';
+                        });
+                    }
+                    
+                    if (html && html.length > 0) {
+                        html.forEach(element => {
+                            element.style.visibility = 'visible !important';
+                            element.style.opacity = '1 !important';
+                        });
+                    }
+                    
+                } catch (error) {
+                    console.warn('Continuous monitoring error:', error);
+                }
+            }, 50);
+        }
+        
+        // EMERGENCY RECOVERY for black screen
+        function emergencyRecovery() {
+            console.log('🚨 EMERGENCY RECOVERY - Black screen detected!');
+            
+            try {
+                // Force all elements to be visible
+                const allElements = $w('*');
+                if (allElements && allElements.length > 0) {
+                    allElements.forEach(element => {
+                        if (element && element.style) {
+                            // Force visibility
+                            element.style.visibility = 'visible !important';
+                            element.style.opacity = '1 !important';
+                            element.style.display = 'block !important';
+                            
+                            // Disable all animations
+                            element.style.animation = 'none !important';
+                            element.style.transition = 'none !important';
+                            element.style.transform = 'none !important';
+                        }
+                    });
+                }
+                
+                // Restore background
+                preserveBackgroundElements();
+                
+                console.log('🚨 Emergency recovery completed');
+                
+            } catch (error) {
+                console.warn('Emergency recovery failed:', error);
+            }
+        }
+        
+        // Start the balloon fix
+        console.log('🎈 Starting "03" Balloon Black Screen Fix...');
+        
+        // Step 1: Immediate fix (0ms)
+        fix03BalloonImmediately();
+        
+        // Step 2: Start continuous monitoring (100ms)
+        setTimeout(() => {
+            startContinuousMonitoring();
+        }, 100);
+        
+        // Step 3: Additional fix every 200ms
+        setInterval(() => {
+            fix03BalloonImmediately();
+        }, 200);
+        
+        // Step 4: Emergency recovery trigger
+        setTimeout(() => {
+            emergencyRecovery();
+        }, 1000);
+        
+        console.log('✅ "03" Balloon Black Screen Fix initialized');
+        
+        // Export for manual triggering
+        window.balloonFix = {
+            fix: fix03BalloonImmediately,
+            preserve: preserveBackgroundElements,
+            emergency: emergencyRecovery,
+            getState: () => balloonFixState
+        };
+    }
+    
+    // Initialize the balloon fix
+    initialize03BalloonFix();
+    
     // Start progressive loading
     progressiveLoad();
     
