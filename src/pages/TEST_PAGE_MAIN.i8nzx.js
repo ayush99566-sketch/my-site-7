@@ -1,9 +1,8 @@
-// Ultra-Smooth Test Page JavaScript - Development and Testing Features
-// Includes: Ultra-smooth scrolling, Enhanced animations, Performance monitoring
+// ULTRA-SMOOTH TEST PAGE 1 - Progressive Loading System
+// Prevents first-time loading crashes by loading features in phases
 
 $w.onReady(function () {
-    // Test page functionality for development with ultra-smooth performance
-    console.log('Ultra-Smooth Test page loaded - Development mode active');
+    console.log('🚀 Progressive Test Page 1 Loading...');
     
     // Performance state management
     const state = {
@@ -11,237 +10,454 @@ $w.onReady(function () {
         isScrolling: false,
         lastScrollY: 0,
         scrollRAF: null,
-        performanceMode: 'ultra-smooth'
+        performanceMode: 'progressive',
+        loadPhase: 0 // 0: critical, 1: essential, 2: enhanced, 3: full
     };
     
-    // Development tools and debugging
-    const debugMode = true;
+    // Wait for master page to be ready
+    const waitForMasterPage = () => {
+        if (window.ultraFastSite) {
+            progressiveLoad();
+        } else {
+            setTimeout(waitForMasterPage, 50);
+        }
+    };
     
-    if (debugMode) {
-        // Add debug information to console
-        console.log('Page elements found:', {
-            buttons: $w('button').length,
-            images: $w('img').length,
-            text: $w('text').length,
-            containers: $w('container').length
-        });
+    // Progressive loading system
+    function progressiveLoad() {
+        console.log('📦 Starting progressive test page 1 load...');
         
-        // Add ultra-smooth click tracking for all interactive elements
-        const interactiveElements = $w('button, link, image');
-        interactiveElements.forEach(element => {
-            element.onClick(() => {
-                console.log('Element clicked:', element.id || element.tagName);
-                
-                // Ultra-smooth click animation
-                element.scale = 0.95;
-                element.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
-                
-                setTimeout(() => {
-                    element.scale = 1;
-                    element.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                }, 150);
-            });
-        });
+        // Phase 0: Critical functionality only
+        loadCriticalElements();
+        
+        // Phase 1: Essential features (after 150ms)
+        setTimeout(() => loadEssentialFeatures(), 150);
+        
+        // Phase 2: Enhanced features (after 400ms)
+        setTimeout(() => loadEnhancedFeatures(), 400);
+        
+        // Phase 3: Full features (after 1000ms)
+        setTimeout(() => loadFullFeatures(), 1000);
     }
     
-    // Ultra-smooth form validation
-    const testForm = $w('#testForm');
-    if (testForm) {
-        testForm.onSubmit((event) => {
-            console.log('Ultra-Smooth Test form submitted');
-            
-            // Ultra-smooth form processing
-            const submitButton = testForm.querySelector('button[type="submit"]');
-            if (submitButton) {
-                const originalText = submitButton.text;
-                submitButton.text = 'Processing...';
-                submitButton.style.opacity = '0.7';
-                
-                setTimeout(() => {
-                    submitButton.text = 'Success!';
-                    submitButton.style.background = '#28a745';
-                    
-                    setTimeout(() => {
-                        submitButton.text = originalText;
-                        submitButton.style.opacity = '1';
-                        submitButton.style.background = '';
-                    }, 2000);
-                }, 1500);
+    function loadCriticalElements() {
+        console.log('🔧 Loading critical test page 1 elements...');
+        state.loadPhase = 0;
+        
+        // Basic error handling
+        setupErrorHandling();
+        
+        // Simple content visibility
+        setupBasicContentVisibility();
+        
+        console.log('✅ Critical test page 1 elements loaded');
+    }
+    
+    function loadEssentialFeatures() {
+        console.log('⚡ Loading essential test page 1 features...');
+        state.loadPhase = 1;
+        
+        // Basic test section
+        setupBasicTestSection();
+        
+        // Basic navigation integration
+        setupBasicNavigation();
+        
+        // Basic responsive behavior
+        setupBasicResponsive();
+        
+        console.log('✅ Essential test page 1 features loaded');
+    }
+    
+    function loadEnhancedFeatures() {
+        console.log('🎨 Loading enhanced test page 1 features...');
+        state.loadPhase = 2;
+        
+        // Smooth scroll system
+        setupSmoothScroll();
+        
+        // Basic animations
+        setupBasicAnimations();
+        
+        // Image optimization
+        optimizeImages();
+        
+        console.log('✅ Enhanced test page 1 features loaded');
+    }
+    
+    function loadFullFeatures() {
+        console.log('🚀 Loading full test page 1 features...');
+        state.loadPhase = 3;
+        
+        // Enhanced animations
+        setupEnhancedAnimations();
+        
+        // Performance monitoring
+        startPerformanceMonitoring();
+        
+        // Mobile optimizations
+        initializeMobileOptimizations();
+        
+        console.log('✅ Full test page 1 loaded successfully!');
+    }
+    
+    // Basic content visibility (Phase 0)
+    function setupBasicContentVisibility() {
+        try {
+            const mainContent = $w('#mainContent') || $w('main') || $w('.main-content');
+            if (mainContent) {
+                mainContent.style.opacity = '1';
+                mainContent.style.visibility = 'visible';
             }
-            
-            // Add form validation logic here
-            const formData = testForm.value;
-            console.log('Form data:', formData);
-        });
+        } catch (error) {
+            console.warn('Basic content visibility failed:', error);
+        }
     }
     
-    // Ultra-smooth animations and transitions
-    const testElements = $w('.test-element');
-    testElements.forEach(element => {
-        // Add ultra-smooth test animations
-        element.onMouseEnter(() => {
-            element.opacity = 0.8;
-            element.scale = 1.1;
-            element.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        });
-        
-        element.onMouseLeave(() => {
-            element.opacity = 1;
-            element.scale = 1;
-            element.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        });
-    });
-    
-    // Ultra-smooth performance testing
-    const startTime = performance.now();
-    
-    // Simulate some heavy operations for testing with ultra-smooth feedback
-    setTimeout(() => {
-        const endTime = performance.now();
-        console.log(`Ultra-Smooth Page load performance: ${endTime - startTime}ms`);
-        
-        // Ultra-smooth performance indicator
-        const performanceIndicator = document.createElement('div');
-        performanceIndicator.textContent = `Load Time: ${(endTime - startTime).toFixed(2)}ms`;
-        performanceIndicator.style.cssText = `
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: #28a745;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            z-index: 10000;
-            opacity: 0;
-            transform: translateX(100%);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        `;
-        
-        document.body.appendChild(performanceIndicator);
-        
-        setTimeout(() => {
-            performanceIndicator.style.opacity = '1';
-            performanceIndicator.style.transform = 'translateX(0)';
-        }, 100);
-        
-        setTimeout(() => {
-            performanceIndicator.style.opacity = '0';
-            performanceIndicator.style.transform = 'translateX(100%)';
+    // Basic test section (Phase 1)
+    function setupBasicTestSection() {
+        try {
+            const testSection = $w('#testSection') || $w('.test') || $w('[data-testid="test"]');
+            if (!testSection) return;
+            
+            // Simple fade in
+            testSection.style.opacity = '0';
+            testSection.style.transition = 'opacity 0.5s ease';
+            
             setTimeout(() => {
-                if (document.body.contains(performanceIndicator)) {
-                    document.body.removeChild(performanceIndicator);
-                }
-            }, 500);
-        }, 3000);
-    }, 1000);
-    
-    // Ultra-smooth responsive behavior
-    const testResponsive = () => {
-        const isMobile = window.innerWidth < 768;
-        console.log('Ultra-Smooth Responsive test - Mobile:', isMobile);
-        
-        // Adjust elements based on screen size with ultra-smooth transitions
-        const responsiveElements = $w('.responsive');
-        responsiveElements.forEach(element => {
-            if (isMobile) {
-                element.fontSize = '14px';
-            } else {
-                element.fontSize = '16px';
-            }
-            element.style.transition = 'font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        });
-    };
-    
-    // Test on load and resize with ultra-smooth handling
-    testResponsive();
-    window.addEventListener('resize', () => {
-        // Debounce resize events for ultra-smooth performance
-        clearTimeout(state.resizeTimeout);
-        state.resizeTimeout = setTimeout(testResponsive, 250);
-    });
-    
-    // Ultra-smooth scroll system
-    function initializeUltraSmoothScroll() {
-        function ultraSmoothScroll() {
-            if (state.scrollRAF) return;
+                testSection.style.opacity = '1';
+            }, 100);
             
-            state.scrollRAF = requestAnimationFrame(() => {
-                const currentScrollY = window.scrollY;
+            // Basic test elements
+            const testElements = $w('#testTitle, #testSubtitle, #testDescription, .test-cta');
+            testElements.forEach((element, index) => {
+                if (!element) return;
                 
-                // Ultra-smooth scroll-based animations
-                if (Math.abs(currentScrollY - state.lastScrollY) > 5) {
-                    const scrollElements = $w('.scroll-animate');
-                    scrollElements.forEach(element => {
-                        const rect = element.getBoundingClientRect();
-                        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-                        
-                        if (isVisible) {
-                            const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-                            element.style.opacity = Math.min(progress * 2, 1);
-                            element.style.transform = `translateY(${Math.max(0, (1 - progress) * 20)}px)`;
+                element.style.opacity = '0';
+                element.style.transition = `opacity 0.5s ease ${0.3 + (index * 0.1)}s`;
+                
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                }, 300 + (index * 100));
+            });
+        } catch (error) {
+            console.warn('Basic test section failed:', error);
+        }
+    }
+    
+    // Basic navigation integration (Phase 1)
+    function setupBasicNavigation() {
+        try {
+            // Use master page scroll function if available
+            if (window.ultraFastSite && window.ultraFastSite.scrollTo) {
+                const ctaButtons = $w('.cta-button, .btn-primary, [data-testid*="cta"]');
+                ctaButtons.forEach(button => {
+                    if (!button) return;
+                    
+                    button.onClick((e) => {
+                        e.preventDefault();
+                        const target = button.getAttribute('data-target') || button.getAttribute('href');
+                        if (target && target.startsWith('#')) {
+                            window.ultraFastSite.scrollTo(target);
                         }
                     });
+                });
+            }
+        } catch (error) {
+            console.warn('Basic navigation failed:', error);
+        }
+    }
+    
+    // Basic responsive (Phase 1)
+    function setupBasicResponsive() {
+        try {
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                if (resizeTimeout) clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    const wasMobile = state.isMobile;
+                    state.isMobile = window.innerWidth < 768;
                     
-                    state.lastScrollY = currentScrollY;
+                    // Basic mobile adjustments
+                    if (state.isMobile) {
+                        adjustForMobile();
+                    }
+                }, 250);
+            });
+            
+            // Initial mobile check
+            if (state.isMobile) {
+                adjustForMobile();
+            }
+        } catch (error) {
+            console.warn('Basic responsive failed:', error);
+        }
+    }
+    
+    function adjustForMobile() {
+        try {
+            const testSection = $w('#testSection') || $w('.test');
+            if (testSection) {
+                testSection.style.minHeight = '100vh';
+                testSection.style.padding = '1rem';
+                testSection.style.paddingTop = '70px';
+            }
+            
+            const buttons = $w('.btn, .button, .cta-button');
+            buttons.forEach(btn => {
+                if (!btn) return;
+                btn.style.width = '100%';
+                btn.style.maxWidth = '280px';
+                btn.style.minHeight = '48px';
+                btn.style.padding = '0.875rem 1.5rem';
+                btn.style.fontSize = '1rem';
+                btn.style.textAlign = 'center';
+            });
+        } catch (error) {
+            console.warn('Mobile adjustment failed:', error);
+        }
+    }
+    
+    // Smooth scroll system (Phase 2)
+    function setupSmoothScroll() {
+        try {
+            if (scrollRAF) return;
+            window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
+        } catch (error) {
+            console.warn('Smooth scroll setup failed:', error);
+        }
+    }
+    
+    function ultraSmoothScroll() {
+        if (scrollRAF) return;
+        
+        scrollRAF = requestAnimationFrame(() => {
+            try {
+                const currentScrollY = window.scrollY;
+                
+                // Update state
+                state.lastScrollY = currentScrollY;
+                
+                // Basic scroll effects
+                const testSection = $w('#testSection') || $w('.test');
+                if (testSection) {
+                    const opacity = Math.max(0.3, 1 - (currentScrollY / 500));
+                    testSection.style.opacity = opacity;
                 }
                 
-                state.scrollRAF = null;
-            });
-        }
-        
-        window.addEventListener('scroll', ultraSmoothScroll, { passive: true });
+            } catch (error) {
+                console.warn('Smooth scroll failed:', error);
+            }
+            
+            scrollRAF = null;
+        });
+    }
     
-    // ===== MOBILE OPTIMIZATIONS =====
+    // Basic animations (Phase 2)
+    function setupBasicAnimations() {
+        try {
+            // Simple fade in for test content
+            const testContent = $w('.test-content, .test-item, .card');
+            testContent.forEach((item, index) => {
+                if (!item) return;
+                
+                item.style.opacity = '0';
+                item.style.transition = `opacity 0.5s ease ${index * 0.1}s`;
+                
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                }, 200 + (index * 100));
+            });
+        } catch (error) {
+            console.warn('Basic animations failed:', error);
+        }
+    }
+    
+    // Image optimization (Phase 2)
+    function optimizeImages() {
+        try {
+            const images = $w('img');
+            images.forEach(img => {
+                if (img.loading !== 'lazy') {
+                    img.loading = 'lazy';
+                }
+                
+                img.onError(() => {
+                    console.warn('Image failed to load:', img.src);
+                });
+            });
+        } catch (error) {
+            console.warn('Image optimization failed:', error);
+        }
+    }
+    
+    // Enhanced animations (Phase 3)
+    function setupEnhancedAnimations() {
+        try {
+            // Enhanced button interactions
+            const buttons = $w('button, .btn, .cta-button');
+            buttons.forEach(button => {
+                if (!button) return;
+                
+                button.onMouseIn(() => {
+                    button.scale = 1.02;
+                    button.style.transition = 'transform 0.1s ease';
+                });
+                
+                button.onMouseOut(() => {
+                    button.scale = 1;
+                });
+                
+                button.onClick(() => {
+                    button.scale = 0.98;
+                    setTimeout(() => {
+                        button.scale = 1;
+                    }, 100);
+                });
+            });
+            
+            // Enhanced test section interactions
+            const testSection = $w('#testSection') || $w('.test');
+            if (testSection) {
+                let isHovering = false;
+                
+                testSection.onMouseEnter(() => {
+                    isHovering = true;
+                });
+                
+                testSection.onMouseLeave(() => {
+                    isHovering = false;
+                    testSection.style.transform = '';
+                });
+                
+                testSection.onMouseMove((event) => {
+                    if (!isHovering) return;
+                    
+                    try {
+                        const rect = testSection.getBoundingClientRect();
+                        const x = (event.clientX - rect.left) / rect.width;
+                        const y = (event.clientY - rect.top) / rect.height;
+                        
+                        const rotateX = (y - 0.5) * 2;
+                        const rotateY = (x - 0.5) * 2;
+                        
+                        testSection.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+                        testSection.style.transition = 'transform 0.1s ease';
+                    } catch (error) {
+                        console.warn('Test section interaction failed:', error);
+                    }
+                });
+            }
+        } catch (error) {
+            console.warn('Enhanced animations failed:', error);
+        }
+    }
+    
+    // Performance monitoring (Phase 3)
+    function startPerformanceMonitoring() {
+        try {
+            let scrollCount = 0;
+            let lastScrollCheck = Date.now();
+            
+            const scrollObserver = () => {
+                scrollCount++;
+                const now = Date.now();
+                
+                if (now - lastScrollCheck > 1000) {
+                    const scrollsPerSecond = scrollCount;
+                    if (scrollsPerSecond > 30) {
+                        console.warn('High scroll frequency detected on test page 1, optimizing...');
+                    }
+                    scrollCount = 0;
+                    lastScrollCheck = now;
+                }
+            };
+            
+            window.addEventListener('scroll', scrollObserver, { passive: true });
+        } catch (error) {
+            console.warn('Performance monitoring failed:', error);
+        }
+    }
+    
+    // Mobile optimizations (Phase 3)
     function initializeMobileOptimizations() {
-        console.log('📱 Initializing Mobile Optimizations...');
+        console.log('📱 Initializing Mobile Test Page 1 Optimizations...');
         
-        // Mobile detection
-        const isMobile = window.innerWidth < 768;
-        const isTouchDevice = 'ontouchstart' in window;
-        
-        // Update state for mobile
-        if (state) {
+        try {
+            const isMobile = window.innerWidth < 768;
+            const isTouchDevice = 'ontouchstart' in window;
+            
             state.isMobile = isMobile;
             state.isTouchDevice = isTouchDevice;
+            
+            if (isTouchDevice) {
+                initializeTouchOptimizations();
+            }
+            
+            injectMobileCSS();
+            
+            console.log('✅ Mobile test page 1 optimizations initialized!');
+        } catch (error) {
+            console.warn('Mobile optimizations failed:', error);
         }
-        
-        // Mobile-specific CSS injection
-        injectMobileCSS();
-        
-        // Mobile touch optimizations
-        if (isTouchDevice) {
-            initializeTouchOptimizations();
+    }
+    
+    function initializeTouchOptimizations() {
+        try {
+            // Enhanced touch feedback for buttons
+            const buttons = $w('.btn, .button, .cta-button, [data-testid*="button"]');
+            buttons.forEach(btn => {
+                if (!btn) return;
+                
+                btn.onTouchStart(() => {
+                    btn.style.transform = 'scale(0.95)';
+                    btn.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+                
+                btn.onTouchEnd(() => {
+                    setTimeout(() => {
+                        btn.style.transform = '';
+                        btn.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    }, 150);
+                });
+            });
+            
+            // Enhanced touch feedback for test items
+            const testItems = $w('.test-item, .test-content, .card');
+            testItems.forEach(item => {
+                if (!item) return;
+                
+                item.onTouchStart(() => {
+                    item.style.transform = 'scale(0.98)';
+                    item.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+                
+                item.onTouchEnd(() => {
+                    setTimeout(() => {
+                        item.style.transform = '';
+                        item.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    }, 150);
+                });
+            });
+            
+            // Prevent zoom on double tap
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', (event) => {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        } catch (error) {
+            console.warn('Touch optimizations failed:', error);
         }
-        
-        // Mobile responsive adjustments
-        initializeMobileResponsive();
-        
-        // Mobile performance optimizations
-        initializeMobilePerformance();
-        
-        console.log('✅ Mobile optimizations initialized!');
     }
     
     function injectMobileCSS() {
         const mobileCSS = `
-            /* Mobile Optimizations */
             @media (max-width: 768px) {
-                /* Navigation adjustments */
-                .nav, .navigation {
-                    padding: 0.75rem 1rem !important;
-                }
-                
-                .nav-container, .nav-wrapper {
-                    padding: 0 0.5rem !important;
-                }
-                
-                .nav-logo, .logo {
-                    font-size: 1.25rem !important;
-                }
-                
-                /* Hero section mobile fit */
-                .hero, .heroSection {
+                .test, .testSection {
                     min-height: 100vh !important;
                     padding: 1rem !important;
                     padding-top: 70px !important;
@@ -250,24 +466,23 @@ $w.onReady(function () {
                     justify-content: center !important;
                 }
                 
-                .hero-content, .heroContent {
+                .test-content, .testContent {
                     width: 100% !important;
                     max-width: 100% !important;
                     padding: 0 1rem !important;
                 }
                 
-                .hero-title, .heroTitle {
+                .test-title, .testTitle {
                     font-size: clamp(1.75rem, 6vw, 2.5rem) !important;
                     line-height: 1.2 !important;
                     margin-bottom: 0.75rem !important;
                 }
                 
-                .hero-subtitle, .heroSubtitle {
+                .test-subtitle, .testSubtitle {
                     font-size: clamp(0.875rem, 4vw, 1.125rem) !important;
                     margin-bottom: 1.5rem !important;
                 }
                 
-                /* Button container mobile fit */
                 .btn-container, .buttonContainer {
                     flex-direction: column !important;
                     align-items: center !important;
@@ -275,7 +490,7 @@ $w.onReady(function () {
                     gap: 0.75rem !important;
                 }
                 
-                .btn, .button {
+                .btn, .button, .cta-button {
                     width: 100% !important;
                     max-width: 280px !important;
                     min-height: 48px !important;
@@ -285,116 +500,83 @@ $w.onReady(function () {
                     touch-action: manipulation !important;
                 }
                 
-                /* Features section mobile fit */
-                .features, .featuresSection {
+                .test-content, .test-item {
                     padding: 2rem 1rem !important;
                 }
                 
-                .features h2, .featuresTitle {
+                .test-content h2, .testTitle {
                     font-size: clamp(1.5rem, 5vw, 2rem) !important;
                     margin-bottom: 2rem !important;
                 }
                 
-                .features-grid, .featuresGrid {
+                .test-grid, .testGrid {
                     grid-template-columns: 1fr !important;
                     gap: 1.25rem !important;
                     padding: 0 0.5rem !important;
                 }
                 
-                .feature-card, .featureCard {
+                .test-item, .card {
                     padding: 1.25rem !important;
                     margin: 0 !important;
                 }
                 
-                .feature-card h3, .featureCard h3 {
+                .test-item h3, .card h3 {
                     font-size: 1.125rem !important;
                     margin-bottom: 0.75rem !important;
                 }
                 
-                .feature-card p, .featureCard p {
+                .test-item p, .card p {
                     font-size: 0.875rem !important;
                     line-height: 1.5 !important;
                 }
             }
             
-            /* Small mobile devices (iPhone SE, etc.) */
             @media (max-width: 375px) {
-                .hero, .heroSection {
+                .test, .testSection {
                     padding: 0.75rem !important;
                     padding-top: 60px !important;
                 }
                 
-                .hero-title, .heroTitle {
+                .test-title, .testTitle {
                     font-size: clamp(1.5rem, 7vw, 2rem) !important;
                 }
                 
-                .hero-subtitle, .heroSubtitle {
+                .test-subtitle, .testSubtitle {
                     font-size: clamp(0.75rem, 4.5vw, 1rem) !important;
                 }
                 
-                .btn, .button {
+                .btn, .button, .cta-button {
                     max-width: 260px !important;
                     padding: 0.75rem 1.25rem !important;
                     font-size: 0.875rem !important;
                 }
                 
-                .features, .featuresSection {
+                .test-content, .test-item {
                     padding: 1.5rem 0.75rem !important;
                 }
                 
-                .features-grid, .featuresGrid {
+                .test-grid, .testGrid {
                     gap: 1rem !important;
                     padding: 0 0.25rem !important;
                 }
                 
-                .feature-card, .featureCard {
+                .test-item, .card {
                     padding: 1rem !important;
                 }
             }
             
-            /* Medium mobile devices (iPhone 12/13) */
-            @media (min-width: 376px) and (max-width: 428px) {
-                .hero-title, .heroTitle {
-                    font-size: clamp(1.875rem, 6.5vw, 2.25rem) !important;
-                }
-                
-                .hero-subtitle, .heroSubtitle {
-                    font-size: clamp(0.875rem, 4.5vw, 1.125rem) !important;
-                }
-                
-                .btn, .button {
-                    max-width: 300px !important;
-                }
-            }
-            
-            /* Large mobile devices (iPhone Pro Max, etc.) */
-            @media (min-width: 429px) and (max-width: 768px) {
-                .hero-title, .heroTitle {
-                    font-size: clamp(2rem, 6vw, 2.5rem) !important;
-                }
-                
-                .hero-subtitle, .heroSubtitle {
-                    font-size: clamp(1rem, 4vw, 1.25rem) !important;
-                }
-                
-                .btn, .button {
-                    max-width: 320px !important;
-                }
-            }
-            
-            /* Landscape mobile optimization */
             @media (max-width: 768px) and (orientation: landscape) {
-                .hero, .heroSection {
+                .test, .testSection {
                     min-height: 85vh !important;
                     padding-top: 60px !important;
                 }
                 
-                .hero-title, .heroTitle {
+                .test-title, .testTitle {
                     font-size: clamp(1.5rem, 5vw, 2rem) !important;
                     margin-bottom: 0.5rem !important;
                 }
                 
-                .hero-subtitle, .heroSubtitle {
+                .test-subtitle, .testSubtitle {
                     font-size: clamp(0.75rem, 3.5vw, 1rem) !important;
                     margin-bottom: 1rem !important;
                 }
@@ -405,193 +587,60 @@ $w.onReady(function () {
                     gap: 1rem !important;
                 }
                 
-                .btn, .button {
+                .btn, .button, .cta-button {
                     width: auto !important;
                     max-width: 200px !important;
                     min-width: 160px !important;
                 }
-                
-                .features, .featuresSection {
-                    padding: 1.5rem 1rem !important;
-                }
-                
-                .features-grid, .featuresGrid {
-                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
-                    gap: 1rem !important;
-                }
             }
             
-            /* Touch device optimizations */
             @media (hover: none) and (pointer: coarse) {
-                .btn:hover, .button:hover {
+                .btn:hover, .button:hover, .cta-button:hover {
                     transform: none !important;
                     box-shadow: none !important;
                 }
                 
-                .nav-link:hover, .navLink:hover {
+                .test-item:hover, .card:hover {
                     transform: none !important;
                 }
                 
-                .feature-card:hover, .featureCard:hover {
-                    transform: none !important;
-                }
-                
-                /* Enhanced touch targets */
-                .btn, .button, .nav-link, .navLink {
+                .btn, .button, .cta-button {
                     min-height: 44px !important;
                     min-width: 44px !important;
                 }
             }
             
-            /* Safe area support for notched devices */
-            @supports (padding: max(0px)) {
-                .nav, .navigation {
-                    padding-left: max(1rem, env(safe-area-inset-left)) !important;
-                    padding-right: max(1rem, env(safe-area-inset-right)) !important;
-                }
-                
-                .hero, .heroSection {
-                    padding-left: max(1rem, env(safe-area-inset-left)) !important;
-                    padding-right: max(1rem, env(safe-area-inset-right)) !important;
-                }
-                
-                .features, .featuresSection {
-                    padding-left: max(1rem, env(safe-area-inset-left)) !important;
-                    padding-right: max(1rem, env(safe-area-inset-right)) !important;
-                }
-            }
-            
-            /* Prevent horizontal scrolling */
             body {
                 overflow-x: hidden !important;
                 width: 100% !important;
             }
             
-            /* Ensure proper container sizing */
-            .nav-container, .nav-wrapper,
-            .hero-content, .heroContent,
-            .features-grid, .featuresGrid {
+            .test-content, .testContent,
+            .test-grid, .testGrid {
                 width: 100% !important;
                 max-width: 100% !important;
                 box-sizing: border-box !important;
             }
         `;
         
-        // Inject CSS into head
         const style = document.createElement('style');
         style.textContent = mobileCSS;
         document.head.appendChild(style);
     }
     
-    function initializeTouchOptimizations() {
-        // Enhanced touch feedback for buttons
-        const buttons = $w('.btn, .button, [data-testid*="button"]');
-        buttons.forEach(btn => {
-            if (!btn) return;
-            
-            // Touch start effect
-            btn.onTouchStart(() => {
-                btn.style.transform = 'scale(0.95)';
-                btn.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
-            });
-            
-            // Touch end effect
-            btn.onTouchEnd(() => {
-                setTimeout(() => {
-                    btn.style.transform = '';
-                    btn.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                }, 150);
-            });
+    // Error handling & crash prevention
+    function setupErrorHandling() {
+        window.addEventListener('error', (e) => {
+            console.warn('Test page 1 error caught and handled:', e.error);
+            e.preventDefault();
         });
         
-        // Enhanced touch feedback for cards
-        const cards = $w('.feature-card, .featureCard, .card');
-        cards.forEach(card => {
-            if (!card) return;
-            
-            card.onTouchStart(() => {
-                card.style.transform = 'scale(0.98)';
-                card.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
-            });
-            
-            card.onTouchEnd(() => {
-                setTimeout(() => {
-                    card.style.transform = '';
-                    card.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                }, 150);
-            });
-        });
-        
-        // Prevent zoom on double tap
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (event) => {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
-    }
-    
-    function initializeMobileResponsive() {
-        // Mobile-specific element adjustments
-        const heroSection = $w('#heroSection') || $w('.hero');
-        if (heroSection && state.isMobile) {
-            // Adjust hero for mobile
-            heroSection.style.minHeight = '100vh';
-            heroSection.style.padding = '1rem';
-            heroSection.style.paddingTop = '70px';
-        }
-        
-        // Mobile navigation adjustments
-        const nav = $w('.nav, .navigation');
-        if (nav && state.isMobile) {
-            nav.style.padding = '0.75rem 1rem';
-        }
-        
-        // Mobile button adjustments
-        const buttons = $w('.btn, .button');
-        buttons.forEach(btn => {
-            if (!btn || !state.isMobile) return;
-            
-            btn.style.width = '100%';
-            btn.style.maxWidth = '280px';
-            btn.style.minHeight = '48px';
-            btn.style.padding = '0.875rem 1.5rem';
-            btn.style.fontSize = '1rem';
-            btn.style.textAlign = 'center';
-            btn.style.touchAction = 'manipulation';
+        window.addEventListener('unhandledrejection', (e) => {
+            console.warn('Test page 1 unhandled promise rejection caught:', e.reason);
+            e.preventDefault();
         });
     }
     
-    function initializeMobilePerformance() {
-        // Mobile-specific performance optimizations
-        if (state.isMobile) {
-            // Reduce animation complexity on mobile
-            const animations = $w('[data-animation]');
-            animations.forEach(anim => {
-                if (!anim) return;
-                anim.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            });
-            
-            // Optimize scroll performance
-            const scrollElements = $w('.scroll-container, .scrollContainer');
-            scrollElements.forEach(element => {
-                if (!element) return;
-                element.style.willChange = 'transform';
-                element.style.transform = 'translateZ(0)';
-            });
-        }
-    }
-    
-    // Initialize mobile optimizations after page load
-    setTimeout(() => {
-        initializeMobileOptimizations();
-    }, 100);
-}
-    
-    // Initialize ultra-smooth scroll system
-    initializeUltraSmoothScroll();
-    
-    console.log('Ultra-Smooth Test page initialization complete');
-});
+    // Start waiting for master page
+    waitForMasterPage();
+}); 
