@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quirks Mode Fix Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        .console-output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 Quirks Mode Fix Test</h1>
+        
+        <div class="status info">
+            <strong>Purpose:</strong> This test demonstrates how to fix the "One or more documents in this page is in Quirks Mode" console error.
+        </div>
+
+        <div class="test-section">
+            <h3>📋 Current Document Mode</h3>
+            <div id="documentMode" class="status">
+                Checking document mode...
+            </div>
+            <button onclick="checkDocumentMode()">Check Document Mode</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 Quirks Mode Fix</h3>
+            <div id="fixStatus" class="status">
+                Ready to test Quirks Mode fix...
+            </div>
+            <button onclick="runQuirksModeFix()">Run Quirks Mode Fix</button>
+            <button onclick="simulateQuirksMode()">Simulate Quirks Mode (Test)</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Console Output</h3>
+            <div id="consoleOutput" class="console-output">Click "Run Quirks Mode Fix" to start...</div>
+            <button onclick="clearConsole()">Clear Console</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📝 How to Fix Quirks Mode</h3>
+            <div class="status success">
+                <strong>Solution:</strong> Add <code>&lt;!DOCTYPE html&gt;</code> at the very beginning of your HTML document.
+            </div>
+            <h4>Steps to Fix:</h4>
+            <ol>
+                <li>Ensure your HTML file starts with <code>&lt;!DOCTYPE html&gt;</code></li>
+                <li>Make sure there are no characters or whitespace before the DOCTYPE</li>
+                <li>Check that all embedded iframes also have proper DOCTYPE</li>
+                <li>Use the Quirks Mode Fix utility for automatic detection and fixing</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="quirks-mode-fix.js"></script>
+    <script>
+        let consoleLog = [];
+
+        // Override console.log to capture output
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            consoleLog.push('LOG: ' + args.join(' '));
+            updateConsoleOutput();
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            consoleLog.push('ERROR: ' + args.join(' '));
+            updateConsoleOutput();
+        };
+
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            consoleLog.push('WARN: ' + args.join(' '));
+            updateConsoleOutput();
+        };
+
+        function updateConsoleOutput() {
+            const output = document.getElementById('consoleOutput');
+            output.textContent = consoleLog.join('\n');
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function clearConsole() {
+            consoleLog = [];
+            updateConsoleOutput();
+        }
+
+        function checkDocumentMode() {
+            const modeDiv = document.getElementById('documentMode');
+            
+            try {
+                const compatMode = document.compatMode;
+                const doctype = document.doctype;
+                const documentMode = document.documentMode;
+                
+                let status = '';
+                let className = '';
+                
+                if (compatMode === 'BackCompat') {
+                    status = '⚠️ Document is in Quirks Mode';
+                    className = 'warning';
+                } else if (compatMode === 'CSS1Compat') {
+                    status = '✅ Document is in Standards Mode';
+                    className = 'success';
+                } else {
+                    status = '❓ Unknown document mode';
+                    className = 'error';
+                }
+                
+                status += `\n\nDetails:\n- Compat Mode: ${compatMode}\n- DOCTYPE: ${doctype ? 'Present' : 'Missing'}\n- Document Mode: ${documentMode || 'Not set'}`;
+                
+                modeDiv.className = `status ${className}`;
+                modeDiv.innerHTML = status.replace(/\n/g, '<br>');
+                
+            } catch (error) {
+                modeDiv.className = 'status error';
+                modeDiv.textContent = 'Error checking document mode: ' + error.message;
+            }
+        }
+
+        function runQuirksModeFix() {
+            const fixDiv = document.getElementById('fixStatus');
+            fixDiv.className = 'status info';
+            fixDiv.textContent = 'Running Quirks Mode fix...';
+            
+            try {
+                // Run the fix
+                if (typeof window.fixQuirksMode === 'function') {
+                    window.fixQuirksMode();
+                    fixDiv.className = 'status success';
+                    fixDiv.textContent = '✅ Quirks Mode fix completed successfully!';
+                } else {
+                    fixDiv.className = 'status error';
+                    fixDiv.textContent = '❌ Quirks Mode fix function not found!';
+                }
+            } catch (error) {
+                fixDiv.className = 'status error';
+                fixDiv.textContent = '❌ Error running Quirks Mode fix: ' + error.message;
+            }
+            
+            // Check document mode after fix
+            setTimeout(checkDocumentMode, 1000);
+        }
+
+        function simulateQuirksMode() {
+            console.log('🧪 Simulating Quirks Mode scenario...');
+            
+            // Create a test iframe without DOCTYPE to simulate quirks mode
+            const testIframe = document.createElement('iframe');
+            testIframe.style.width = '100px';
+            testIframe.style.height = '100px';
+            testIframe.style.border = '1px solid #ccc';
+            
+            // Write content without DOCTYPE to simulate quirks mode
+            testIframe.onload = function() {
+                try {
+                    testIframe.contentDocument.write(`
+                        <html>
+                        <head><title>Test</title></head>
+                        <body>Test content without DOCTYPE</body>
+                        </html>
+                    `);
+                    testIframe.contentDocument.close();
+                    
+                    console.log('🧪 Created test iframe without DOCTYPE');
+                    
+                    // Check if it's in quirks mode
+                    if (testIframe.contentDocument.compatMode === 'BackCompat') {
+                        console.warn('⚠️ Test iframe is in Quirks Mode (as expected)');
+                    }
+                    
+                } catch (error) {
+                    console.log('ℹ️ Cross-origin iframe - cannot access content');
+                }
+            };
+            
+            document.body.appendChild(testIframe);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                if (testIframe.parentNode) {
+                    testIframe.parentNode.removeChild(testIframe);
+                }
+            }, 5000);
+        }
+
+        // Auto-check document mode on page load
+        window.addEventListener('load', () => {
+            setTimeout(checkDocumentMode, 500);
+        });
+    </script>
+</body>
+</html> 

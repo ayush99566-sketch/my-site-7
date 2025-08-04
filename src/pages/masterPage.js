@@ -3310,7 +3310,10 @@ $w.onReady(function () {
         
         // IMMEDIATE "03" balloon optimization to prevent black screen
         function fix03BalloonImmediately() {
-            console.log('🎈 IMMEDIATE "03" balloon fix...');
+            // Only log once per session to prevent console flooding
+            if (!balloonFixState.isFixed) {
+                console.log('🎈 IMMEDIATE "03" balloon fix...');
+            }
             
             try {
                 // Target "03" balloon specifically
@@ -3356,7 +3359,11 @@ $w.onReady(function () {
                                 element.onMouseOut = null;
                                 element.onClick = null;
                                 
-                                console.log(`🎈 Fixed "03" balloon element: ${selector}-${index}`);
+                                // Only log once per element to prevent flooding
+                                if (!element.dataset.balloonFixed) {
+                                    console.log(`🎈 Fixed "03" balloon element: ${selector}-${index}`);
+                                    element.dataset.balloonFixed = 'true';
+                                }
                             }
                         });
                     }
@@ -3374,7 +3381,10 @@ $w.onReady(function () {
         
         // PRESERVE BACKGROUND ELEMENTS
         function preserveBackgroundElements() {
-            console.log('🎨 Preserving background elements...');
+            // Only log once per session to prevent console flooding
+            if (!balloonFixState.backgroundPreserved) {
+                console.log('🎨 Preserving background elements...');
+            }
             
             try {
                 // Target background elements
@@ -3407,7 +3417,11 @@ $w.onReady(function () {
                                     element.style.backgroundColor = element.style.backgroundColor || 'inherit';
                                 }
                                 
-                                console.log(`🎨 Preserved background element: ${selector}-${index}`);
+                                // Only log once per element to prevent flooding
+                                if (!element.dataset.backgroundPreserved) {
+                                    console.log(`🎨 Preserved background element: ${selector}-${index}`);
+                                    element.dataset.backgroundPreserved = 'true';
+                                }
                             }
                         });
                     }
@@ -3424,7 +3438,7 @@ $w.onReady(function () {
         function startContinuousMonitoring() {
             console.log('👁️ Starting continuous monitoring for black screen prevention...');
             
-            // Check every 50ms for potential issues
+            // Check every 1000ms (1 second) instead of 50ms to prevent excessive logging
             setInterval(() => {
                 try {
                     // Check if any "03" elements are causing issues
@@ -3463,7 +3477,7 @@ $w.onReady(function () {
                 } catch (error) {
                     console.warn('Continuous monitoring error:', error);
                 }
-            }, 50);
+            }, 1000); // Changed from 50ms to 1000ms
         }
         
         // EMERGENCY RECOVERY for black screen
@@ -3510,10 +3524,10 @@ $w.onReady(function () {
             startContinuousMonitoring();
         }, 100);
         
-        // Step 3: Additional fix every 200ms
+        // Step 3: Additional fix every 2000ms (2 seconds) instead of 200ms to prevent console flooding
         setInterval(() => {
             fix03BalloonImmediately();
-        }, 200);
+        }, 2000);
         
         // Step 4: Emergency recovery trigger
         setTimeout(() => {
