@@ -10,7 +10,8 @@ $w.onReady(function () {
         isMenuOpen: false,
         isLoaded: false,
         loadPhase: 0, // 0: critical, 1: essential, 2: enhanced, 3: full
-        scrollRAF: null // Variable to hold the RAF ID for smooth scroll
+        scrollRAF: null, // Variable to hold the RAF ID for smooth scroll
+        lastScrollY: 0 // Variable to hold the last scroll position
     };
     
     // Element cache for fast access
@@ -185,7 +186,7 @@ $w.onReady(function () {
                 const currentScrollY = window.scrollY;
                 const nav = getElement('#navigation');
                 
-                if (nav && Math.abs(currentScrollY - lastScrollY) > 5) {
+                if (nav && Math.abs(currentScrollY - state.lastScrollY) > 5) {
                     const opacity = Math.min(currentScrollY / 100, 1);
                     const backgroundColor = `rgba(255, 255, 255, ${opacity * 0.95})`;
                     
@@ -198,7 +199,7 @@ $w.onReady(function () {
                         nav.style.boxShadow = 'none';
                     }
                     
-                    lastScrollY = currentScrollY;
+                    state.lastScrollY = currentScrollY;
                 }
             } catch (error) {
                 console.warn('Smooth scroll failed:', error);
