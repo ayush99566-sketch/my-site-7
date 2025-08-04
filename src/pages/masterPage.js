@@ -561,6 +561,351 @@ $w.onReady(function () {
     // Initialize the comprehensive transition optimizer
     initializeComprehensiveTransitionOptimizer();
     
+    // NEW: SMART PRE-INITIALIZATION SYSTEM (Alternative to auto-refresh)
+    function initializeSmartPreInitialization() {
+        console.log('🚀 Initializing Smart Pre-Initialization System...');
+        
+        // Pre-initialization state
+        const preInitState = {
+            isPreInitialized: false,
+            preInitPhase: 0,
+            lastPreInitTime: 0
+        };
+        
+        // Phase 1: Immediate optimization (simulate post-refresh state)
+        applyImmediatePostRefreshOptimization();
+        
+        // Phase 2: Progressive feature enabling
+        setTimeout(() => {
+            enableProgressiveFeatures();
+        }, 100);
+        
+        // Phase 3: Full optimization
+        setTimeout(() => {
+            enableFullOptimizations();
+        }, 500);
+        
+        // Phase 4: 03 Balloon to Trybs transition optimization
+        setTimeout(() => {
+            optimize03ToTrybsTransition();
+        }, 1000);
+        
+        console.log('✅ Smart Pre-Initialization System initialized');
+    }
+    
+    // Apply immediate post-refresh optimization
+    function applyImmediatePostRefreshOptimization() {
+        console.log('⚡ Applying immediate post-refresh optimization...');
+        
+        try {
+            // Simulate the optimized state that exists after refresh
+            const allElements = $w('*');
+            if (allElements && allElements.length > 0) {
+                allElements.forEach(element => {
+                    if (element && element.style) {
+                        // Apply the same optimizations that work after refresh
+                        element.style.animation = 'none !important';
+                        element.style.transition = 'opacity 0.3s ease !important';
+                        element.style.transform = 'none !important';
+                        element.style.filter = 'none !important';
+                        element.style.backdropFilter = 'none !important';
+                        element.style.boxShadow = 'none !important';
+                        element.style.willChange = 'auto !important';
+                        element.style.backfaceVisibility = 'visible !important';
+                        element.style.perspective = 'none !important';
+                        element.style.opacity = '1 !important';
+                        element.style.visibility = 'visible !important';
+                    }
+                });
+            }
+            
+            // Cancel any existing animation frames
+            if (state.scrollRAF) {
+                cancelAnimationFrame(state.scrollRAF);
+                state.scrollRAF = null;
+            }
+            
+            // Reset all state variables to post-refresh state
+            state.transitionState.isFirstLoad = false;
+            state.transitionState.isIn03BalloonSection = false;
+            state.transitionState.isInTrybsSection = false;
+            state.transitionState.isTransitioning = false;
+            
+            console.log('✅ Immediate post-refresh optimization applied');
+            
+        } catch (error) {
+            console.warn('Immediate post-refresh optimization failed:', error);
+        }
+    }
+    
+    // Enable progressive features
+    function enableProgressiveFeatures() {
+        console.log('🎯 Enabling progressive features...');
+        
+        try {
+            // Enable light interactions
+            const interactiveElements = $w('button, .btn, .button, a, .nav-link, .card, .feature-card');
+            
+            if (interactiveElements && interactiveElements.length > 0) {
+                interactiveElements.forEach(element => {
+                    if (element && element.style) {
+                        // Enable light hover effects
+                        element.onMouseIn(() => {
+                            element.style.opacity = '0.9';
+                            element.style.transition = 'opacity 0.2s ease';
+                        });
+                        
+                        element.onMouseOut(() => {
+                            element.style.opacity = '1';
+                        });
+                        
+                        // Enable light click effects
+                        element.onClick(() => {
+                            element.style.transform = 'scale(0.98)';
+                            element.style.transition = 'transform 0.1s ease';
+                            
+                            setTimeout(() => {
+                                element.style.transform = 'scale(1)';
+                            }, 100);
+                        });
+                    }
+                });
+            }
+            
+            console.log('✅ Progressive features enabled');
+            
+        } catch (error) {
+            console.warn('Progressive features failed:', error);
+        }
+    }
+    
+    // Optimize 03 Balloon to Trybs transition specifically
+    function optimize03ToTrybsTransition() {
+        console.log('🎈🎯 Optimizing 03 Balloon to Trybs transition...');
+        
+        try {
+            // Pre-optimize 03 balloon elements
+            const balloonSelectors = [
+                '[class*="03"]', '[id*="03"]', '[class*="balloon"]', '[id*="balloon"]',
+                '[class*="red"]', '[style*="red"]', '[class*="gradient"]', '[style*="gradient"]'
+            ];
+            
+            balloonSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element && element.style) {
+                            // Optimize 03 balloon elements for smooth transition
+                            element.style.animation = 'none !important';
+                            element.style.transition = 'opacity 0.3s ease !important';
+                            element.style.transform = 'none !important';
+                            element.style.filter = 'none !important';
+                            element.style.backdropFilter = 'none !important';
+                            element.style.boxShadow = 'none !important';
+                            element.style.opacity = '1 !important';
+                            element.style.visibility = 'visible !important';
+                            element.style.willChange = 'auto !important';
+                        }
+                    });
+                }
+            });
+            
+            // Pre-optimize Trybs project elements
+            const trybsSelectors = [
+                '[class*="trbys"]', '[id*="trbys"]', '[class*="project"]', '[id*="project"]'
+            ];
+            
+            trybsSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element && element.style) {
+                            // Pre-optimize Trybs elements for smooth reveal
+                            element.style.animation = 'none !important';
+                            element.style.transition = 'opacity 0.5s ease !important';
+                            element.style.transform = 'none !important';
+                            element.style.filter = 'none !important';
+                            element.style.backdropFilter = 'none !important';
+                            element.style.boxShadow = 'none !important';
+                            element.style.opacity = '0.9 !important';
+                            element.style.visibility = 'visible !important';
+                            element.style.willChange = 'auto !important';
+                        }
+                    });
+                }
+            });
+            
+            // Setup smooth transition handling
+            setupSmooth03ToTrybsTransition();
+            
+            console.log('✅ 03 Balloon to Trybs transition optimized');
+            
+        } catch (error) {
+            console.warn('03 Balloon to Trybs optimization failed:', error);
+        }
+    }
+    
+    // Setup smooth 03 to Trybs transition
+    function setupSmooth03ToTrybsTransition() {
+        console.log('🔄 Setting up smooth 03 to Trybs transition...');
+        
+        try {
+            // Monitor for transition between sections
+            let isIn03Section = false;
+            let isInTrybsSection = false;
+            
+            // Setup transition detection
+            const transitionElements = $w('*');
+            if (transitionElements && transitionElements.length > 0) {
+                transitionElements.forEach(element => {
+                    if (element && element.onScroll) {
+                        element.onScroll(() => {
+                            // Check if transitioning between sections
+                            check03ToTrybsTransition();
+                        });
+                    }
+                });
+            }
+            
+        } catch (error) {
+            console.warn('Smooth 03 to Trybs transition setup failed:', error);
+        }
+    }
+    
+    // Check 03 to Trybs transition
+    function check03ToTrybsTransition() {
+        try {
+            // Look for 03 balloon elements
+            const balloonElements = $w('[class*="03"], [id*="03"], [class*="balloon"], [id*="balloon"]');
+            let in03Section = false;
+            
+            if (balloonElements && balloonElements.length > 0) {
+                in03Section = true;
+            }
+            
+            // Look for Trybs project elements
+            const trybsElements = $w('[class*="trbys"], [id*="trbys"], [class*="project"], [id*="project"]');
+            let inTrybsSection = false;
+            
+            if (trybsElements && trybsElements.length > 0) {
+                inTrybsSection = true;
+            }
+            
+            // Handle transition
+            if (in03Section && !state.transitionState.isIn03BalloonSection) {
+                console.log('🎈 Entering 03 balloon section - applying optimizations');
+                state.transitionState.isIn03BalloonSection = true;
+                apply03SectionOptimization();
+            } else if (!in03Section && state.transitionState.isIn03BalloonSection) {
+                console.log('🎈 Exiting 03 balloon section - preparing for Trybs');
+                state.transitionState.isIn03BalloonSection = false;
+                prepareForTrybsTransition();
+            }
+            
+            if (inTrybsSection && !state.transitionState.isInTrybsSection) {
+                console.log('🎯 Entering Trybs project section - applying optimizations');
+                state.transitionState.isInTrybsSection = true;
+                applyTrybsSectionOptimization();
+            }
+            
+        } catch (error) {
+            console.warn('03 to Trybs transition check failed:', error);
+        }
+    }
+    
+    // Initialize the smart pre-initialization system
+    initializeSmartPreInitialization();
+    
+    // OPTIONAL: CONTROLLED AUTO-REFRESH SYSTEM (Use only if needed)
+    function initializeControlledAutoRefresh() {
+        console.log('🔄 Initializing Controlled Auto-Refresh System...');
+        
+        // Auto-refresh state
+        const autoRefreshState = {
+            isEnabled: false, // Set to true to enable auto-refresh
+            hasRefreshed: false,
+            refreshDelay: 1000, // 1 second delay
+            maxRefreshCount: 1 // Only refresh once
+        };
+        
+        // Check if auto-refresh should be enabled
+        if (autoRefreshState.isEnabled && !autoRefreshState.hasRefreshed) {
+            console.log('🔄 Auto-refresh enabled - will refresh in 1 second...');
+            
+            // Show a brief loading indicator
+            showAutoRefreshIndicator();
+            
+            // Perform controlled refresh after delay
+            setTimeout(() => {
+                if (!autoRefreshState.hasRefreshed) {
+                    autoRefreshState.hasRefreshed = true;
+                    console.log('🔄 Performing controlled auto-refresh...');
+                    
+                    // Use Wix's navigation to refresh
+                    try {
+                        // This will refresh the page in a controlled way
+                        if (typeof wix !== 'undefined' && wix.location) {
+                            wix.location.reload();
+                        } else {
+                            // Fallback to standard refresh
+                            location.reload();
+                        }
+                    } catch (error) {
+                        console.warn('Auto-refresh failed:', error);
+                    }
+                }
+            }, autoRefreshState.refreshDelay);
+        } else {
+            console.log('✅ Auto-refresh disabled - using smart pre-initialization instead');
+        }
+    }
+    
+    // Show auto-refresh indicator
+    function showAutoRefreshIndicator() {
+        try {
+            // Create a subtle loading indicator
+            const indicator = document.createElement('div');
+            indicator.id = 'auto-refresh-indicator';
+            indicator.style.cssText = `
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-size: 12px;
+                z-index: 9999;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            indicator.textContent = 'Optimizing...';
+            
+            document.body.appendChild(indicator);
+            
+            // Fade in
+            setTimeout(() => {
+                indicator.style.opacity = '1';
+            }, 100);
+            
+            // Fade out before refresh
+            setTimeout(() => {
+                indicator.style.opacity = '0';
+                setTimeout(() => {
+                    if (indicator.parentNode) {
+                        indicator.parentNode.removeChild(indicator);
+                    }
+                }, 300);
+            }, 800);
+            
+        } catch (error) {
+            console.warn('Auto-refresh indicator failed:', error);
+        }
+    }
+    
+    // Initialize controlled auto-refresh (disabled by default)
+    initializeControlledAutoRefresh();
+    
 
     
     // NEW: FAST PERCEIVED PERFORMANCE SYSTEM
