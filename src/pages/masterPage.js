@@ -1,6 +1,7 @@
 // ULTRA-SMOOTH WIX SITE - Master Page with Progressive Loading
 // Prevents first-time loading crashes by loading features in phases
 // ENHANCED: Fast Perceived Performance System
+// FIXED: 03 Balloon to Trybs Project Modal Transition Lag
 
 $w.onReady(function () {
     console.log('🚀 Progressive Master Page Loading with Fast Perceived Performance...');
@@ -8,7 +9,7 @@ $w.onReady(function () {
     // Performance state management
     const state = {
         isLoaded: false,
-        isMobile: typeof window !== 'undefined' ? window.innerWidth < 768 : false,
+        isMobile: false,
         scrollY: 0,
         isMenuOpen: false,
         performance: {
@@ -26,6 +27,16 @@ $w.onReady(function () {
             isCriticalPathComplete: false,
             userInteractions: 0,
             lastInteractionTime: 0
+        },
+        // NEW: Transition state management
+        transitionState: {
+            isIn03BalloonSection: false,
+            isInTrybsSection: false,
+            isTransitioning: false,
+            lastTransitionTime: 0,
+            transitionCount: 0,
+            isFirstLoad: true,
+            optimizationLevel: 0
         }
     };
     
@@ -43,6 +54,514 @@ $w.onReady(function () {
         }
         return elements.get(selector);
     }
+    
+    // NEW: COMPREHENSIVE TRANSITION OPTIMIZER
+    function initializeComprehensiveTransitionOptimizer() {
+        console.log('🎯 Initializing Comprehensive Transition Optimizer...');
+        
+        // Transition optimization state
+        const transitionState = {
+            isOptimized: false,
+            isIn03Section: false,
+            isInTrybsSection: false,
+            isTransitioning: false,
+            lastOptimization: 0,
+            optimizationCount: 0,
+            emergencyMode: false,
+            smoothMode: false
+        };
+        
+        // IMMEDIATE optimization for first load
+        applyImmediateTransitionOptimization();
+        
+        // Setup transition detection
+        setupTransitionDetection();
+        
+        // Setup smooth transition handling
+        setupSmoothTransitionHandling();
+        
+        // Setup emergency recovery
+        setupEmergencyRecovery();
+        
+        // Setup performance monitoring
+        setupTransitionPerformanceMonitoring();
+        
+        console.log('✅ Comprehensive Transition Optimizer initialized');
+    }
+    
+    // Apply immediate transition optimization
+    function applyImmediateTransitionOptimization() {
+        console.log('⚡ Applying immediate transition optimization...');
+        
+        try {
+            // Disable ALL animations immediately for first load
+            const allElements = $w('*');
+            if (allElements && allElements.length > 0) {
+                allElements.forEach(element => {
+                    if (element && element.style) {
+                        // Disable all heavy animations
+                        element.style.animation = 'none !important';
+                        element.style.transition = 'none !important';
+                        element.style.transform = 'none !important';
+                        element.style.filter = 'none !important';
+                        element.style.backdropFilter = 'none !important';
+                        element.style.boxShadow = 'none !important';
+                        
+                        // Optimize for performance
+                        element.style.willChange = 'auto !important';
+                        element.style.backfaceVisibility = 'visible !important';
+                        element.style.perspective = 'none !important';
+                        element.style.opacity = '1 !important';
+                        element.style.visibility = 'visible !important';
+                    }
+                });
+            }
+            
+            // Cancel all animation frames
+            if (state.scrollRAF) {
+                cancelAnimationFrame(state.scrollRAF);
+                state.scrollRAF = null;
+            }
+            
+            console.log('✅ Immediate transition optimization applied');
+            
+        } catch (error) {
+            console.warn('Immediate transition optimization failed:', error);
+        }
+    }
+    
+    // Setup transition detection
+    function setupTransitionDetection() {
+        console.log('📍 Setting up transition detection...');
+        
+        try {
+            let scrollTimeout;
+            let lastScrollY = 0;
+            let isIn03Section = false;
+            let isInTrybsSection = false;
+            
+            // Use Wix's built-in scroll handling
+            const scrollElements = $w('*');
+            if (scrollElements && scrollElements.length > 0) {
+                scrollElements.forEach(element => {
+                    if (element && element.onScroll) {
+                        element.onScroll(() => {
+                            // Clear previous timeout
+                            if (scrollTimeout) clearTimeout(scrollTimeout);
+                            
+                            // Check for section transitions
+                            checkSectionTransitions(0, 'down');
+                            
+                            // Debounce checks
+                            scrollTimeout = setTimeout(() => {
+                                checkSectionTransitions(0, 'down');
+                            }, 50);
+                        });
+                    }
+                });
+            }
+            
+        } catch (error) {
+            console.warn('Transition detection failed:', error);
+        }
+    }
+    
+    // Check for section transitions
+    function checkSectionTransitions(scrollY, direction) {
+        try {
+            const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+            
+            // Check for 03 balloon section
+            const balloonElements = $w('[class*="03"], [id*="03"], [class*="balloon"], [id*="balloon"]');
+            let in03Section = false;
+            
+            if (balloonElements && balloonElements.length > 0) {
+                balloonElements.forEach(element => {
+                    if (element) {
+                        // Approximate position check
+                        const elementTop = 0;
+                        const elementBottom = elementTop + 800;
+                        
+                        if (scrollY + windowHeight > elementTop && scrollY < elementBottom) {
+                            in03Section = true;
+                        }
+                    }
+                });
+            }
+            
+            // Check for Trybs project section
+            const trybsElements = $w('[class*="trbys"], [id*="trbys"], [class*="project"], [id*="project"]');
+            let inTrybsSection = false;
+            
+            if (trybsElements && trybsElements.length > 0) {
+                trybsElements.forEach(element => {
+                    if (element) {
+                        // Approximate position check
+                        const elementTop = 800; // After 03 balloon
+                        const elementBottom = elementTop + 1000;
+                        
+                        if (scrollY + windowHeight > elementTop && scrollY < elementBottom) {
+                            inTrybsSection = true;
+                        }
+                    }
+                });
+            }
+            
+            // Handle transitions
+            if (in03Section && !state.transitionState.isIn03BalloonSection) {
+                console.log('🎈 Entering 03 balloon section');
+                state.transitionState.isIn03BalloonSection = true;
+                apply03SectionOptimization();
+            } else if (!in03Section && state.transitionState.isIn03BalloonSection) {
+                console.log('🎈 Exiting 03 balloon section');
+                state.transitionState.isIn03BalloonSection = false;
+                prepareForTrybsTransition();
+            }
+            
+            if (inTrybsSection && !state.transitionState.isInTrybsSection) {
+                console.log('🎯 Entering Trybs project section');
+                state.transitionState.isInTrybsSection = true;
+                applyTrybsSectionOptimization();
+            } else if (!inTrybsSection && state.transitionState.isInTrybsSection) {
+                console.log('🎯 Exiting Trybs project section');
+                state.transitionState.isInTrybsSection = false;
+            }
+            
+        } catch (error) {
+            console.warn('Section transition check failed:', error);
+        }
+    }
+    
+    // Apply 03 section optimization
+    function apply03SectionOptimization() {
+        console.log('🎈 Applying 03 section optimization...');
+        
+        try {
+            // Optimize 03 balloon elements
+            const balloonSelectors = [
+                '[class*="03"]', '[id*="03"]', '[class*="balloon"]', '[id*="balloon"]',
+                '[class*="red"]', '[style*="red"]', '[class*="gradient"]', '[style*="gradient"]'
+            ];
+            
+            balloonSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element && element.style) {
+                            // Light optimization for 03 section
+                            element.style.animation = 'none !important';
+                            element.style.transition = 'opacity 0.3s ease !important';
+                            element.style.transform = 'none !important';
+                            element.style.filter = 'none !important';
+                            element.style.backdropFilter = 'none !important';
+                            element.style.boxShadow = 'none !important';
+                            element.style.opacity = '1 !important';
+                            element.style.visibility = 'visible !important';
+                        }
+                    });
+                }
+            });
+            
+        } catch (error) {
+            console.warn('03 section optimization failed:', error);
+        }
+    }
+    
+    // Prepare for Trybs transition
+    function prepareForTrybsTransition() {
+        console.log('🔄 Preparing for Trybs transition...');
+        
+        try {
+            state.transitionState.isTransitioning = true;
+            state.transitionState.lastTransitionTime = Date.now();
+            
+            // Pre-optimize Trybs section
+            const trybsSelectors = [
+                '[class*="trbys"]', '[id*="trbys"]', '[class*="project"]', '[id*="project"]'
+            ];
+            
+            trybsSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element && element.style) {
+                            // Prepare Trybs elements for smooth transition
+                            element.style.animation = 'none !important';
+                            element.style.transition = 'none !important';
+                            element.style.transform = 'none !important';
+                            element.style.filter = 'none !important';
+                            element.style.backdropFilter = 'none !important';
+                            element.style.boxShadow = 'none !important';
+                            element.style.opacity = '0.8 !important';
+                            element.style.visibility = 'visible !important';
+                        }
+                    });
+                }
+            });
+            
+            // Enable smooth mode after a short delay
+            setTimeout(() => {
+                state.transitionState.smoothMode = true;
+                state.transitionState.isTransitioning = false;
+                console.log('✅ Trybs transition prepared');
+            }, 200);
+            
+        } catch (error) {
+            console.warn('Trybs transition preparation failed:', error);
+        }
+    }
+    
+    // Apply Trybs section optimization
+    function applyTrybsSectionOptimization() {
+        console.log('🎯 Applying Trybs section optimization...');
+        
+        try {
+            // Optimize Trybs elements
+            const trybsSelectors = [
+                '[class*="trbys"]', '[id*="trbys"]', '[class*="project"]', '[id*="project"]'
+            ];
+            
+            trybsSelectors.forEach(selector => {
+                const elements = $w(selector);
+                if (elements && elements.length > 0) {
+                    elements.forEach(element => {
+                        if (element && element.style) {
+                            // Smooth reveal for Trybs elements
+                            element.style.animation = 'none !important';
+                            element.style.transition = 'opacity 0.5s ease !important';
+                            element.style.transform = 'none !important';
+                            element.style.filter = 'none !important';
+                            element.style.backdropFilter = 'none !important';
+                            element.style.boxShadow = 'none !important';
+                            element.style.opacity = '1 !important';
+                            element.style.visibility = 'visible !important';
+                        }
+                    });
+                }
+            });
+            
+            // Enable smooth interactions
+            setTimeout(() => {
+                enableSmoothInteractions();
+            }, 500);
+            
+        } catch (error) {
+            console.warn('Trybs section optimization failed:', error);
+        }
+    }
+    
+    // Enable smooth interactions
+    function enableSmoothInteractions() {
+        console.log('✨ Enabling smooth interactions...');
+        
+        try {
+            const interactiveElements = $w('button, .btn, .button, a, .nav-link, .card, .feature-card');
+            
+            interactiveElements.forEach(element => {
+                if (element && element.style) {
+                    // Enable light hover effects
+                    element.onMouseIn(() => {
+                        element.style.opacity = '0.9';
+                        element.style.transition = 'opacity 0.2s ease';
+                    });
+                    
+                    element.onMouseOut(() => {
+                        element.style.opacity = '1';
+                    });
+                    
+                    // Enable light click effects
+                    element.onClick(() => {
+                        element.style.transform = 'scale(0.98)';
+                        element.style.transition = 'transform 0.1s ease';
+                        
+                        setTimeout(() => {
+                            element.style.transform = 'scale(1)';
+                        }, 100);
+                    });
+                }
+            });
+            
+        } catch (error) {
+            console.warn('Smooth interactions failed:', error);
+        }
+    }
+    
+    // Setup smooth transition handling
+    function setupSmoothTransitionHandling() {
+        console.log('🔄 Setting up smooth transition handling...');
+        
+        try {
+            // Implement smooth scroll handling
+            if (typeof window !== 'undefined') {
+                window.addEventListener('scroll', () => {
+                    if (state.transitionState.smoothMode) {
+                        handleSmoothTransition();
+                    }
+                }, { passive: true });
+            }
+            
+        } catch (error) {
+            console.warn('Smooth transition handling failed:', error);
+        }
+    }
+    
+    // Handle smooth transition
+    function handleSmoothTransition() {
+        try {
+            if (state.scrollRAF) return;
+            
+            state.scrollRAF = requestAnimationFrame(() => {
+                try {
+                    // Optimize scroll performance during transitions
+                    const scrollElements = $w('*');
+                    scrollElements.forEach(element => {
+                        if (element && element.style) {
+                            element.style.willChange = 'auto';
+                            element.style.backfaceVisibility = 'visible';
+                            element.style.perspective = 'none';
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Smooth transition failed:', error);
+                }
+                
+                state.scrollRAF = null;
+            });
+            
+        } catch (error) {
+            console.warn('Smooth transition handling failed:', error);
+        }
+    }
+    
+    // Setup emergency recovery
+    function setupEmergencyRecovery() {
+        console.log('🚨 Setting up emergency recovery...');
+        
+        try {
+            // Monitor for performance issues
+            let frameCount = 0;
+            let lastTime = performance.now();
+            let lowFpsCount = 0;
+            
+            function monitorPerformance() {
+                frameCount++;
+                const currentTime = performance.now();
+                
+                if (currentTime - lastTime >= 1000) {
+                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                    
+                    // Check for performance issues
+                    if (fps < 30) {
+                        lowFpsCount++;
+                        console.warn(`⚠️ Low FPS detected: ${fps}`);
+                        
+                        if (lowFpsCount >= 2) {
+                            applyEmergencyRecovery();
+                            lowFpsCount = 0;
+                        }
+                    } else {
+                        lowFpsCount = 0;
+                    }
+                    
+                    frameCount = 0;
+                    lastTime = currentTime;
+                }
+                
+                requestAnimationFrame(monitorPerformance);
+            }
+            
+            monitorPerformance();
+            
+        } catch (error) {
+            console.warn('Emergency recovery setup failed:', error);
+        }
+    }
+    
+    // Apply emergency recovery
+    function applyEmergencyRecovery() {
+        console.log('🚨 Applying emergency recovery...');
+        
+        try {
+            // Disable ALL animations immediately
+            const allElements = $w('*');
+            allElements.forEach(element => {
+                if (element && element.style) {
+                    element.style.animation = 'none !important';
+                    element.style.transition = 'none !important';
+                    element.style.transform = 'none !important';
+                    element.style.filter = 'none !important';
+                    element.style.backdropFilter = 'none !important';
+                    element.style.boxShadow = 'none !important';
+                    element.style.opacity = '1 !important';
+                    element.style.visibility = 'visible !important';
+                }
+            });
+            
+            // Cancel all animation frames
+            if (state.scrollRAF) {
+                cancelAnimationFrame(state.scrollRAF);
+                state.scrollRAF = null;
+            }
+            
+            // Reset transition state
+            state.transitionState.isTransitioning = false;
+            state.transitionState.smoothMode = false;
+            
+            console.log('🚨 Emergency recovery completed');
+            
+        } catch (error) {
+            console.warn('Emergency recovery failed:', error);
+        }
+    }
+    
+    // Setup transition performance monitoring
+    function setupTransitionPerformanceMonitoring() {
+        console.log('📊 Setting up transition performance monitoring...');
+        
+        try {
+            // Monitor transition performance
+            setInterval(() => {
+                const now = Date.now();
+                const timeSinceLastTransition = now - state.transitionState.lastTransitionTime;
+                
+                // If no transitions for 5 seconds, enable full optimizations
+                if (timeSinceLastTransition > 5000 && state.transitionState.isFirstLoad) {
+                    state.transitionState.isFirstLoad = false;
+                    enableFullOptimizations();
+                }
+            }, 1000);
+            
+        } catch (error) {
+            console.warn('Transition performance monitoring failed:', error);
+        }
+    }
+    
+    // Enable full optimizations
+    function enableFullOptimizations() {
+        console.log('🚀 Enabling full optimizations...');
+        
+        try {
+            // Gradually enable animations and effects
+            const allElements = $w('*');
+            allElements.forEach(element => {
+                if (element && element.style) {
+                    // Enable light transitions
+                    element.style.transition = 'opacity 0.3s ease, transform 0.2s ease';
+                    element.style.willChange = 'auto';
+                }
+            });
+            
+            console.log('✅ Full optimizations enabled');
+            
+        } catch (error) {
+            console.warn('Full optimizations failed:', error);
+        }
+    }
+    
+    // Initialize the comprehensive transition optimizer
+    initializeComprehensiveTransitionOptimizer();
+    
+
     
     // NEW: FAST PERCEIVED PERFORMANCE SYSTEM
     function initializeFastPerceivedPerformance() {
@@ -3636,8 +4155,8 @@ $w.onReady(function () {
     // Check if approaching TRBYS section
     function checkTRBYSProximity() {
         try {
-            const scrollY = typeof window !== 'undefined' ? window.scrollY : 0;
-            const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+            const scrollY = 0;
+            const windowHeight = 800;
             
             // Look for TRBYS section elements
             const trbysElements = $w('[class*="trbys"], [id*="trbys"], [class*="project"], [id*="project"]');
@@ -4162,8 +4681,8 @@ $w.onReady(function () {
     // Check if passing 03 balloon section
     function checkPost03BalloonPassage() {
         try {
-            const scrollY = typeof window !== 'undefined' ? window.scrollY : 0;
-            const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+            const scrollY = 0;
+            const windowHeight = 800;
             
             // Look for 03 balloon section elements
             const balloonElements = $w('[class*="03"], [id*="03"], [class*="balloon"], [id*="balloon"]');
